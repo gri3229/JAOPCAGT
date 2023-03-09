@@ -1,4 +1,4 @@
-package thelm.jaopcagtce.compat.gregtech.items;
+package thelm.jaopcagtceu.compat.gregtech.items;
 
 import java.util.List;
 

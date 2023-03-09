@@ -1,4 +1,4 @@
-package thelm.jaopcagtce.compat.gregtech.recipes;
+package thelm.jaopcagtceu.compat.gregtech.recipes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,15 +10,16 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import gregtech.api.recipes.CountableIngredient;
 import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.RecipeMap;
+import gregtech.api.recipes.ingredients.GTRecipeFluidInput;
+import gregtech.api.recipes.ingredients.GTRecipeInput;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import thelm.jaopca.api.recipes.IRecipeAction;
 import thelm.jaopca.utils.MiscHelper;
+import thelm.jaopcagtceu.compat.gregtech.GregTechHelper;
 
 public class GregTechRecipeAction<R extends RecipeBuilder<R>> implements IRecipeAction {
 
@@ -26,6 +27,7 @@ public class GregTechRecipeAction<R extends RecipeBuilder<R>> implements IRecipe
 
 	public final ResourceLocation key;
 	public final RecipeMap<R> recipeMap;
+	public final int circuitMeta;
 	public final List<Pair<Object, Integer>> input;
 	public final List<Pair<Object, Integer>> fluidInput;
 	public final List<Pair<Object, Triple<Integer, Integer, Integer>>> output;
@@ -37,6 +39,7 @@ public class GregTechRecipeAction<R extends RecipeBuilder<R>> implements IRecipe
 	public GregTechRecipeAction(ResourceLocation key, GregTechRecipeSettings<R> settings) {
 		this.key = Objects.requireNonNull(key);
 		recipeMap = settings.recipeMap;
+		circuitMeta = settings.circuitMeta;
 		input = settings.input;
 		fluidInput = settings.fluidInput;
 		output = settings.output;
@@ -48,23 +51,23 @@ public class GregTechRecipeAction<R extends RecipeBuilder<R>> implements IRecipe
 
 	@Override
 	public boolean register() {
-		List<CountableIngredient> inputs = new ArrayList<>();
-		List<FluidStack> fluidInputs = new ArrayList<>();
+		List<GTRecipeInput> inputs = new ArrayList<>();
+		List<GTRecipeInput> fluidInputs = new ArrayList<>();
 		List<Triple<ItemStack, Integer, Integer>> outputs = new ArrayList<>();
 		List<FluidStack> fluidOutputs = new ArrayList<>();
 		for(Pair<Object, Integer> in : input) {
-			Ingredient ing = MiscHelper.INSTANCE.getIngredient(in.getLeft());
+			GTRecipeInput ing = GregTechHelper.INSTANCE.getGTRecipeInput(in.getLeft(), in.getRight());
 			if(ing == null) {
 				throw new IllegalArgumentException("Empty ingredient in recipe "+key+": "+in);
 			}
-			inputs.add(new CountableIngredient(ing, in.getRight()));
+			inputs.add(ing);
 		}
 		for(Pair<Object, Integer> in : fluidInput) {
 			FluidStack ing = MiscHelper.INSTANCE.getFluidStack(in.getLeft(), in.getRight());
 			if(ing == null) {
 				throw new IllegalArgumentException("Empty ingredient in recipe "+key+": "+in);
 			}
-			fluidInputs.add(ing);
+			fluidInputs.add(GTRecipeFluidInput.getOrCreate(ing, ing.amount));
 		}
 		if(inputs.isEmpty() && fluidInputs.isEmpty()) {
 			throw new IllegalArgumentException("Empty ingredients in recipe "+key+": "+input+", "+fluidInput);
@@ -89,7 +92,10 @@ public class GregTechRecipeAction<R extends RecipeBuilder<R>> implements IRecipe
 			throw new IllegalArgumentException("Empty outputs in recipe "+key+": "+output+", "+fluidOutput);
 		}
 		R builder = recipeMap.recipeBuilder();
-		builder.inputsIngredients(inputs).fluidInputs(fluidInputs);
+		builder.inputIngredients(inputs).fluidInputs(fluidInputs);
+		if(circuitMeta != -1) {
+			builder.circuitMeta(circuitMeta);
+		}
 		for(Triple<ItemStack, Integer, Integer> triple : outputs) {
 			if(triple.getMiddle() <= 0 || triple.getMiddle() >= 10000) {
 				builder.outputs(triple.getLeft());

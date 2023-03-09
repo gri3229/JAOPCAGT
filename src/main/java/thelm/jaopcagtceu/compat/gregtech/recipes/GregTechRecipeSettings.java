@@ -1,4 +1,4 @@
-package thelm.jaopcagtce.compat.gregtech.recipes;
+package thelm.jaopcagtceu.compat.gregtech.recipes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,7 @@ public class GregTechRecipeSettings<R extends RecipeBuilder<R>> {
 	public final RecipeMap<R> recipeMap;
 	public final List<Pair<Object, Integer>> input = new ArrayList<>();
 	public final List<Pair<Object, Integer>> fluidInput = new ArrayList<>();
+	public int circuitMeta = -1;
 	public final List<Pair<Object, Triple<Integer, Integer, Integer>>> output = new ArrayList<>();
 	public final List<Pair<Object, Integer>> fluidOutput = new ArrayList<>();
 	public Consumer<R> additional = b->{};
@@ -47,6 +48,11 @@ public class GregTechRecipeSettings<R extends RecipeBuilder<R>> {
 
 	public GregTechRecipeSettings<R> fluidInput(Object fluidInput, int amount) {
 		this.fluidInput.add(Pair.of(fluidInput, amount));
+		return this;
+	}
+
+	public GregTechRecipeSettings<R> circuitMeta(int circuitMeta) {
+		this.circuitMeta = circuitMeta;
 		return this;
 	}
 

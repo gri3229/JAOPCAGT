@@ -1,4 +1,4 @@
-package thelm.jaopcagtce.compat.gregtech;
+package thelm.jaopcagtceu.compat.gregtech;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,10 +11,9 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Streams;
 
+import gregtech.api.GregTechAPI;
 import gregtech.api.recipes.RecipeMaps;
-import gregtech.api.unification.material.type.Material;
-import gregtech.common.MetaFluids;
-import net.minecraftforge.fluids.FluidRegistry;
+import gregtech.api.unification.material.Materials;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import thelm.jaopca.api.JAOPCAApi;
 import thelm.jaopca.api.forms.IForm;
@@ -30,16 +29,16 @@ import thelm.jaopca.api.modules.JAOPCAModule;
 import thelm.jaopca.items.ItemFormType;
 import thelm.jaopca.utils.ApiImpl;
 import thelm.jaopca.utils.MiscHelper;
-import thelm.jaopcagtce.compat.gregtech.items.JAOPCAWashableItem;
+import thelm.jaopcagtceu.compat.gregtech.items.JAOPCAWashableItem;
 
-@JAOPCAModule(modDependencies = "gregtech@(,2)")
+@JAOPCAModule(modDependencies = "gregtech@[2,)")
 public class GregTechModule implements IModule {
 
 	static final List<String> ALTS = Arrays.asList("Aluminum", "Quartz");
 	static final Set<String> BLACKLIST = new TreeSet<>(ALTS);
 
 	static {
-		Streams.stream(Material.MATERIAL_REGISTRY).
+		Streams.stream(GregTechAPI.MATERIAL_REGISTRY).
 		forEach(m->BLACKLIST.add(m.toCamelCaseString()));
 	}
 
@@ -81,7 +80,6 @@ public class GregTechModule implements IModule {
 		builder.put(2, "dust");
 		builder.put(2, "tiny_dust");
 		builder.put(3, "dust");
-		builder.put(3, "tiny_dust");
 		return builder.build();
 	}
 
@@ -126,32 +124,46 @@ public class GregTechModule implements IModule {
 			String dustOredict = miscHelper.getOredictName("dust", name);
 			String materialOredict = miscHelper.getOredictName(material.getType().getFormName(), name);
 			String extra1DustOredict = miscHelper.getOredictName("dust", extra1);
+			String extra1MaterialOredict = miscHelper.getOredictName(material.getExtra(1).getType().getFormName(), extra1);
 			String extra1TinyDustOredict = miscHelper.getOredictName("dustTiny", extra1);
 			String extra2DustOredict = miscHelper.getOredictName("dust", extra2);
 			String extra2TinyDustOredict = miscHelper.getOredictName("dustTiny", extra2);
 			String extra3DustOredict = miscHelper.getOredictName("dust", extra3);
-			String extra3TinyDustOredict = miscHelper.getOredictName("dustTiny", extra3);
 			// to_crushed
-			helper.registerGregTechRecipe(
-					miscHelper.getRecipeKey("gregtech.ore_to_crushed_forge_hammer", name),
-					helper.recipeSettings(RecipeMaps.FORGE_HAMMER_RECIPES).
-					input(oreOredict, 1).
-					output(crushedInfo, material.getType().isDust() ? 2 : 1).
-					time(100).energy(6));
-			helper.registerGregTechRecipe(
-					miscHelper.getRecipeKey("gregtech.ore_to_crushed_macerator", name),
-					helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
-					input(oreOredict, 1).
-					output(crushedInfo, material.getType().isDust() ? 4 : 2).
-					output(extra1DustOredict, 1, 1400, 850).
-					output("dustStone", 1, 6700, 800).
-					time(400).energy(12));
+			if(!material.getType().isCrystalline()) {
+				helper.registerGregTechRecipe(
+						miscHelper.getRecipeKey("gregtech.ore_to_crushed_forge_hammer", name),
+						helper.recipeSettings(RecipeMaps.FORGE_HAMMER_RECIPES).
+						input(oreOredict, 1).
+						output(crushedInfo, material.getType().isDust() ? 2 : 1).
+						time(10).energy(16));
+			}
+			{
+				String extra1Oredict = material.getExtra(1).getType().isCrystalline() ? extra1MaterialOredict : extra1DustOredict;
+				helper.registerGregTechRecipe(
+						miscHelper.getRecipeKey("gregtech.ore_to_crushed_macerator", name),
+						helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
+						input(oreOredict, 1).
+						output(crushedInfo, material.getType().isDust() ? 4 : 2).
+						output(extra1Oredict, 1, 1400, 850).
+						output("dustStone", 1, 6700, 800).
+						time(400));
+			}
 			// to_purified_crushed
 			helper.registerGregTechRecipe(
-					miscHelper.getRecipeKey("gregtech.crushed_to_purified_crushed_water", name),
+					miscHelper.getRecipeKey("gregtech.crushed_to_purified_crushed_water_100", name),
 					helper.recipeSettings(RecipeMaps.ORE_WASHER_RECIPES).
 					input(crushedOredict, 1).
-					fluidInput(FluidRegistry.WATER, 1000).
+					fluidInput(Materials.Water.getFluid(), 100).
+					circuitMeta(2).
+					output(purifiedCrushedInfo, 1).
+					time(8).energy(4));
+			helper.registerGregTechRecipe(
+					miscHelper.getRecipeKey("gregtech.crushed_to_purified_crushed_water_1000", name),
+					helper.recipeSettings(RecipeMaps.ORE_WASHER_RECIPES).
+					input(crushedOredict, 1).
+					fluidInput(Materials.Water.getFluid(), 1000).
+					circuitMeta(1).
 					output(purifiedCrushedInfo, 1).
 					output(extra1TinyDustOredict, 3).
 					output("dustStone", 1));
@@ -159,41 +171,39 @@ public class GregTechModule implements IModule {
 					miscHelper.getRecipeKey("gregtech.crushed_to_purified_crushed_distilled_water", name),
 					helper.recipeSettings(RecipeMaps.ORE_WASHER_RECIPES).
 					input(crushedOredict, 1).
-					fluidInput(MetaFluids.DISTILLED_WATER, 1000).
+					fluidInput(Materials.DistilledWater.getFluid(), 100).
 					output(purifiedCrushedInfo, 1).
 					output(extra1TinyDustOredict, 3).
 					output("dustStone", 1).
-					time(300));
+					time(200));
 			// to_centrifuged_crushed
 			helper.registerGregTechRecipe(
 					miscHelper.getRecipeKey("gregtech.crushed_to_centrifuged_crushed", name),
 					helper.recipeSettings(RecipeMaps.THERMAL_CENTRIFUGE_RECIPES).
 					input(crushedOredict, 1).
 					output(centrifugedCrushedInfo, 1).
-					output(extra1TinyDustOredict, 3).
-					output("dustStone", 1).
-					time(2000));
+					output(extra2TinyDustOredict, 3).
+					output("dustStone", 1));
 			helper.registerGregTechRecipe(
 					miscHelper.getRecipeKey("gregtech.purified_crushed_to_centrifuged_crushed", name),
 					helper.recipeSettings(RecipeMaps.THERMAL_CENTRIFUGE_RECIPES).
 					input(purifiedCrushedOredict, 1).
 					output(centrifugedCrushedInfo, 1).
-					output(extra2TinyDustOredict, 3).
-					time(2000).energy(60));
+					output(extra2TinyDustOredict, 3));
 			// to_impure_dust
 			helper.registerGregTechRecipe(
 					miscHelper.getRecipeKey("gregtech.crushed_to_impure_dust_forge_hammer", name),
 					helper.recipeSettings(RecipeMaps.FORGE_HAMMER_RECIPES).
 					input(crushedOredict, 1).
 					output(impureDustInfo, 1).
-					time(60).energy(8));
+					time(10).energy(16));
 			helper.registerGregTechRecipe(
 					miscHelper.getRecipeKey("gregtech.crushed_to_impure_dust_macerator", name),
 					helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
 					input(crushedOredict, 1).
 					output(impureDustInfo, 1).
 					output(extra1DustOredict, 1, 1400, 850).
-					time(200).energy(12));
+					time(400));
 			api.registerShapelessRecipe(
 					miscHelper.getRecipeKey("gregtech.crushed_to_impure_dust_hard_hammer", name),
 					impureDustInfo, 1, new Object[] {
@@ -205,14 +215,14 @@ public class GregTechModule implements IModule {
 					helper.recipeSettings(RecipeMaps.FORGE_HAMMER_RECIPES).
 					input(purifiedCrushedOredict, 1).
 					output(pureDustInfo, 1).
-					time(60).energy(8));
+					time(10).energy(16));
 			helper.registerGregTechRecipe(
 					miscHelper.getRecipeKey("gregtech.purified_crushed_to_pure_dust_macerator", name),
 					helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
 					input(purifiedCrushedOredict, 1).
 					output(pureDustInfo, 1).
 					output(extra2DustOredict, 1, 1400, 850).
-					time(200).energy(12));
+					time(400));
 			api.registerShapelessRecipe(
 					miscHelper.getRecipeKey("gregtech.purified_crushed_to_pure_dust_hard_hammer", name),
 					pureDustInfo, 1, new Object[] {
@@ -224,41 +234,74 @@ public class GregTechModule implements IModule {
 					helper.recipeSettings(RecipeMaps.FORGE_HAMMER_RECIPES).
 					input(centrifugedCrushedOredict, 1).
 					output(dustOredict, 1).
-					time(60).energy(8));
+					time(10).energy(16));
 			helper.registerGregTechRecipe(
 					miscHelper.getRecipeKey("gregtech.centrifuged_crushed_to_dust_macerator", name),
 					helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
 					input(centrifugedCrushedOredict, 1).
 					output(dustOredict, 1).
 					output(extra3DustOredict, 1, 1400, 850).
-					time(200).energy(12));
+					time(400));
 			api.registerShapelessRecipe(
 					miscHelper.getRecipeKey("gregtech.centrifuged_crushed_to_dust_hard_hammer", name),
 					dustOredict, 1, new Object[] {
 							"craftingToolHardHammer", centrifugedCrushedOredict,
 					});
 			helper.registerGregTechRecipe(
-					miscHelper.getRecipeKey("gregtech.impure_dust_to_dust", name),
+					miscHelper.getRecipeKey("gregtech.impure_dust_to_dust_centrifuge", name),
 					helper.recipeSettings(RecipeMaps.CENTRIFUGE_RECIPES).
 					input(impureDustOredict, 1).
 					output(dustOredict, 1).
-					output(extra3TinyDustOredict, 3).
+					output(extra1TinyDustOredict, 1).
 					time(400).energy(24));
 			helper.registerGregTechRecipe(
-					miscHelper.getRecipeKey("gregtech.pure_dust_to_dust", name),
+					miscHelper.getRecipeKey("gregtech.impure_dust_to_dust_ore_washer", name),
+					helper.recipeSettings(RecipeMaps.ORE_WASHER_RECIPES).
+					input(impureDustOredict, 1).
+					fluidInput(Materials.Water.getFluid(), 100).
+					circuitMeta(2).
+					output(dustOredict, 1).
+					time(8).energy(4));
+			helper.registerGregTechRecipe(
+					miscHelper.getRecipeKey("gregtech.pure_dust_to_dust_centrifuge", name),
 					helper.recipeSettings(RecipeMaps.CENTRIFUGE_RECIPES).
 					input(pureDustOredict, 1).
 					output(dustOredict, 1).
-					output(extra2TinyDustOredict, 3).
-					time(400).energy(5));
+					output(extra2TinyDustOredict, 1).
+					time(100).energy(5));
+			helper.registerGregTechRecipe(
+					miscHelper.getRecipeKey("gregtech.pure_dust_to_dust_ore_washer", name),
+					helper.recipeSettings(RecipeMaps.ORE_WASHER_RECIPES).
+					input(pureDustOredict, 1).
+					fluidInput(Materials.Water.getFluid(), 100).
+					circuitMeta(2).
+					output(dustOredict, 1).
+					time(8).energy(4));
 			// to_material
 			if(material.getType().isIngot()) {
+				api.registerSmeltingRecipe(
+						miscHelper.getRecipeKey("gregtech.crushed_to_material", name),
+						crushedOredict, materialOredict, 1, 0F);
+				api.registerSmeltingRecipe(
+						miscHelper.getRecipeKey("gregtech.purified_crushed_to_material", name),
+						purifiedCrushedOredict, materialOredict, 1, 0F);
+				api.registerSmeltingRecipe(
+						miscHelper.getRecipeKey("gregtech.centrifuged_crushed_to_material", name),
+						centrifugedCrushedOredict, materialOredict, 1, 0F);
 				api.registerSmeltingRecipe(
 						miscHelper.getRecipeKey("gregtech.impure_dust_to_material", name),
 						impureDustOredict, materialOredict, 1, 0F);
 				api.registerSmeltingRecipe(
 						miscHelper.getRecipeKey("gregtech.pure_dust_to_material", name),
 						pureDustOredict, materialOredict, 1, 0F);
+			}
+			if(material.getType().isCrystalline()) {
+				helper.registerGregTechRecipe(
+						miscHelper.getRecipeKey("gregtech.ore_to_material", name),
+						helper.recipeSettings(RecipeMaps.FORGE_HAMMER_RECIPES).
+						input(oreOredict, 1).
+						output(crushedInfo, 1).
+						time(10).energy(16));
 			}
 		}
 	}
