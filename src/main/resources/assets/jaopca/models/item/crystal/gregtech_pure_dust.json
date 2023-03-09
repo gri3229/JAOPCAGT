@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "jaopca:item/crystal/gregtech_pure_dust",
+        "layer1": "jaopca:item/crystal/gregtech_pure_dust_overlay"
+    }
+}
