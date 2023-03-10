@@ -48,7 +48,7 @@ public class JAOPCAWashableItem extends JAOPCAItem {
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		super.addInformation(stack, worldIn, tooltip, flagIn);
-		if(washToOredict.startsWith("dust")) {
+		if(getForm().getSecondaryName().startsWith("dust")) {
 			tooltip.add(I18n.translateToLocal("metaitem.dust.tooltip.purify"));
 		}
 	}
