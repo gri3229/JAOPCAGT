@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.RecipeMap;
+import gregtech.api.recipes.ingredients.GTRecipeFluidInput;
 import gregtech.api.recipes.ingredients.GTRecipeInput;
 import gregtech.api.recipes.ingredients.GTRecipeItemInput;
 import gregtech.api.recipes.ingredients.GTRecipeOreInput;
@@ -11,6 +12,9 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import thelm.jaopca.api.fluids.IFluidProvider;
 import thelm.jaopca.api.items.IItemProvider;
 import thelm.jaopca.utils.ApiImpl;
 import thelm.jaopcagtceu.compat.gregtech.recipes.GregTechRecipeAction;
@@ -22,32 +26,50 @@ public class GregTechHelper {
 
 	private GregTechHelper() {}
 
-	public GTRecipeInput getGTRecipeInput(Object obj, int count) {
+	public GTRecipeInput getGTRecipeInput(Object obj, int amount) {
+		GTRecipeInput ret = null;
+		boolean notConsumed = false;
+		if(amount <= 0) {
+			notConsumed = true;
+			amount = 1;
+		}
 		if(obj instanceof Supplier<?>) {
-			return getGTRecipeInput(((Supplier<?>)obj).get(), count);
+			ret = getGTRecipeInput(((Supplier<?>)obj).get(), amount);
 		}
 		if(obj instanceof String) {
 			if(ApiImpl.INSTANCE.getOredict().contains(obj)) {
-				return GTRecipeOreInput.getOrCreate((String)obj, count);
+				ret = GTRecipeOreInput.getOrCreate((String)obj, amount);
 			}
 		}
 		if(obj instanceof ItemStack) {
-			return GTRecipeItemInput.getOrCreate((ItemStack)obj, count);
+			ret = GTRecipeItemInput.getOrCreate((ItemStack)obj, amount);
 		}
 		if(obj instanceof Item) {
-			return GTRecipeItemInput.getOrCreate(new ItemStack((Item)obj, count));
+			ret = GTRecipeItemInput.getOrCreate(new ItemStack((Item)obj, amount));
 		}
 		if(obj instanceof Block) {
-			return GTRecipeItemInput.getOrCreate(new ItemStack((Block)obj, count));
+			ret = GTRecipeItemInput.getOrCreate(new ItemStack((Block)obj, amount));
 		}
 		if(obj instanceof IItemProvider) {
-			return GTRecipeItemInput.getOrCreate(new ItemStack(((IItemProvider)obj).asItem(), count));
+			ret = GTRecipeItemInput.getOrCreate(new ItemStack(((IItemProvider)obj).asItem(), amount));
+		}
+		if(obj instanceof FluidStack) {
+			ret = GTRecipeFluidInput.getOrCreate((FluidStack)obj, amount);
+		}
+		if(obj instanceof Fluid) {
+			ret = GTRecipeFluidInput.getOrCreate((Fluid)obj, amount);
+		}
+		if(obj instanceof IFluidProvider) {
+			ret = GTRecipeFluidInput.getOrCreate(((IFluidProvider)obj).asFluid(), amount);
 		}
 		//if(obj instanceof Ingredient) {
 		//	return GTRecipeItemInput.getOrCreate(((Ingredient)obj).getMatchingStacks(), count);
 		//}
 		if(obj instanceof GTRecipeInput) {
-			return (GTRecipeInput)obj;
+			ret = (GTRecipeInput)obj;
+		}
+		if(ret != null && notConsumed) {
+			return ret.setNonConsumable();
 		}
 		return null;
 	}
