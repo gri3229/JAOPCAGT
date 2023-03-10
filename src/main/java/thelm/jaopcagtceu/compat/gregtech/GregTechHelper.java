@@ -71,7 +71,7 @@ public class GregTechHelper {
 		if(ret != null && notConsumed) {
 			return ret.setNonConsumable();
 		}
-		return null;
+		return ret;
 	}
 
 	public <R extends RecipeBuilder<R>> GregTechRecipeSettings<R> recipeSettings(RecipeMap<R> recipeMap) {
