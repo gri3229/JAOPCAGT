@@ -3,12 +3,12 @@ package thelm.jaopcagtceu;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod(
-		modid = JAOPCAGTCE.MOD_ID,
-		name = JAOPCAGTCE.NAME,
-		version = JAOPCAGTCE.VERSION,
-		dependencies = JAOPCAGTCE.DEPENDENCIES
+		modid = JAOPCAGTCEu.MOD_ID,
+		name = JAOPCAGTCEu.NAME,
+		version = JAOPCAGTCEu.VERSION,
+		dependencies = JAOPCAGTCEu.DEPENDENCIES
 		)
-public class JAOPCAGTCE {
+public class JAOPCAGTCEu {
 
 	public static final String MOD_ID = "jaopcagtce";
 	public static final String NAME = "JAOPCAGTCE";
