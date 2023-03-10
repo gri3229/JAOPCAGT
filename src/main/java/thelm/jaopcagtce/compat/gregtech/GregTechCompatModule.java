@@ -9,8 +9,11 @@ import com.google.common.collect.Streams;
 
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.ingredients.IntCircuitIngredient;
+import gregtech.api.unification.material.type.DustMaterial;
 import gregtech.api.unification.material.type.FluidMaterial;
+import gregtech.api.unification.material.type.IngotMaterial;
 import gregtech.api.unification.material.type.Material;
+import gregtech.api.unification.material.type.SolidMaterial;
 import gregtech.common.MetaFluids;
 import gregtech.common.items.MetaItems;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -30,9 +33,25 @@ import thelm.jaopca.utils.MiscHelper;
 public class GregTechCompatModule implements IModule {
 
 	static final Set<String> BLACKLIST = GregTechModule.BLACKLIST;
+	static final Set<String> PLATE_BLACKLIST = new TreeSet<>(GregTechModule.ALTS);
+	static final Set<String> DENSE_BLACKLIST = new TreeSet<>(GregTechModule.ALTS);
+	static final Set<String> GEAR_BLACKLIST = new TreeSet<>(GregTechModule.ALTS);
+	static final Set<String> STICK_BLACKLIST = new TreeSet<>(GregTechModule.ALTS);
 	static final Set<String> MOLTEN_BLACKLIST = new TreeSet<>(GregTechModule.ALTS);
 
 	static {
+		Streams.stream(Material.MATERIAL_REGISTRY).
+		filter(m->m.hasFlag(DustMaterial.MatFlags.GENERATE_PLATE)).
+		forEach(m->PLATE_BLACKLIST.add(m.toCamelCaseString()));
+		Streams.stream(Material.MATERIAL_REGISTRY).
+		filter(m->m.hasFlag(IngotMaterial.MatFlags.GENERATE_DENSE)).
+		forEach(m->DENSE_BLACKLIST.add(m.toCamelCaseString()));
+		Streams.stream(Material.MATERIAL_REGISTRY).
+		filter(m->m.hasFlag(SolidMaterial.MatFlags.GENERATE_GEAR)).
+		forEach(m->GEAR_BLACKLIST.add(m.toCamelCaseString()));
+		Streams.stream(Material.MATERIAL_REGISTRY).
+		filter(m->m.hasFlag(SolidMaterial.MatFlags.GENERATE_ROD)).
+		forEach(m->STICK_BLACKLIST.add(m.toCamelCaseString()));
 		Streams.stream(Material.MATERIAL_REGISTRY).
 		filter(m->m instanceof FluidMaterial && ((FluidMaterial)m).shouldGenerateFluid()).
 		forEach(m->MOLTEN_BLACKLIST.add(m.toCamelCaseString()));
@@ -152,7 +171,7 @@ public class GregTechCompatModule implements IModule {
 							time(1200).energy(24));
 				}
 			}
-			if(type.isDust() && !BLACKLIST.contains(name) && !configToPlateBlacklist.contains(name)) {
+			if(type.isDust() && !PLATE_BLACKLIST.contains(name) && !configToPlateBlacklist.contains(name)) {
 				String materialOredict = miscHelper.getOredictName(type.getFormName(), name);
 				String plateOredict = miscHelper.getOredictName("plate", name);
 				if(oredict.contains(plateOredict)) {
@@ -212,7 +231,7 @@ public class GregTechCompatModule implements IModule {
 							});
 				}
 			}
-			if(type.isIngot() && !BLACKLIST.contains(name) && !configToStickBlacklist.contains(name)) {
+			if(type.isIngot() && !STICK_BLACKLIST.contains(name) && !configToStickBlacklist.contains(name)) {
 				String materialOredict = miscHelper.getOredictName(type.getFormName(), name);
 				String stickOredict = miscHelper.getOredictName("stick", name);
 				if(oredict.contains(stickOredict)) {
@@ -245,7 +264,7 @@ public class GregTechCompatModule implements IModule {
 							time(20).energy(8));
 				}
 			}
-			if(type.isIngot() && !BLACKLIST.contains(name) && !configToPlateBlacklist.contains(name)) {
+			if(type.isIngot() && !PLATE_BLACKLIST.contains(name) && !configToPlateBlacklist.contains(name)) {
 				String materialOredict = miscHelper.getOredictName(type.getFormName(), name);
 				String plateOredict = miscHelper.getOredictName("plate", name);
 				if(oredict.contains(plateOredict)) {
@@ -285,7 +304,7 @@ public class GregTechCompatModule implements IModule {
 							});
 				}
 			}
-			if(type.isIngot() && !BLACKLIST.contains(name) && !configToDensePlateBlacklist.contains(name)) {
+			if(type.isIngot() && !DENSE_BLACKLIST.contains(name) && !configToDensePlateBlacklist.contains(name)) {
 				String materialOredict = miscHelper.getOredictName(type.getFormName(), name);
 				String densePlateOredict = miscHelper.getOredictName("plateDense", name);
 				if(oredict.contains(densePlateOredict)) {
@@ -342,7 +361,7 @@ public class GregTechCompatModule implements IModule {
 							time(100).energy(8));
 				}
 			}
-			if(!BLACKLIST.contains(name) && !configToPlateBlacklist.contains(name)) {
+			if(!PLATE_BLACKLIST.contains(name) && !configToPlateBlacklist.contains(name)) {
 				String blockOredict = miscHelper.getOredictName("block", name);
 				String plateOredict = miscHelper.getOredictName("plate", name);
 				if(oredict.contains(blockOredict) && oredict.contains(plateOredict)) {
@@ -407,7 +426,7 @@ public class GregTechCompatModule implements IModule {
 							time(100).energy(8));
 				}
 			}
-			if(!BLACKLIST.contains(name) && !configToGearBlacklist.contains(name)) {
+			if(!(PLATE_BLACKLIST.contains(name) && STICK_BLACKLIST.contains(name)) && !configToGearBlacklist.contains(name)) {
 				String plateOredict = miscHelper.getOredictName("plate", name);
 				String stickOredict = miscHelper.getOredictName("stick", name);
 				String gearOredict = miscHelper.getOredictName("gear", name);
