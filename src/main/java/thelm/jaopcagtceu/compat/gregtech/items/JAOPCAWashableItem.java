@@ -48,7 +48,7 @@ public class JAOPCAWashableItem extends JAOPCAItem {
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		super.addInformation(stack, worldIn, tooltip, flagIn);
-		if(getForm().getSecondaryName().equals("crushed")) {
+		if(getForm().getSecondaryName().startsWith("crushed")) {
 			tooltip.add(I18n.translateToLocal("metaitem.crushed.tooltip.purify"));
 		}
 		if(getForm().getSecondaryName().startsWith("dust")) {
