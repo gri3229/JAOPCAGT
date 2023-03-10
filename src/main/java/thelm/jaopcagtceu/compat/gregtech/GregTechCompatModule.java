@@ -279,7 +279,7 @@ public class GregTechCompatModule implements IModule {
 				String nuggetOredict = miscHelper.getOredictName("nugget", name);
 				if(oredict.contains(nuggetOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_nugget_alloy_smelter", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_nugget", material.getName()),
 							helper.recipeSettings(RecipeMaps.ALLOY_SMELTER_RECIPES).
 							input(materialOredict, 1).
 							input(MetaItems.SHAPE_MOLD_NUGGET.getStackForm(), 0).
@@ -620,7 +620,7 @@ public class GregTechCompatModule implements IModule {
 				String dustOredict = miscHelper.getOredictName("dust", name);
 				if(oredict.contains(gearOredict) && oredict.contains(dustOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.gear_to_dust_macerator", material.getName()),
+							miscHelper.getRecipeKey("gregtech.gear_to_dust", material.getName()),
 							helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
 							input(gearOredict, 1).
 							output(dustOredict, 4).
