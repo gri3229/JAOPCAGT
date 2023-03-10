@@ -153,5 +153,4 @@ jar {
                 "Implementation-Vendor": "thelm"
         ],)
     }
-    enabled = false
 }
