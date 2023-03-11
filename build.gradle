@@ -75,8 +75,8 @@ sourceSets {
     main
 }
 
-version = "1.0.0.0"
-group = "thelm.jaopcagtce"
+version = "1.0.0.1"
+group = "thelm.jaopca.gtce"
 archivesBaseName = "JAOPCAGTCE-1.12.2"
 
 sourceCompatibility = targetCompatibility = "1.8"

@@ -1,4 +1,4 @@
-package thelm.jaopcagtce.compat.gregtech;
+package thelm.jaopca.gtce.compat.gregtech;
 
 import java.util.Collections;
 import java.util.EnumSet;

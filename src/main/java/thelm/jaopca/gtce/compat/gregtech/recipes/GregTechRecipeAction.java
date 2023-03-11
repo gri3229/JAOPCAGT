@@ -1,4 +1,4 @@
-package thelm.jaopcagtce.compat.gregtech.recipes;
+package thelm.jaopca.gtce.compat.gregtech.recipes;
 
 import java.util.ArrayList;
 import java.util.List;

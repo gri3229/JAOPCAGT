@@ -1,4 +1,4 @@
-package thelm.jaopcagtce.compat.gregtech;
+package thelm.jaopca.gtce.compat.gregtech;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,10 +27,10 @@ import thelm.jaopca.api.materials.MaterialType;
 import thelm.jaopca.api.modules.IModule;
 import thelm.jaopca.api.modules.IModuleData;
 import thelm.jaopca.api.modules.JAOPCAModule;
+import thelm.jaopca.gtce.compat.gregtech.items.JAOPCAWashableItem;
 import thelm.jaopca.items.ItemFormType;
 import thelm.jaopca.utils.ApiImpl;
 import thelm.jaopca.utils.MiscHelper;
-import thelm.jaopcagtce.compat.gregtech.items.JAOPCAWashableItem;
 
 @JAOPCAModule(modDependencies = "gregtech@(,2)")
 public class GregTechModule implements IModule {

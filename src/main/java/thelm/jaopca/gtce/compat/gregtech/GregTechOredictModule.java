@@ -1,4 +1,4 @@
-package thelm.jaopcagtce.compat.gregtech;
+package thelm.jaopca.gtce.compat.gregtech;
 
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.items.MetaItems;

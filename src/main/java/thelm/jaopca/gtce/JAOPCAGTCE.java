@@ -1,4 +1,4 @@
-package thelm.jaopcagtce;
+package thelm.jaopca.gtce;
 
 import net.minecraftforge.fml.common.Mod;
 

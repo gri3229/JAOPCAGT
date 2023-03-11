@@ -1,11 +1,11 @@
-package thelm.jaopcagtce.compat.gregtech;
+package thelm.jaopca.gtce.compat.gregtech;
 
 import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.RecipeMap;
 import net.minecraft.util.ResourceLocation;
+import thelm.jaopca.gtce.compat.gregtech.recipes.GregTechRecipeAction;
+import thelm.jaopca.gtce.compat.gregtech.recipes.GregTechRecipeSettings;
 import thelm.jaopca.utils.ApiImpl;
-import thelm.jaopcagtce.compat.gregtech.recipes.GregTechRecipeAction;
-import thelm.jaopcagtce.compat.gregtech.recipes.GregTechRecipeSettings;
 
 public class GregTechHelper {
 
