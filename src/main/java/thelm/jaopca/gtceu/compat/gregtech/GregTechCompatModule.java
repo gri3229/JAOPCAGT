@@ -1,4 +1,4 @@
-package thelm.jaopcagtceu.compat.gregtech;
+package thelm.jaopca.gtceu.compat.gregtech;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -23,9 +23,9 @@ import thelm.jaopca.api.materials.MaterialType;
 import thelm.jaopca.api.modules.IModule;
 import thelm.jaopca.api.modules.IModuleData;
 import thelm.jaopca.api.modules.JAOPCAModule;
+import thelm.jaopca.gtceu.compat.gregtech.recipes.GregTechRecipeSettings;
 import thelm.jaopca.utils.ApiImpl;
 import thelm.jaopca.utils.MiscHelper;
-import thelm.jaopcagtceu.compat.gregtech.recipes.GregTechRecipeSettings;
 
 @JAOPCAModule(modDependencies = "gregtech@[2,)")
 public class GregTechCompatModule implements IModule {

@@ -1,4 +1,4 @@
-package thelm.jaopcagtceu.compat.gregtech.recipes;
+package thelm.jaopca.gtceu.compat.gregtech.recipes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import thelm.jaopca.api.recipes.IRecipeAction;
+import thelm.jaopca.gtceu.compat.gregtech.GregTechHelper;
 import thelm.jaopca.utils.MiscHelper;
-import thelm.jaopcagtceu.compat.gregtech.GregTechHelper;
 
 public class GregTechRecipeAction<R extends RecipeBuilder<R>> implements IRecipeAction {
 

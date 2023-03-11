@@ -1,4 +1,4 @@
-package thelm.jaopcagtceu.compat.gregtech;
+package thelm.jaopca.gtceu.compat.gregtech;
 
 import java.util.function.Supplier;
 
@@ -16,9 +16,9 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import thelm.jaopca.api.fluids.IFluidProvider;
 import thelm.jaopca.api.items.IItemProvider;
+import thelm.jaopca.gtceu.compat.gregtech.recipes.GregTechRecipeAction;
+import thelm.jaopca.gtceu.compat.gregtech.recipes.GregTechRecipeSettings;
 import thelm.jaopca.utils.ApiImpl;
-import thelm.jaopcagtceu.compat.gregtech.recipes.GregTechRecipeAction;
-import thelm.jaopcagtceu.compat.gregtech.recipes.GregTechRecipeSettings;
 
 public class GregTechHelper {
 
