@@ -1,7 +1,0 @@
-{
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "jaopca:item/dust/gregtech_centrifuged_crushed",
-        "layer1": "jaopca:item/dust/gregtech_centrifuged_crushed_overlay"
-    }
-}

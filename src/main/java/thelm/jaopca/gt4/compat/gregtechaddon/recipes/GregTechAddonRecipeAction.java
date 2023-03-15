@@ -1,4 +1,4 @@
-package thelm.jaopca.gtceu.compat.gregtech.recipes;
+package thelm.jaopca.gt4.compat.gregtechaddon.recipes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,57 +6,54 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.lang3.tuple.Triple;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import gregtech.api.recipes.RecipeBuilder;
-import gregtech.api.recipes.RecipeMap;
-import gregtech.api.recipes.ingredients.GTRecipeFluidInput;
-import gregtech.api.recipes.ingredients.GTRecipeInput;
+import gregtechmod.api.recipe.Ingredient;
+import gregtechmod.api.recipe.RecipeFactory;
+import gregtechmod.api.recipe.RecipeMap;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import thelm.jaopca.api.recipes.IRecipeAction;
-import thelm.jaopca.gtceu.compat.gregtech.GregTechHelper;
+import thelm.jaopca.gt4.compat.gregtechaddon.GregTechAddonHelper;
 import thelm.jaopca.utils.MiscHelper;
 
-public class GregTechRecipeAction<R extends RecipeBuilder<R>> implements IRecipeAction {
+public class GregTechAddonRecipeAction<R extends RecipeFactory<R>> implements IRecipeAction {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	public final ResourceLocation key;
+	public final String key;
 	public final RecipeMap<R> recipeMap;
-	public final int circuitMeta;
+	public final boolean shaped;
 	public final List<Pair<Object, Integer>> input;
 	public final List<Pair<Object, Integer>> fluidInput;
-	public final List<Pair<Object, Triple<Integer, Integer, Integer>>> output;
+	public final List<Pair<Object, Pair<Integer, Integer>>> output;
 	public final List<Pair<Object, Integer>> fluidOutput;
 	public final Consumer<R> additional;
-	public final int time;
 	public final int energy;
+	public final int time;
 
-	public GregTechRecipeAction(ResourceLocation key, GregTechRecipeSettings<R> settings) {
+	public GregTechAddonRecipeAction(String key, GregTechAddonRecipeSettings<R> settings) {
 		this.key = Objects.requireNonNull(key);
 		recipeMap = settings.recipeMap;
-		circuitMeta = settings.circuitMeta;
+		shaped = settings.shaped;
 		input = settings.input;
 		fluidInput = settings.fluidInput;
 		output = settings.output;
 		fluidOutput = settings.fluidOutput;
 		additional = settings.additional;
-		time = settings.time;
 		energy = settings.energy;
+		time = settings.time;
 	}
 
 	@Override
 	public boolean register() {
-		List<GTRecipeInput> inputs = new ArrayList<>();
-		List<GTRecipeInput> fluidInputs = new ArrayList<>();
-		List<Triple<ItemStack, Integer, Integer>> outputs = new ArrayList<>();
+		List<Ingredient> inputs = new ArrayList<>();
+		List<FluidStack> fluidInputs = new ArrayList<>();
+		List<Pair<ItemStack, Integer>> outputs = new ArrayList<>();
 		List<FluidStack> fluidOutputs = new ArrayList<>();
 		for(Pair<Object, Integer> in : input) {
-			GTRecipeInput ing = GregTechHelper.INSTANCE.getGTRecipeInput(in.getLeft(), in.getRight());
+			Ingredient ing = GregTechAddonHelper.INSTANCE.getIngredient(in.getLeft(), in.getRight());
 			if(ing == null) {
 				throw new IllegalArgumentException("Empty ingredient in recipe "+key+": "+in);
 			}
@@ -67,18 +64,18 @@ public class GregTechRecipeAction<R extends RecipeBuilder<R>> implements IRecipe
 			if(ing == null) {
 				throw new IllegalArgumentException("Empty ingredient in recipe "+key+": "+in);
 			}
-			fluidInputs.add(GTRecipeFluidInput.getOrCreate(ing, ing.amount));
+			fluidInputs.add(ing);
 		}
 		if(inputs.isEmpty() && fluidInputs.isEmpty()) {
 			throw new IllegalArgumentException("Empty ingredients in recipe "+key+": "+input+", "+fluidInput);
 		}
-		for(Pair<Object, Triple<Integer, Integer, Integer>> out : output) {
-			ItemStack stack = MiscHelper.INSTANCE.getItemStack(out.getLeft(), out.getRight().getLeft());
-			if(stack.isEmpty()) {
+		for(Pair<Object, Pair<Integer, Integer>> out : output) {
+			ItemStack stack = MiscHelper.INSTANCE.getItemStack(out.getLeft(), out.getRight().getLeft(), false);
+			if(stack == null) {
 				LOGGER.warn("Empty output in recipe {}: {}", key, out);
 				continue;
 			}
-			outputs.add(Triple.of(stack, out.getRight().getMiddle(), out.getRight().getRight()));
+			outputs.add(Pair.of(stack, out.getRight().getRight()));
 		}
 		for(Pair<Object, Integer> out : fluidOutput) {
 			FluidStack stack = MiscHelper.INSTANCE.getFluidStack(out.getLeft(), out.getRight());
@@ -91,25 +88,30 @@ public class GregTechRecipeAction<R extends RecipeBuilder<R>> implements IRecipe
 		if(outputs.isEmpty() && fluidOutputs.isEmpty()) {
 			throw new IllegalArgumentException("Empty outputs in recipe "+key+": "+output+", "+fluidOutput);
 		}
-		R builder = recipeMap.recipeBuilder();
-		builder.inputIngredients(inputs).fluidInputs(fluidInputs);
-		if(circuitMeta != -1) {
-			builder.circuitMeta(circuitMeta);
+		R builder = recipeMap.factory();
+		builder.setShaped(shaped);
+		for(Ingredient in : inputs) {
+			builder.input(in);
 		}
-		for(Triple<ItemStack, Integer, Integer> triple : outputs) {
-			if(triple.getMiddle() <= 0 || triple.getMiddle() >= 10000) {
-				builder.outputs(triple.getLeft());
+		for(FluidStack in : fluidInputs) {
+			builder.input(in);
+		}
+		for(Pair<ItemStack, Integer> pair : outputs) {
+			if(pair.getRight() <= 0 || pair.getRight() >= 10000) {
+				builder.outputs(pair.getLeft());
 			}
 			else {
-				builder.chancedOutput(triple.getLeft(), triple.getMiddle(), triple.getRight());
+				builder.chanced(pair.getLeft(), pair.getRight());
 			}
 		}
-		builder.fluidOutputs(fluidOutputs);
-		if(time != -1) {
-			builder.duration(time);
+		for(FluidStack out : fluidOutputs) {
+			builder.outputs(out);
 		}
 		if(energy != -1) {
 			builder.EUt(energy);
+		}
+		if(time != -1) {
+			builder.duration(time);
 		}
 		additional.accept(builder);
 		builder.buildAndRegister();
