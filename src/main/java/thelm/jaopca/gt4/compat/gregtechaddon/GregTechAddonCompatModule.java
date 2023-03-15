@@ -113,7 +113,7 @@ public class GregTechAddonCompatModule implements IModule {
 		for(IMaterial material : moduleData.getMaterials()) {
 			MaterialType type = material.getType();
 			String name = material.getName();
-			if(type.isCrystalline()&& !BLACKLIST.contains(name) && !configToCrystalBlacklist.contains(name)) {
+			if(type.isCrystalline() && !BLACKLIST.contains(name) && !configToCrystalBlacklist.contains(name)) {
 				String dustOredict = miscHelper.getOredictName("dust", name);
 				String materialOredict = miscHelper.getOredictName(type.getFormName(), name);
 				if(oredict.contains(dustOredict)) {

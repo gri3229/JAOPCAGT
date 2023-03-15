@@ -6,6 +6,8 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Multimap;
@@ -29,6 +31,7 @@ import thelm.jaopca.api.modules.IModuleData;
 import thelm.jaopca.api.modules.JAOPCAModule;
 import thelm.jaopca.compat.ic2.IC2Helper;
 import thelm.jaopca.compat.railcraft.RailcraftHelper;
+import thelm.jaopca.config.ConfigHandler;
 import thelm.jaopca.gt4.compat.thermalexpansion.ThermalExpansionHelper;
 import thelm.jaopca.items.ItemFormType;
 import thelm.jaopca.utils.ApiImpl;
@@ -42,13 +45,18 @@ public class GregTechAddonModule implements IModule {
 	static {
 		Arrays.stream(Materials.values()).forEach(m->BLACKLIST.add(m.name()));
 	}
-	
+
 	private static boolean rockCrusher = true;
 	private static boolean pulverizer = true;
 
 	public GregTechAddonModule() {
 		ApiImpl.INSTANCE.registerUsedPlainPrefixes("ingotHot", "ingotDouble", "ingotTriple", "ingotQuadruple",
 				"ingotQuintuple", "dustImpure", "dustPure");
+		Stream.of("jaopca:ic2.ore_to_crushed.*", "jaopca:ic2.crushed_to_purified_crushed.*",
+				"jaopca:ic2.crushed_to_material.*", "jaopca:ic2.purified_crushed_to_material.*",
+				"jaopca:ic2.crushed_to_dust_macerator.*", "jaopca:ic2.purified_crushed_to_dust_macerator.*",
+				"jaopca:ic2.crushed_to_dust_centrifuge.*", "jaopca:ic2.purified_crushed_to_dust_centrifuge.*").
+		map(Pattern::compile).forEach(ConfigHandler.RECIPE_REGEX_BLACKLIST::add);
 	}
 
 	private final IForm crushedForm = ApiImpl.INSTANCE.newForm(this, "gregtech_addon_crushed", ItemFormType.INSTANCE).
