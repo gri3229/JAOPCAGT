@@ -50,8 +50,6 @@ public class GregTechAddonModule implements IModule {
 	private static boolean pulverizer = true;
 
 	public GregTechAddonModule() {
-		ApiImpl.INSTANCE.registerUsedPlainPrefixes("ingotHot", "ingotDouble", "ingotTriple", "ingotQuadruple",
-				"ingotQuintuple", "dustImpure", "dustPure");
 		Stream.of("jaopca:ic2.ore_to_crushed.*", "jaopca:ic2.crushed_to_purified_crushed.*",
 				"jaopca:ic2.crushed_to_material.*", "jaopca:ic2.purified_crushed_to_material.*",
 				"jaopca:ic2.crushed_to_dust_macerator.*", "jaopca:ic2.purified_crushed_to_dust_macerator.*",
