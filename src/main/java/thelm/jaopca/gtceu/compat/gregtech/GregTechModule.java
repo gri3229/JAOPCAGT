@@ -300,7 +300,7 @@ public class GregTechModule implements IModule {
 						miscHelper.getRecipeKey("gregtech.ore_to_material", name),
 						helper.recipeSettings(RecipeMaps.FORGE_HAMMER_RECIPES).
 						input(oreOredict, 1).
-						output(crushedInfo, 1).
+						output(materialOredict, 1).
 						time(10).energy(16));
 			}
 		}
