@@ -168,14 +168,14 @@ public class GregTechAddonModule implements IModule {
 				rcHelper.registerRockCrusherRecipe(
 						miscHelper.getRecipeKey("gregtech_addon.ore_to_crushed_rock_crusher", name),
 						oreOredict, 1, new Object[] {
-								crushedInfo, 2, 1F,
+								crushedInfo, (material.getType().isDust() ? 4 : 2), 1F,
 								extra1DustOredict, 1, 0.1F
 						});
 			}
 			if(Loader.isModLoaded("ThermalExpansion") && pulverizer) {
 				teHelper.registerPulverizerRecipe(
 						miscHelper.getRecipeKey("gregtech_addon.ore_to_crushed_pulverizer", name),
-						oreOredict, 1, crushedInfo, 2, extra1DustOredict, 1, 10, 2400);
+						oreOredict, 1, crushedInfo, material.getType().isDust() ? 4 : 2, extra1DustOredict, 1, 10, 2400);
 			}
 			// to_purified_crushed
 			if(!material.getType().isCrystalline()) {
