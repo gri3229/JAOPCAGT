@@ -161,7 +161,7 @@ public class GregTechCompatModule implements IModule {
 							time(600).energy(24));
 				}
 			}
-			if(type.isCrystalline() && !BLACKLIST.contains(name) && !configAutoclaveToCrystalBlacklist.contains(name)) {
+			if(type.isCrystalline() && !BLACKLIST.contains(name) && !configImplosionToCrystalBlacklist.contains(name)) {
 				String dustOredict = miscHelper.getOredictName("dust", name);
 				String materialOredict = miscHelper.getOredictName(type.getFormName(), name);
 				if(oredict.contains(dustOredict)) {

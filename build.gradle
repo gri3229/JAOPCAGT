@@ -75,7 +75,7 @@ sourceSets {
     main
 }
 
-version = "1.0.0.1"
+version = "1.0.0.2"
 group = "thelm.jaopca.gtceu"
 archivesBaseName = "JAOPCAGTCEu-1.12.2"
 
