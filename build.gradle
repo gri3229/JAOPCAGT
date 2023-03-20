@@ -74,7 +74,7 @@ repositories {
     }
 }
 
-version = "1.0.0.1"
+version = "1.0.0.2"
 group = "thelm.jaopca.gt4"
 archivesBaseName = "JAOPCAGT4-1.7.10"
 

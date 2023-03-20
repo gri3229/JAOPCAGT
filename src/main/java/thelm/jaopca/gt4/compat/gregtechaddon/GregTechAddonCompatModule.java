@@ -200,7 +200,7 @@ public class GregTechAddonCompatModule implements IModule {
 							miscHelper.getRecipeKey("gregtech_addon.material_to_gear_alloy_smelting", name),
 							helper.recipeSettings(RecipeMaps.ALLOY_SMELTING).
 							input(materialOredict, 8).
-							input(GT_Items.Shape_Extruder_Gear.get(0), 0).
+							input(GT_Items.Shape_Mold_Gear.get(0), 0).
 							output(gearOredict, 1).
 							energy(32).time(1000));
 				}
