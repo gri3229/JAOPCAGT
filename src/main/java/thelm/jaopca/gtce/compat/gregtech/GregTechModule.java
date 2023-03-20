@@ -43,11 +43,6 @@ public class GregTechModule implements IModule {
 		forEach(m->BLACKLIST.add(m.toCamelCaseString()));
 	}
 
-	public GregTechModule() {
-		ApiImpl.INSTANCE.registerUsedPlainPrefixes("ingotHot", "gemChipped", "gemFlawed", "gemFlawless",
-				"gemExquisite", "dustImpure", "dustPure", "dustRegular");
-	}
-
 	private final IForm crushedForm = ApiImpl.INSTANCE.newForm(this, "gregtech_crushed", ItemFormType.INSTANCE).
 			setMaterialTypes(MaterialType.ORE).setSecondaryName("crushed").setDefaultMaterialBlacklist(BLACKLIST).
 			setSettings(ItemFormType.INSTANCE.getNewSettings().
