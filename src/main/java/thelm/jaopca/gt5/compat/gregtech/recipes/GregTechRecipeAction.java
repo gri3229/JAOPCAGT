@@ -1,59 +1,54 @@
-package thelm.jaopca.gt4.compat.gregtechaddon.recipes;
+package thelm.jaopca.gt5.compat.gregtech.recipes;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import gregtechmod.api.recipe.Ingredient;
-import gregtechmod.api.recipe.RecipeFactory;
-import gregtechmod.api.recipe.RecipeMap;
+import gregtech.api.util.GT_Recipe;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import thelm.jaopca.api.recipes.IRecipeAction;
-import thelm.jaopca.gt4.compat.gregtechaddon.GregTechAddonHelper;
 import thelm.jaopca.utils.MiscHelper;
 
-public class GregTechAddonRecipeAction<R extends RecipeFactory<R>> implements IRecipeAction {
+public class GregTechRecipeAction implements IRecipeAction {
 
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	public final String key;
-	public final RecipeMap<R> recipeMap;
-	public final boolean shaped;
+	public final GT_Recipe.GT_Recipe_Map recipeMap;
 	public final List<Pair<Object, Integer>> input;
 	public final List<Pair<Object, Integer>> fluidInput;
 	public final List<Pair<Object, Pair<Integer, Integer>>> output;
 	public final List<Pair<Object, Integer>> fluidOutput;
-	public final Consumer<R> additional;
-	public final int energy;
 	public final int time;
+	public final int energy;
+	public final int specialVal;
 
-	public GregTechAddonRecipeAction(String key, GregTechAddonRecipeSettings<R> settings) {
+	public GregTechRecipeAction(String key, GregTechRecipeSettings settings) {
 		this.key = Objects.requireNonNull(key);
 		recipeMap = settings.recipeMap;
-		shaped = settings.shaped;
 		input = settings.input;
 		fluidInput = settings.fluidInput;
 		output = settings.output;
 		fluidOutput = settings.fluidOutput;
-		additional = settings.additional;
-		energy = settings.energy;
 		time = settings.time;
+		energy = settings.energy;
+		specialVal = settings.specialVal;
 	}
 
 	@Override
 	public boolean register() {
-		List<Ingredient> inputs = new ArrayList<>();
+		List<ItemStack> inputs = new ArrayList<>();
 		List<FluidStack> fluidInputs = new ArrayList<>();
-		List<Pair<ItemStack, Integer>> outputs = new ArrayList<>();
+		List<ItemStack> outputs = new ArrayList<>();
+		List<Integer> chances = new ArrayList<>();
 		List<FluidStack> fluidOutputs = new ArrayList<>();
 		for(Pair<Object, Integer> in : input) {
-			Ingredient ing = GregTechAddonHelper.INSTANCE.getIngredient(in.getLeft(), in.getRight());
+			ItemStack ing = MiscHelper.INSTANCE.getItemStack(in.getLeft(), in.getRight(), true);
 			if(ing == null) {
 				throw new IllegalArgumentException("Empty ingredient in recipe "+key+": "+in);
 			}
@@ -75,7 +70,8 @@ public class GregTechAddonRecipeAction<R extends RecipeFactory<R>> implements IR
 				LOGGER.warn("Empty output in recipe {}: {}", key, out);
 				continue;
 			}
-			outputs.add(Pair.of(stack, out.getRight().getRight()));
+			outputs.add(stack);
+			chances.add(out.getRight().getRight());
 		}
 		for(Pair<Object, Integer> out : fluidOutput) {
 			FluidStack stack = MiscHelper.INSTANCE.getFluidStack(out.getLeft(), out.getRight());
@@ -88,33 +84,11 @@ public class GregTechAddonRecipeAction<R extends RecipeFactory<R>> implements IR
 		if(outputs.isEmpty() && fluidOutputs.isEmpty()) {
 			throw new IllegalArgumentException("Empty outputs in recipe "+key+": "+output+", "+fluidOutput);
 		}
-		R builder = recipeMap.factory();
-		builder.setShaped(shaped);
-		for(Ingredient in : inputs) {
-			builder.input(in);
-		}
-		for(FluidStack in : fluidInputs) {
-			builder.input(in);
-		}
-		for(Pair<ItemStack, Integer> pair : outputs) {
-			if(pair.getRight() <= 0 || pair.getRight() >= 10000) {
-				builder.outputs(pair.getLeft());
-			}
-			else {
-				builder.chanced(pair.getLeft(), pair.getRight());
-			}
-		}
-		for(FluidStack out : fluidOutputs) {
-			builder.outputs(out);
-		}
-		if(energy != -1) {
-			builder.EUt(energy);
-		}
-		if(time != -1) {
-			builder.duration(time);
-		}
-		additional.accept(builder);
-		builder.buildAndRegister();
-		return true;
+		ItemStack[] ins = inputs.stream().toArray(ItemStack[]::new);
+		FluidStack[] fIns = fluidInputs.stream().toArray(FluidStack[]::new);
+		ItemStack[] outs = outputs.stream().toArray(ItemStack[]::new);
+		int[] cs = chances.stream().mapToInt(i->i).toArray();
+		FluidStack[] fOuts = fluidOutputs.stream().toArray(FluidStack[]::new);
+		return recipeMap.addRecipe(true, ins, outs, null, cs, fIns, fOuts, time, energy, specialVal) != null;
 	}
 }

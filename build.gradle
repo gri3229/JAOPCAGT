@@ -74,9 +74,9 @@ repositories {
     }
 }
 
-version = "1.0.0.2"
-group = "thelm.jaopca.gt4"
-archivesBaseName = "JAOPCAGT4-1.7.10"
+version = "1.0.0.0"
+group = "thelm.jaopca.gt5"
+archivesBaseName = "JAOPCAGT5-1.7.10"
 
 sourceCompatibility = targetCompatibility = "1.8"
 compileJava {
@@ -109,8 +109,9 @@ dependencies {
     implementation "curse.maven:thermal-foundation-222880:2388753"
     implementation "curse.maven:thermal-expansion-69163:2388759"
     implementation "curse.maven:thermal-dynamics-227443:2388757"
+    implementation "curse.maven:immersive-engineering-231951:2299020"
 
-    implementation deobfCurse("gregtech-4-483827:4398634")
+    implementation deobfCurse("gregtech-5-unofficial-251053:2479882")
 
     implementation "com.github.GTNewHorizons:NotEnoughIds:1.4.6:dev"
     implementation "com.github.GTNewHorizons:Mixingasm:v0.2.4:dev"
@@ -125,7 +126,7 @@ dependencies {
 }
 
 def manifestAttributes = [
-        "Specification-Title": "JAOPCAGT4",
+        "Specification-Title": "JAOPCAGT5",
         "Specification-Vendor": "thelm",
         "Specification-Version": "1",
         "Implementation-Title": "${archivesBaseName}",
