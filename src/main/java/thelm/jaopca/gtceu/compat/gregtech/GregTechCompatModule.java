@@ -27,7 +27,7 @@ import thelm.jaopca.gtceu.compat.gregtech.recipes.GregTechRecipeSettings;
 import thelm.jaopca.utils.ApiImpl;
 import thelm.jaopca.utils.MiscHelper;
 
-@JAOPCAModule(modDependencies = "gregtech@[2,)")
+@JAOPCAModule(modDependencies = "gregtech@[2.7,)")
 public class GregTechCompatModule implements IModule {
 
 	static final Set<String> BLACKLIST = GregTechModule.BLACKLIST;
@@ -36,13 +36,16 @@ public class GregTechCompatModule implements IModule {
 	static final Set<String> MOLTEN_BLACKLIST = new TreeSet<>(GregTechModule.ALTS);
 
 	static {
-		Streams.stream(GregTechAPI.MATERIAL_REGISTRY).
+		GregTechAPI.materialManager.getRegistries().stream().
+		flatMap(reg->reg.getAllMaterials().stream()).
 		filter(m->m.hasFlag(MaterialFlags.GENERATE_PLATE)).
 		forEach(m->PLATE_BLACKLIST.add(m.toCamelCaseString()));
-		Streams.stream(GregTechAPI.MATERIAL_REGISTRY).
+		GregTechAPI.materialManager.getRegistries().stream().
+		flatMap(reg->reg.getAllMaterials().stream()).
 		filter(m->m.hasFlag(MaterialFlags.GENERATE_ROD)).
 		forEach(m->STICK_BLACKLIST.add(m.toCamelCaseString()));
-		Streams.stream(GregTechAPI.MATERIAL_REGISTRY).
+		GregTechAPI.materialManager.getRegistries().stream().
+		flatMap(reg->reg.getAllMaterials().stream()).
 		filter(m->m.hasFluid()).
 		forEach(m->MOLTEN_BLACKLIST.add(m.toCamelCaseString()));
 	}

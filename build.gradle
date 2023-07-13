@@ -75,7 +75,7 @@ sourceSets {
     main
 }
 
-version = "1.0.0.2"
+version = "1.0.0.3"
 group = "thelm.jaopca.gtceu"
 archivesBaseName = "JAOPCAGTCEu-1.12.2"
 
@@ -123,7 +123,7 @@ dependencies {
 
     deobfCompile "curse.maven:wrapup-275153:2486198"
     deobfCompile "curse.maven:jaopca-266936:4442902"
-    deobfCompile "curse.maven:gregtech-ce-unofficial-557242:4429261-sources-4429266"
+    deobfCompile "curse.maven:gregtech-ce-unofficial-557242:4641113-sources-4641115"
 
     deobfCompile "curse.maven:redstone-flux-270789:2920436"
     deobfCompile "curse.maven:cofh-core-69162:2920433"

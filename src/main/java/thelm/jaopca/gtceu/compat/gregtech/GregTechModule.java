@@ -31,14 +31,15 @@ import thelm.jaopca.items.ItemFormType;
 import thelm.jaopca.utils.ApiImpl;
 import thelm.jaopca.utils.MiscHelper;
 
-@JAOPCAModule(modDependencies = "gregtech@[2,)")
+@JAOPCAModule(modDependencies = "gregtech@[2.7,)")
 public class GregTechModule implements IModule {
 
 	static final List<String> ALTS = Arrays.asList("Aluminum", "Quartz");
 	static final Set<String> BLACKLIST = new TreeSet<>(ALTS);
 
 	static {
-		Streams.stream(GregTechAPI.MATERIAL_REGISTRY).
+		GregTechAPI.materialManager.getRegistries().stream().
+		flatMap(reg->reg.getAllMaterials().stream()).
 		forEach(m->BLACKLIST.add(m.toCamelCaseString()));
 	}
 

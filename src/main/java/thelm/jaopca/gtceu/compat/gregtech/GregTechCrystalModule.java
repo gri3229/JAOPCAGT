@@ -25,7 +25,7 @@ import thelm.jaopca.items.ItemFormType;
 import thelm.jaopca.utils.ApiImpl;
 import thelm.jaopca.utils.MiscHelper;
 
-@JAOPCAModule(modDependencies = "gregtech@[2,)")
+@JAOPCAModule(modDependencies = "gregtech@[2.7,)")
 public class GregTechCrystalModule implements IModule {
 
 	static final Set<String> BLACKLIST = GregTechModule.BLACKLIST;
