@@ -1,0 +1,11 @@
+{
+    "item.jaopca.gtceu_crushed_ores": "Crushed %s Ore",
+    "item.jaopca.gtceu_purified_ores": "Purified %s Ore",
+    "item.jaopca.gtceu_refined_ores": "Refined %s Ore",
+    "item.jaopca.gtceu_impure_dusts": "Impure Pile of %s Dust",
+    "item.jaopca.gtceu_pure_dusts": "Purified Pile of %s Dust",
+    "item.jaopca.gtceu_exquisite_gems": "Exquisite %s",
+    "item.jaopca.gtceu_flawless_gems": "Flawless %s",
+    "item.jaopca.gtceu_flawed_gems": "Flawed %s",
+    "item.jaopca.gtceu_chipped_gems": "Chipped %s"
+}

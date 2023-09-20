@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "jaopca:item/dust/gtceu_pure_dusts",
+        "layer1": "jaopca:item/dust/gtceu_pure_dusts_overlay"
+    }
+}

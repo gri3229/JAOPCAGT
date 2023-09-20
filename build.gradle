@@ -1,6 +1,7 @@
 plugins {
 	id "net.neoforged.gradle" version "[6.0.13,)"
-	id "wtf.gofancy.fancygradle" version "[1.1,)"
+	id "org.parchmentmc.librarian.forgegradle" version "[1,)"
+	id "org.spongepowered.mixin" version "0.7-SNAPSHOT"
 	id "eclipse"
 	id "idea"
 	id "maven-publish"
@@ -15,37 +16,52 @@ repositories {
 		url = "https://maven.minecraftforge.net/"
 	}
 	maven {
-		url = "https://repo.spongepowered.org/maven/"
-	}
-	maven {
-		url = "https://maven.su5ed.dev/releases/"
-		content {
-			includeGroup "net.minecraftforge"
-		}
+		url = "https://repo.spongepowered.org/maven"
 	}
 	maven {
 		url = "https://maven.blamejared.com/"
 		content {
 			includeGroup "mezz.jei"
-			includeGroup "CraftTweaker2"
+			includeGroup "com.blamejared.crafttweaker"
+			includeGroup "vazkii.patchouli"
+		}
+	}
+	maven {
+		url = "https://maven.architectury.dev/"
+		content {
+			includeGroup "dev.architectury"
+		}
+	}
+	maven {
+		url = "https://maven.saps.dev/releases/"
+		content {
+			includeGroup "dev.latvian.mods"
+		}
+	}
+	maven {
+		url = "https://maven.tterrag.com/"
+		content {
+			includeGroup "com.tterrag.registrate"
+			includeGroup "com.simibubi.create"
+		}
+	}
+	maven {
+		url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+		content {
+			includeGroup "software.bernie.geckolib"
 		}
 	}
 	maven {
 		url = "https://maven.covers1624.net/"
 		content {
-			includeGroup "codechicken"
+			includeGroup "com.teamcofh"
 		}
 	}
 	maven {
-		url = "https://maven.shadowfacts.net/"
+		url = "https://maven.firstdarkdev.xyz/snapshots/"
 		content {
-			includeGroup "net.shadowfacts"
-		}
-	}
-	maven {
-		url = "https://maven.cleanroommc.com/"
-		content {
-			includeGroup "zone.rong"
+			includeGroup "com.lowdragmc.ldlib"
+			includeGroup "com.gregtechceu.gtceu"
 		}
 	}
 	maven {
@@ -63,19 +79,19 @@ sourceSets {
 	main
 }
 
-def mcVersion = "1.12.2"
+def mcVersion = "1.19.2"
 def modName = "JAOPCAGTCEu"
 def modId = "jaopcagtceu"
-def specVersion = "1"
+def specVersion = "2"
 def vendor = "thelm"
 
 group = "thelm.jaopca.gtceu"
-version = "1.0.1.4"
+version = "2.0.0.0"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
 java {
-	toolchain.languageVersion = JavaLanguageVersion.of(8)
+	toolchain.languageVersion = JavaLanguageVersion.of(17)
 	withSourcesJar()
 }
 
@@ -84,7 +100,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 minecraft {
-	mappings channel: "stable", version: "39-1.12"
+	mappings channel: "parchment", version: "2022.11.27-1.19.2"
 	generateRunFolders = true
 	runs {
 		configureEach {
@@ -93,77 +109,53 @@ minecraft {
 			property "forge.logging.console.level", "debug"
 			property "mixin.env.remapRefMap", "true"
 			property "mixin.env.refMapRemappingFile", "${buildDir}/createSrgToMcp/output.srg"
-			environment "MC_VERSION", mcVersion
-			jvmArgs \
-				"-Xmn768m", "-XX:+DisableExplicitGC", "-XX:+UseConcMarkSweepGC", \
-				"-XX:+UseParNewGC", "-XX:+UseNUMA", "-XX:+CMSParallelRemarkEnabled", \
-				"-XX:MaxTenuringThreshold=15", "-XX:MaxGCPauseMillis=30", "-XX:GCPauseIntervalMillis=150", \
-				"-XX:+UseAdaptiveGCBoundary", "-XX:-UseGCOverheadLimit", "-XX:+UseBiasedLocking", \
-				"-XX:SurvivorRatio=8", "-XX:TargetSurvivorRatio=90", "-XX:MaxTenuringThreshold=15", \
-				"-XX:+UseFastAccessorMethods", "-XX:+UseCompressedOops", "-XX:+OptimizeStringConcat", \
-				"-XX:+AggressiveOpts", "-XX:ReservedCodeCacheSize=2048m", "-XX:+UseCodeCacheFlushing", \
-				"-XX:SoftRefLRUPolicyMSPerMB=10000", "-XX:ParallelGCThreads=10", "-Dmixin.hotSwap=true", \
-				"-Dmixin.checks.interfaces=true"
+			property "production", "true"
 			mods {
 				"${modId}" {
 					source sourceSets.main
 				}
 			}
 		}
-		client {
-			arg "--username=Dev"
-			jvmArg "-Xmx7G"
-		}
-		server {
-			jvmArg "-Xmx3G"
-		}
-	}
-}
-
-fancyGradle {
-	patches {
-		resources
-		coremods
-		codeChickenLib
-		asm
-		mergetool
+		client
+		server
 	}
 }
 
 dependencies {
-	minecraft "net.minecraftforge:forge:1.12.2-14.23.5.2859"
+	minecraft "net.minecraftforge:forge:1.19.2-43.2.21"
+	annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 
-	implementation fg.deobf("mezz.jei:jei_1.12.2:4.16.1.302")
-	implementation fg.deobf("codechicken:CodeChickenLib:1.12.2-3.2.3.358:universal")
-	implementation "net.shadowfacts:Forgelin:1.8.4"
-	implementation fg.deobf("CraftTweaker2:ZenScript:4.1.20.690")
-	implementation fg.deobf("CraftTweaker2:CraftTweaker2-API:4.1.20.693")
-	implementation fg.deobf("CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.693")
-
-	implementation fg.deobf("curse.maven:wrapup-275153:2486198")
-	implementation fg.deobf("curse.maven:jaopca-266936:4442902")
-	implementation fg.deobf("curse.maven:gregtech-ce-unofficial-557242:4701483")
-
-	implementation fg.deobf("curse.maven:redstone-flux-270789:2920436")
-	implementation fg.deobf("curse.maven:cofh-core-69162:2920433")
-	implementation fg.deobf("curse.maven:cofh-world-271384:2920434")
-	implementation fg.deobf("curse.maven:thermal-foundation-222880:2926428")
-	implementation fg.deobf("curse.maven:thermal-expansion-69163:2926431")
-	implementation fg.deobf("curse.maven:thermal-dynamics-227443:2920505")
-	implementation fg.deobf("curse.maven:abyssalcraft-53686:3425234")
-	implementation fg.deobf("curse.maven:mekanism-268560:2835175")
-	implementation fg.deobf("curse.maven:applied-energistics-2-223794:2747063")
-
-	implementation fg.deobf("zone.rong:mixinbooter:7.1")
-	implementation fg.deobf("curse.maven:jeid-296289:3581715")
-	implementation fg.deobf("curse.maven:spark-361579:3245793")
-	implementation fg.deobf("curse.maven:lolasm-460609:4623985")
-}
-
-configurations.all {
-	resolutionStrategy {
-		force "net.minecraftforge:legacydev:0.2.4.1"
+	implementation fg.deobf("mezz.jei:jei-1.19.2-forge:11.6.0.1018")
+	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.19.2:10.1.49")
+	implementation fg.deobf("software.bernie.geckolib:geckolib-forge-1.19:3.1.40")
+	implementation fg.deobf("vazkii.patchouli:Patchouli:1.19.2-77")
+	implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.19.2:1.0.19.d") {
+		transitive = false
 	}
+	implementation fg.deobf("com.teamcofh:cofh_core:1.19.2-10.2.1.40")
+	implementation fg.deobf("com.teamcofh:thermal_core:1.19.2-10.2.0.5")
+	implementation fg.deobf("dev.latvian.mods:rhino-forge:1902.2.2-build.272")
+	implementation fg.deobf("dev.architectury:architectury-forge:6.5.85")
+	implementation fg.deobf("dev.latvian.mods:kubejs-forge:1902.6.1-build.370") {
+		transitive = false
+	}
+	implementation fg.deobf("com.gregtechceu.gtceu:gtceu-forge-1.19.2:1.0.12") {
+		transitive = false
+	}
+	implementation fg.deobf("com.simibubi.create:create-1.19.2:0.5.1.c-36:all") {
+		transitive = false
+	}
+	implementation fg.deobf("mekanism:Mekanism:1.19.2-10.3.9.13")
+	implementation fg.deobf("mekanism:Mekanism:1.19.2-10.3.9.13:generators")
+	implementation fg.deobf("com.teamcofh:thermal_foundation:1.19.2-10.2.0.47")
+	implementation fg.deobf("com.teamcofh:thermal_expansion:1.19.2-10.2.0.21")
+	implementation fg.deobf("com.teamcofh:thermal_integration:1.19.2-10.2.0.17")
+
+	//CurseMaven
+	implementation fg.deobf("curse.maven:jaopca-266936:4756161")
+	implementation fg.deobf("curse.maven:shutup-experimental-settings-407174:3759881")
+	implementation fg.deobf("curse.maven:ato-405593:4046926")
+	implementation fg.deobf("curse.maven:allthemodium-364466:4667332")
 }
 
 def manifestAttributes = [
@@ -173,7 +165,8 @@ def manifestAttributes = [
 	"Implementation-Title": archivesBaseName,
 	"Implementation-Version": version,
 	"Implementation-Vendor": vendor,
-	"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+	"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+	"MixinConnector": "thelm.jaopca.gtceu.mixins.JAOPCAGTCEuMixinConnector"
 ]
 
 jar {
@@ -183,4 +176,8 @@ jar {
 
 sourcesJar {
 	manifest.attributes(manifestAttributes)
+}
+
+mixin {
+	add sourceSets.main, "jaopca.gtceu.refmap.json"
 }

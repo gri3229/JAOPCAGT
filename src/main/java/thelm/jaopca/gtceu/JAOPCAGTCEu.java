@@ -2,16 +2,15 @@ package thelm.jaopca.gtceu;
 
 import net.minecraftforge.fml.common.Mod;
 
-@Mod(
-		modid = JAOPCAGTCEu.MOD_ID,
-		name = JAOPCAGTCEu.NAME,
-		version = JAOPCAGTCEu.VERSION,
-		dependencies = JAOPCAGTCEu.DEPENDENCIES
-		)
+@Mod(JAOPCAGTCEu.MOD_ID)
 public class JAOPCAGTCEu {
 
 	public static final String MOD_ID = "jaopcagtceu";
-	public static final String NAME = "JAOPCAGTCEu";
-	public static final String VERSION = "1.12.2-1.0.0.2";
-	public static final String DEPENDENCIES = "required-before:jaopca@[1.12.2-2.3.6,);required-before:gregtech@[2,)";
+	public static JAOPCAGTCEu core;
+	public static boolean mixinLoaded = false;
+
+	public JAOPCAGTCEu() {
+		assert mixinLoaded;
+		core = this;
+	}
 }

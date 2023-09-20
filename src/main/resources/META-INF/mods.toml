@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[41,)"
+license="MIT"
+issueTrackerURL="https://github.com/TheLMiffy1111/JAOPCAGT/issues"
+displayURL="https://minecraft.curseforge.com/projects/jaopcagt"
+credits="Inspired by AOBD, a mod made by ganymedes01 for Minecraft 1.7"
+authors="TheLMiffy1111"
+[[mods]]
+modId="jaopcagtceu"
+version="${file.jarVersion}"
+displayName="JAOPCAGTCEu"
+description="An addon to JAOPCA that adds GregTechCEu Modern support."
+
+[[dependencies.jaopcagtceu]]
+    modId="forge"
+    mandatory=false
+    versionRange="[41.0.94,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.jaopcagtceu]]
+    modId="gtceu"
+    mandatory=true
+    versionRange="[1,)"
+    ordering="NONE"
+    side="BOTH"
