@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Multimap;
 
 import gregtech.api.recipes.RecipeMaps;
+import gregtech.common.ConfigHolder;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import thelm.jaopca.api.JAOPCAApi;
 import thelm.jaopca.api.forms.IForm;
@@ -21,6 +22,7 @@ import thelm.jaopca.api.materials.MaterialType;
 import thelm.jaopca.api.modules.IModule;
 import thelm.jaopca.api.modules.IModuleData;
 import thelm.jaopca.api.modules.JAOPCAModule;
+import thelm.jaopca.gtceu.compat.gregtech.recipes.GregTechRecipeSettings;
 import thelm.jaopca.items.ItemFormType;
 import thelm.jaopca.utils.ApiImpl;
 import thelm.jaopca.utils.MiscHelper;
@@ -34,7 +36,12 @@ public class GregTechCrystalModule implements IModule {
 			setMaterialTypes(MaterialType.GEM, MaterialType.CRYSTAL).setSecondaryName("gemExquisite").setDefaultMaterialBlacklist(BLACKLIST);
 	private final IForm flawlessGemForm = ApiImpl.INSTANCE.newForm(this, "gregtech_flawless_gem", ItemFormType.INSTANCE).
 			setMaterialTypes(MaterialType.GEM, MaterialType.CRYSTAL).setSecondaryName("gemFlawless").setDefaultMaterialBlacklist(BLACKLIST);
-	private final IFormRequest formRequest = ApiImpl.INSTANCE.newFormRequest(this, exquisiteGemForm, flawlessGemForm).setGrouped(true);
+	private final IForm flawedGemForm = ApiImpl.INSTANCE.newForm(this, "gregtech_flawed_gem", ItemFormType.INSTANCE).
+			setMaterialTypes(MaterialType.GEM, MaterialType.CRYSTAL).setSecondaryName("gemFlawed").setDefaultMaterialBlacklist(BLACKLIST);
+	private final IForm chippedGemForm = ApiImpl.INSTANCE.newForm(this, "gregtech_chipped_gem", ItemFormType.INSTANCE).
+			setMaterialTypes(MaterialType.GEM, MaterialType.CRYSTAL).setSecondaryName("gemChipped").setDefaultMaterialBlacklist(BLACKLIST);
+	private final IFormRequest formRequest = ApiImpl.INSTANCE.newFormRequest(this,
+			exquisiteGemForm, flawlessGemForm, flawedGemForm, chippedGemForm).setGrouped(true);
 
 	@Override
 	public String getName() {
@@ -46,6 +53,7 @@ public class GregTechCrystalModule implements IModule {
 		ImmutableSetMultimap.Builder builder = ImmutableSetMultimap.builder();
 		builder.put(0, "gregtech");
 		builder.put(0, "dust");
+		builder.put(0, "small_dust");
 		return builder.build();
 	}
 
@@ -77,19 +85,32 @@ public class GregTechCrystalModule implements IModule {
 			String exquisiteGemOredict = miscHelper.getOredictName("gemExquisite", name);
 			IItemInfo flawlessGemInfo = itemFormType.getMaterialFormInfo(flawlessGemForm, material);
 			String flawlessGemOredict = miscHelper.getOredictName("gemFlawless", name);
+			IItemInfo flawedGemInfo = itemFormType.getMaterialFormInfo(flawedGemForm, material);
+			String flawedGemOredict = miscHelper.getOredictName("gemFlawed", name);
+			IItemInfo chippedGemInfo = itemFormType.getMaterialFormInfo(chippedGemForm, material);
+			String chippedGemOredict = miscHelper.getOredictName("gemChipped", name);
 			String purifiedCrushedOredict = miscHelper.getOredictName("crushedPurified", name);
 			String materialOredict = miscHelper.getOredictName(material.getType().getFormName(), name);
 			String dustOredict = miscHelper.getOredictName("dust", name);
+			String smallDustOredict = miscHelper.getOredictName("dustSmall", name);
 
-			helper.registerGregTechRecipe(
-					miscHelper.getRecipeKey("gregtech.purified_crushed_to_gems", name),
-					helper.recipeSettings(RecipeMaps.SIFTER_RECIPES).
-					input(purifiedCrushedOredict, 1).
-					output(exquisiteGemInfo, 1, 500, 150).
-					output(flawlessGemInfo, 1, 1500, 200).
-					output(materialOredict, 1, 5000, 1000).
-					output(dustOredict, 1, 2500, 500).
-					time(400).energy(16));
+			{
+				GregTechRecipeSettings settings = helper.recipeSettings(RecipeMaps.SIFTER_RECIPES).
+						input(purifiedCrushedOredict, 1).
+						output(exquisiteGemInfo, 1, 500, 150).
+						output(flawlessGemInfo, 1, 1500, 200).
+						output(materialOredict, 1, 5000, 1000).
+						output(dustOredict, 1, 2500, 500).
+						time(400).energy(16);
+				if(ConfigHolder.recipes.generateLowQualityGems) {
+					settings.
+					output(flawedGemInfo, 1, 2000, 500).
+					output(chippedGemInfo, 1, 3000, 350);
+				}
+				helper.registerGregTechRecipe(
+						miscHelper.getRecipeKey("gregtech.purified_crushed_to_gems", name),
+						settings);
+			}
 
 			helper.registerGregTechRecipe(
 					miscHelper.getRecipeKey("gregtech.flawless_gem_to_exquisite_gem", name),
@@ -129,6 +150,44 @@ public class GregTechCrystalModule implements IModule {
 					input(flawlessGemOredict, 1).
 					output(materialOredict, 2).
 					time(20).energy(16));
+			helper.registerGregTechRecipe(
+					miscHelper.getRecipeKey("gregtech.flawed_gem_to_material", name),
+					helper.recipeSettings(RecipeMaps.LASER_ENGRAVER_RECIPES).
+					input(flawedGemOredict, 2).
+					input("craftingLensWhite", 0).
+					output(materialOredict, 1).
+					time(300).energy(240));
+
+			api.registerShapelessRecipe(
+					miscHelper.getRecipeKey("gregtech.material_to_flawed_gem_hard_hammer", name),
+					flawedGemOredict, 2, new Object[] {
+							"craftingToolHardHammer", materialOredict,
+					});
+			helper.registerGregTechRecipe(
+					miscHelper.getRecipeKey("gregtech.material_to_flawed_gem_cutter", name),
+					helper.recipeSettings(RecipeMaps.CUTTER_RECIPES).
+					input(materialOredict, 1).
+					output(flawedGemOredict, 2).
+					time(20).energy(16));
+			helper.registerGregTechRecipe(
+					miscHelper.getRecipeKey("gregtech.chipped_gem_to_flawed_gem", name),
+					helper.recipeSettings(RecipeMaps.LASER_ENGRAVER_RECIPES).
+					input(chippedGemOredict, 2).
+					input("craftingLensWhite", 0).
+					output(flawedGemOredict, 1).
+					time(300).energy(240));
+
+			api.registerShapelessRecipe(
+					miscHelper.getRecipeKey("gregtech.flawed_gem_to_chipped_gem_hard_hammer", name),
+					chippedGemOredict, 2, new Object[] {
+							"craftingToolHardHammer", flawedGemOredict,
+					});
+			helper.registerGregTechRecipe(
+					miscHelper.getRecipeKey("gregtech.flawed_gem_to_chipped_gem_cutter", name),
+					helper.recipeSettings(RecipeMaps.CUTTER_RECIPES).
+					input(flawedGemOredict, 1).
+					output(chippedGemOredict, 2).
+					time(20).energy(16));
 
 			helper.registerGregTechRecipe(
 					miscHelper.getRecipeKey("gregtech.exquisite_gem_to_dust", name),
@@ -142,6 +201,18 @@ public class GregTechCrystalModule implements IModule {
 					input(flawlessGemOredict, 1).
 					output(dustOredict, 2).
 					time(200).energy(2));
+			helper.registerGregTechRecipe(
+					miscHelper.getRecipeKey("gregtech.flawed_gem_to_small_dust", name),
+					helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
+					input(flawedGemOredict, 1).
+					output(smallDustOredict, 2).
+					time(50).energy(2));
+			helper.registerGregTechRecipe(
+					miscHelper.getRecipeKey("gregtech.chipped_gem_to_small_dust", name),
+					helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
+					input(chippedGemOredict, 1).
+					output(smallDustOredict, 1).
+					time(25).energy(2));
 		}
 	}
 }

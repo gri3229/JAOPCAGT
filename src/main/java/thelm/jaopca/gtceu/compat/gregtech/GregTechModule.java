@@ -9,7 +9,6 @@ import java.util.TreeSet;
 
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Streams;
 
 import gregtech.api.GregTechAPI;
 import gregtech.api.recipes.RecipeMaps;

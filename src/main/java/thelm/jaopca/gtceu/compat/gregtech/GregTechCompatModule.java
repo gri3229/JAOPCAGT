@@ -5,8 +5,6 @@ import java.util.EnumSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.google.common.collect.Streams;
-
 import gregtech.api.GregTechAPI;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.unification.material.Materials;

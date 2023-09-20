@@ -70,7 +70,7 @@ def specVersion = "1"
 def vendor = "thelm"
 
 group = "thelm.jaopca.gtceu"
-version = "1.0.0.3"
+version = "1.0.1.4"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
