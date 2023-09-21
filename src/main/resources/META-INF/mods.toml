@@ -17,7 +17,12 @@ description="An addon to JAOPCA that adds GregTechCEu Modern support."
     versionRange="[41.0.94,)"
     ordering="NONE"
     side="BOTH"
-
+[[dependencies.jaopcagtceu]]
+    modId="jaopca"
+    mandatory=true
+    versionRange="[4.2,)"
+    ordering="NONE"
+    side="BOTH"
 [[dependencies.jaopcagtceu]]
     modId="gtceu"
     mandatory=true
