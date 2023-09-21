@@ -79,14 +79,14 @@ sourceSets {
 	main
 }
 
-def mcVersion = "1.19.2"
+def mcVersion = "1.20.1"
 def modName = "JAOPCAGTCEu"
 def modId = "jaopcagtceu"
 def specVersion = "2"
 def vendor = "thelm"
 
 group = "thelm.jaopca.gtceu"
-version = "2.0.0.0"
+version = "2.1.0.0"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
@@ -100,7 +100,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 minecraft {
-	mappings channel: "parchment", version: "2022.11.27-1.19.2"
+	mappings channel: "parchment", version: "2023.07.30-1.20.1"
 	generateRunFolders = true
 	runs {
 		configureEach {
@@ -109,7 +109,6 @@ minecraft {
 			property "forge.logging.console.level", "debug"
 			property "mixin.env.remapRefMap", "true"
 			property "mixin.env.refMapRemappingFile", "${buildDir}/createSrgToMcp/output.srg"
-			property "production", "true"
 			mods {
 				"${modId}" {
 					source sourceSets.main
@@ -122,41 +121,42 @@ minecraft {
 }
 
 dependencies {
-	minecraft "net.minecraftforge:forge:1.19.2-43.2.21"
+	minecraft "net.neoforged:forge:1.20.1-47.1.75"
 	annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 
-	implementation fg.deobf("mezz.jei:jei-1.19.2-forge:11.6.0.1018")
-	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.19.2:10.1.49")
-	implementation fg.deobf("software.bernie.geckolib:geckolib-forge-1.19:3.1.40")
-	implementation fg.deobf("vazkii.patchouli:Patchouli:1.19.2-77")
-	implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.19.2:1.0.19.d") {
+	implementation fg.deobf("mezz.jei:jei-1.20.1-forge:15.2.0.27")
+	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.20.1:14.0.13") {
 		transitive = false
 	}
-	implementation fg.deobf("com.teamcofh:cofh_core:1.19.2-10.2.1.40")
-	implementation fg.deobf("com.teamcofh:thermal_core:1.19.2-10.2.0.5")
-	implementation fg.deobf("dev.latvian.mods:rhino-forge:1902.2.2-build.272")
-	implementation fg.deobf("dev.architectury:architectury-forge:6.5.85")
-	implementation fg.deobf("dev.latvian.mods:kubejs-forge:1902.6.1-build.370") {
+	implementation fg.deobf("software.bernie.geckolib:geckolib-forge-1.20.1:4.2.2")
+	implementation fg.deobf("vazkii.patchouli:Patchouli:1.20.1-81-FORGE")
+	implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.20.1:1.0.19.d") {
 		transitive = false
 	}
-	implementation fg.deobf("com.gregtechceu.gtceu:gtceu-forge-1.19.2:1.0.12.c") {
+	//implementation fg.deobf("com.teamcofh:cofh_core:1.19.2-10.2.1.40")
+	//implementation fg.deobf("com.teamcofh:thermal_core:1.19.2-10.2.0.5")
+	//implementation fg.deobf("dev.latvian.mods:rhino-forge:1902.2.2-build.272")
+	implementation fg.deobf("dev.architectury:architectury-forge:9.1.12")
+	//implementation fg.deobf("dev.latvian.mods:kubejs-forge:1902.6.1-build.370") {
+	//	transitive = false
+	//}
+	implementation fg.deobf("com.gregtechceu.gtceu:gtceu-forge-1.20.1:1.0.12.c") {
 		transitive = false
 	}
-	implementation fg.deobf("com.simibubi.create:create-1.19.2:0.5.1.c-36:all") {
+	implementation fg.deobf("com.simibubi.create:create-1.20.1:0.5.1.d-9:all") {
 		transitive = false
 	}
-	implementation fg.deobf("mekanism:Mekanism:1.19.2-10.3.9.13")
-	implementation fg.deobf("mekanism:Mekanism:1.19.2-10.3.9.13:generators")
-	implementation fg.deobf("com.teamcofh:thermal_foundation:1.19.2-10.2.0.47")
-	implementation fg.deobf("com.teamcofh:thermal_expansion:1.19.2-10.2.0.21")
-	implementation fg.deobf("com.teamcofh:thermal_integration:1.19.2-10.2.0.17")
+	//implementation fg.deobf("mekanism:Mekanism:1.19.2-10.3.9.13")
+	//implementation fg.deobf("mekanism:Mekanism:1.19.2-10.3.9.13:generators")
+	//implementation fg.deobf("com.teamcofh:thermal_foundation:1.19.2-10.2.0.47")
+	//implementation fg.deobf("com.teamcofh:thermal_expansion:1.19.2-10.2.0.21")
+	//implementation fg.deobf("com.teamcofh:thermal_integration:1.19.2-10.2.0.17")
 
 	//CurseMaven
-	implementation fg.deobf("curse.maven:jaopca-266936:4756161")
-	implementation fg.deobf("curse.maven:configuration-444699:4519560")
-	implementation fg.deobf("curse.maven:shutup-experimental-settings-407174:3759881")
-	implementation fg.deobf("curse.maven:ato-405593:4046926")
-	implementation fg.deobf("curse.maven:allthemodium-364466:4667332")
+	implementation fg.deobf("curse.maven:jaopca-266936:4756171")
+	implementation fg.deobf("curse.maven:configuration-444699:4710266")
+	implementation fg.deobf("curse.maven:ato-405593:4751952")
+	implementation fg.deobf("curse.maven:allthemodium-364466:4760433")
 }
 
 def manifestAttributes = [

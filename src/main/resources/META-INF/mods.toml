@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[41,)"
+loaderVersion="[46,)"
 license="MIT"
 issueTrackerURL="https://github.com/TheLMiffy1111/JAOPCAGT/issues"
 displayURL="https://minecraft.curseforge.com/projects/jaopcagt"
@@ -14,13 +14,13 @@ description="An addon to JAOPCA that adds GregTechCEu Modern support."
 [[dependencies.jaopcagtceu]]
     modId="forge"
     mandatory=false
-    versionRange="[41.0.94,)"
+    versionRange="[46,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.jaopcagtceu]]
     modId="jaopca"
     mandatory=true
-    versionRange="[4.2,)"
+    versionRange="[4.4,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.jaopcagtceu]]
