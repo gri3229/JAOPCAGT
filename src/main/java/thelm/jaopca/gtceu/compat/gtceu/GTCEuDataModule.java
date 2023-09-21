@@ -57,6 +57,7 @@ public class GTCEuDataModule implements IDataModule {
 			}
 		}
 		//We add tag names that fit the existing scheme
+		TagPrefix.oreEndstone.unformattedTagPath(LoaderType.FORGE, "ores_in_ground/end_stone");
 		TagPrefix.ingotHot.defaultTagPath(LoaderType.FORGE, "hot_ingots/%s");
 		TagPrefix.ingotHot.unformattedTagPath(LoaderType.FORGE, "hot_ingots");
 		TagPrefix.gemChipped.defaultTagPath(LoaderType.FORGE, "chipped_gems/%s");

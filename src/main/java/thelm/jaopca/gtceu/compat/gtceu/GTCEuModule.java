@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Function;
 
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Multimap;
@@ -104,14 +105,21 @@ public class GTCEuModule implements IModule {
 		IItemFormType itemFormType = ItemFormType.INSTANCE;
 		ResourceLocation hardHammerLocation = new ResourceLocation("forge:tools/hammers");
 		ResourceLocation stoneDustLocation = new ResourceLocation("forge:dusts/stone");
+		ResourceLocation endstoneDustLocation = new ResourceLocation("forge:dusts/endstone");
+		Function<TagPrefix, String> toGround = prefix->{
+			if(prefix.name.equals("endstone")) {
+				return "end_stone";
+			}
+			return FormattingUtil.toLowerCaseUnderscore(prefix.name);
+		};
 		CompoundIngredientObject allOreLocationsObj = CompoundIngredientObject.union(
 				TagPrefix.ORES.entrySet().stream().
-				map(entry->new ResourceLocation("forge:ores_in_ground/"+FormattingUtil.toLowerCaseUnderscore(entry.getKey().name))).
+				map(entry->new ResourceLocation("forge:ores_in_ground/"+toGround.apply(entry.getKey()))).
 				toArray());
 		CompoundIngredientObject doubleOreLocationsObj = CompoundIngredientObject.union(
 				TagPrefix.ORES.entrySet().stream().
 				filter(entry->entry.getValue().isNether()).
-				map(entry->new ResourceLocation("forge:ores_in_ground/"+FormattingUtil.toLowerCaseUnderscore(entry.getKey().name))).
+				map(entry->new ResourceLocation("forge:ores_in_ground/"+toGround.apply(entry.getKey()))).
 				toArray());
 		for(IMaterial material : formRequest.getMaterials()) {
 			String name = material.getName();
@@ -176,7 +184,7 @@ public class GTCEuModule implements IModule {
 						itemOutput(extra1Location, 1400, 850).
 						duration(400).EUt(2));
 				for(Map.Entry<TagPrefix, OreType> entry : TagPrefix.ORES.entrySet()){
-					String ground = FormattingUtil.toLowerCaseUnderscore(entry.getKey().name);
+					String ground = toGround.apply(entry.getKey());
 					int multiplier = entry.getValue().isNether() ? 2 : 1;
 					GTRecipeSettings settings = helper.recipeSettings().
 							itemInput(CompoundIngredientObject.intersection(new Object[] {
@@ -188,6 +196,9 @@ public class GTCEuModule implements IModule {
 							duration(400).EUt(2);
 					if(GTRegistries.MATERIALS.containKey(ground)) {
 						settings.itemOutput(new ResourceLocation("forge:dusts/"+ground));
+					}
+					else if(ground.equals("end_stone")) {
+						settings.itemOutput(endstoneDustLocation);
 					}
 					helper.registerGTRecipe(
 							new ResourceLocation("jaopca", "gtceu."+ground+"_ore_to_crushed_ore_forge_hammer."+name),
