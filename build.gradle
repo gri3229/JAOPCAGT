@@ -135,11 +135,11 @@ dependencies {
 	}
 	//implementation fg.deobf("com.teamcofh:cofh_core:1.19.2-10.2.1.40")
 	//implementation fg.deobf("com.teamcofh:thermal_core:1.19.2-10.2.0.5")
-	//implementation fg.deobf("dev.latvian.mods:rhino-forge:1902.2.2-build.272")
+	implementation fg.deobf("dev.latvian.mods:rhino-forge:2001.2.2-build.6")
 	implementation fg.deobf("dev.architectury:architectury-forge:9.1.12")
-	//implementation fg.deobf("dev.latvian.mods:kubejs-forge:1902.6.1-build.370") {
-	//	transitive = false
-	//}
+	implementation fg.deobf("dev.latvian.mods:kubejs-forge:2001.6.3-build.47") {
+		transitive = false
+	}
 	implementation fg.deobf("com.gregtechceu.gtceu:gtceu-forge-1.20.1:1.0.12.c") {
 		transitive = false
 	}
