@@ -1,13 +1,16 @@
 package thelm.jaopca.gtceu.compat.gtceu;
 
+import java.util.ArrayList;
 import java.util.Map;
 
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterial;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.OreProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.LoaderType;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
@@ -17,6 +20,7 @@ import com.gregtechceu.gtceu.common.pipelike.fluidpipe.FluidPipeType;
 
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 import thelm.jaopca.api.data.IDataModule;
 import thelm.jaopca.api.data.JAOPCADataModule;
 import thelm.jaopca.utils.ApiImpl;
@@ -83,7 +87,14 @@ public class GTCEuDataModule implements IDataModule {
 		TagPrefix.wireFine.unformattedTagPath(LoaderType.FORGE, "fine_wires");
 		TagPrefix.gearSmall.defaultTagPath(LoaderType.FORGE, "small_gears/%s");
 		TagPrefix.gearSmall.unformattedTagPath(LoaderType.FORGE, "small_gears");
-		//Let JAOPCA know what tags will be injected by GTCEu
+		//Let JAOPCA know what item tags will be injected by GTCEu
+		for(Map.Entry<UnificationEntry, ArrayList<ItemLike>> entry : ChemicalHelper.UNIFICATION_ENTRY_ITEM.entrySet()) {
+			if(!entry.getValue().isEmpty()) {
+				for(TagKey<Item> materialTag : entry.getKey().tagPrefix.getItemTags(entry.getKey().material)) {
+					ApiImpl.INSTANCE.registerDefinedItemTag(materialTag.location());
+				}
+			}
+		}
 		for(GTToolType toolType : GTToolType.values()) {
 			ApiImpl.INSTANCE.registerDefinedItemTag(toolType.itemTag.location());
 		}
