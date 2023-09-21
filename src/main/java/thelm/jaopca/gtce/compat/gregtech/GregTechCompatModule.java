@@ -156,14 +156,14 @@ public class GregTechCompatModule implements IModule {
 				String materialOredict = miscHelper.getOredictName(type.getFormName(), name);
 				if(oredict.contains(dustOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.dust_to_material_water", material.getName()),
+							miscHelper.getRecipeKey("gregtech.dust_to_material_water", name),
 							helper.recipeSettings(RecipeMaps.AUTOCLAVE_RECIPES).
 							input(dustOredict, 1).
 							fluidInput(FluidRegistry.WATER, 1000).
 							output(materialOredict, 1, 7000, 1000).
 							time(1600).energy(24));
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.dust_to_material_distilled_water", material.getName()),
+							miscHelper.getRecipeKey("gregtech.dust_to_material_distilled_water", name),
 							helper.recipeSettings(RecipeMaps.AUTOCLAVE_RECIPES).
 							input(dustOredict, 1).
 							fluidInput(MetaFluids.DISTILLED_WATER, 1000).
@@ -176,7 +176,7 @@ public class GregTechCompatModule implements IModule {
 				String plateOredict = miscHelper.getOredictName("plate", name);
 				if(oredict.contains(plateOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_plate_compressor", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_plate_compressor", name),
 							helper.recipeSettings(RecipeMaps.COMPRESSOR_RECIPES).
 							input(materialOredict, 1).
 							output(plateOredict, 1));
@@ -187,17 +187,17 @@ public class GregTechCompatModule implements IModule {
 				String dustOredict = miscHelper.getOredictName("dust", name);
 				if(oredict.contains(smallDustOredict) && oredict.contains(dustOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.small_dust_to_dust", material.getName()),
+							miscHelper.getRecipeKey("gregtech.small_dust_to_dust", name),
 							helper.recipeSettings(RecipeMaps.PACKER_RECIPES).
 							input(smallDustOredict, 4).
 							input(new IntCircuitIngredient(2), 0).
 							output(dustOredict, 1));
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.dust_to_small_dust", material.getName()),
+							miscHelper.getRecipeKey("gregtech.dust_to_small_dust", name),
 							helper.recipeSettings(RecipeMaps.UNPACKER_RECIPES).
-							input(smallDustOredict, 1).
+							input(dustOredict, 1).
 							input(new IntCircuitIngredient(2), 0).
-							output(dustOredict, 4));
+							output(smallDustOredict, 4));
 				}
 			}
 			if(!BLACKLIST.contains(name) && !configTinyDustPackingBlacklist.contains(name)) {
@@ -205,13 +205,13 @@ public class GregTechCompatModule implements IModule {
 				String dustOredict = miscHelper.getOredictName("dust", name);
 				if(oredict.contains(tinyDustOredict) && oredict.contains(dustOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.tiny_dust_to_dust", material.getName()),
+							miscHelper.getRecipeKey("gregtech.tiny_dust_to_dust", name),
 							helper.recipeSettings(RecipeMaps.PACKER_RECIPES).
 							input(tinyDustOredict, 9).
 							input(new IntCircuitIngredient(1), 0).
 							output(dustOredict, 1));
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.dust_to_tiny_dust", material.getName()),
+							miscHelper.getRecipeKey("gregtech.dust_to_tiny_dust", name),
 							helper.recipeSettings(RecipeMaps.UNPACKER_RECIPES).
 							input(dustOredict, 1).
 							input(new IntCircuitIngredient(1), 0).
@@ -223,7 +223,7 @@ public class GregTechCompatModule implements IModule {
 				String dustOredict = miscHelper.getOredictName("dust", name);
 				if(oredict.contains(dustOredict)) {
 					api.registerShapedRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_dust_mortar", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_dust_mortar", name),
 							dustOredict, 1, new Object[] {
 									"X", "m",
 									'X', materialOredict,
@@ -236,14 +236,14 @@ public class GregTechCompatModule implements IModule {
 				String stickOredict = miscHelper.getOredictName("stick", name);
 				if(oredict.contains(stickOredict)) {
 					api.registerShapedRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_stick_file", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_stick_file", name),
 							stickOredict, 1, new Object[] {
 									"f ", " X",
 									'X', materialOredict,
 									'f', "craftingToolFile",
 							});
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_stick_extruder", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_stick_extruder", name),
 							helper.recipeSettings(RecipeMaps.EXTRUDER_RECIPES).
 							input(materialOredict, 1).
 							input(MetaItems.SHAPE_EXTRUDER_ROD.getStackForm(), 0).
@@ -256,7 +256,7 @@ public class GregTechCompatModule implements IModule {
 				String materialOredict = miscHelper.getOredictName(type.getFormName(), name);
 				if(FluidRegistry.isFluidRegistered(moltenName)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.molten_to_ingot", material.getName()),
+							miscHelper.getRecipeKey("gregtech.molten_to_ingot", name),
 							helper.recipeSettings(RecipeMaps.FLUID_SOLIDFICATION_RECIPES).
 							input(MetaItems.SHAPE_MOLD_INGOT.getStackForm(), 0).
 							fluidInput(moltenName, 144).
@@ -269,34 +269,34 @@ public class GregTechCompatModule implements IModule {
 				String plateOredict = miscHelper.getOredictName("plate", name);
 				if(oredict.contains(plateOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_plate_bender", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_plate_bender", name),
 							helper.recipeSettings(RecipeMaps.BENDER_RECIPES).
 							input(materialOredict, 1).
 							additional(b->b.circuitMeta(0)).
 							output(plateOredict, 1).
 							time(100).energy(24));
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_plate_forge_hammer", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_plate_forge_hammer", name),
 							helper.recipeSettings(RecipeMaps.FORGE_HAMMER_RECIPES).
 							input(materialOredict, 3).
 							output(plateOredict, 2).
 							time(200).energy(16));
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_plate_extruder", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_plate_extruder", name),
 							helper.recipeSettings(RecipeMaps.EXTRUDER_RECIPES).
 							input(materialOredict, 1).
 							input(MetaItems.SHAPE_EXTRUDER_PLATE.getStackForm(), 0).
 							output(plateOredict, 1).
 							time(100).energy(64));
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_plate_alloy_smelter", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_plate_alloy_smelter", name),
 							helper.recipeSettings(RecipeMaps.ALLOY_SMELTER_RECIPES).
 							input(materialOredict, 2).
 							input(MetaItems.SHAPE_MOLD_PLATE.getStackForm(), 0).
 							output(plateOredict, 1).
 							time(200).energy(16));
 					api.registerShapedRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_plate_hard_hammer", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_plate_hard_hammer", name),
 							plateOredict, 1, new Object[] {
 									"h", "I", "I",
 									'I', materialOredict,
@@ -309,7 +309,7 @@ public class GregTechCompatModule implements IModule {
 				String densePlateOredict = miscHelper.getOredictName("plateDense", name);
 				if(oredict.contains(densePlateOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_dense_plate", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_dense_plate", name),
 							helper.recipeSettings(RecipeMaps.BENDER_RECIPES).
 							input(materialOredict, 9).
 							additional(b->b.circuitMeta(5)).
@@ -322,13 +322,13 @@ public class GregTechCompatModule implements IModule {
 				String materialOredict = miscHelper.getOredictName(type.getFormName(), name);
 				if(oredict.contains(nuggetOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.nugget_to_material", material.getName()),
+							miscHelper.getRecipeKey("gregtech.nugget_to_material", name),
 							helper.recipeSettings(RecipeMaps.PACKER_RECIPES).
 							input(nuggetOredict, 9).
 							input(new IntCircuitIngredient(1), 0).
 							output(materialOredict, 1));
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_nugget", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_nugget", name),
 							helper.recipeSettings(RecipeMaps.UNPACKER_RECIPES).
 							input(materialOredict, 1).
 							input(new IntCircuitIngredient(1), 0).
@@ -340,7 +340,7 @@ public class GregTechCompatModule implements IModule {
 				String nuggetOredict = miscHelper.getOredictName("nugget", name);
 				if(FluidRegistry.isFluidRegistered(moltenName) && oredict.contains(nuggetOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.molten_to_nugget", material.getName()),
+							miscHelper.getRecipeKey("gregtech.molten_to_nugget", name),
 							helper.recipeSettings(RecipeMaps.FLUID_SOLIDFICATION_RECIPES).
 							input(MetaItems.SHAPE_MOLD_NUGGET.getStackForm(), 0).
 							fluidInput(moltenName, 144).
@@ -353,7 +353,7 @@ public class GregTechCompatModule implements IModule {
 				String blockOredict = miscHelper.getOredictName("block", name);
 				if(FluidRegistry.isFluidRegistered(moltenName) && oredict.contains(blockOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.molten_to_block", material.getName()),
+							miscHelper.getRecipeKey("gregtech.molten_to_block", name),
 							helper.recipeSettings(RecipeMaps.FLUID_SOLIDFICATION_RECIPES).
 							input(MetaItems.SHAPE_MOLD_BLOCK.getStackForm(), 0).
 							fluidInput(moltenName, 144*(material.isSmallStorageBlock() ? 4 : 9)).
@@ -366,7 +366,7 @@ public class GregTechCompatModule implements IModule {
 				String plateOredict = miscHelper.getOredictName("plate", name);
 				if(oredict.contains(blockOredict) && oredict.contains(plateOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.block_to_plate", material.getName()),
+							miscHelper.getRecipeKey("gregtech.block_to_plate", name),
 							helper.recipeSettings(RecipeMaps.CUTTER_RECIPES).
 							input(blockOredict, 1).
 							output(plateOredict, (material.isSmallStorageBlock() ? 4 : 9)).
@@ -378,14 +378,14 @@ public class GregTechCompatModule implements IModule {
 				String blockOredict = miscHelper.getOredictName("block", name);
 				if(oredict.contains(blockOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_block_extruder", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_block_extruder", name),
 							helper.recipeSettings(RecipeMaps.EXTRUDER_RECIPES).
 							input(materialOredict, (material.isSmallStorageBlock() ? 4 : 9)).
 							input(MetaItems.SHAPE_EXTRUDER_BLOCK.getStackForm(), 0).
 							output(blockOredict, 1).
 							time(10).energy(64));
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_block_alloy_smelter", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_block_alloy_smelter", name),
 							helper.recipeSettings(RecipeMaps.ALLOY_SMELTER_RECIPES).
 							input(materialOredict, (material.isSmallStorageBlock() ? 4 : 9)).
 							input(MetaItems.SHAPE_MOLD_BLOCK.getStackForm(), 0).
@@ -398,14 +398,14 @@ public class GregTechCompatModule implements IModule {
 				String gearOredict = miscHelper.getOredictName("gear", name);
 				if(oredict.contains(gearOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_gear_extruder", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_gear_extruder", name),
 							helper.recipeSettings(RecipeMaps.EXTRUDER_RECIPES).
 							input(materialOredict, 4).
 							input(MetaItems.SHAPE_EXTRUDER_GEAR.getStackForm(), 0).
 							output(gearOredict, 1).
 							time(500).energy(64));
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_gear_alloy_smelter", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_gear_alloy_smelter", name),
 							helper.recipeSettings(RecipeMaps.ALLOY_SMELTER_RECIPES).
 							input(materialOredict, 8).
 							input(MetaItems.SHAPE_MOLD_GEAR.getStackForm(), 0).
@@ -418,7 +418,7 @@ public class GregTechCompatModule implements IModule {
 				String gearOredict = miscHelper.getOredictName("gear", name);
 				if(FluidRegistry.isFluidRegistered(moltenName) && oredict.contains(gearOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.molten_to_gear", material.getName()),
+							miscHelper.getRecipeKey("gregtech.molten_to_gear", name),
 							helper.recipeSettings(RecipeMaps.FLUID_SOLIDFICATION_RECIPES).
 							input(MetaItems.SHAPE_MOLD_GEAR.getStackForm(), 0).
 							fluidInput(moltenName, 576).
@@ -432,7 +432,7 @@ public class GregTechCompatModule implements IModule {
 				String gearOredict = miscHelper.getOredictName("gear", name);
 				if(oredict.contains(plateOredict) && oredict.contains(stickOredict) && oredict.contains(gearOredict)) {
 					api.registerShapedRecipe(
-							miscHelper.getRecipeKey("gregtech.plate_stick_to_gear", material.getName()),
+							miscHelper.getRecipeKey("gregtech.plate_stick_to_gear", name),
 							gearOredict, 1, new Object[] {
 									"RPR", "PdP", "RPR",
 									'P', plateOredict,
@@ -446,7 +446,7 @@ public class GregTechCompatModule implements IModule {
 				String plateOredict = miscHelper.getOredictName("plate", name);
 				if(FluidRegistry.isFluidRegistered(moltenName) && oredict.contains(plateOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.molten_to_plate", material.getName()),
+							miscHelper.getRecipeKey("gregtech.molten_to_plate", name),
 							helper.recipeSettings(RecipeMaps.FLUID_SOLIDFICATION_RECIPES).
 							input(MetaItems.SHAPE_MOLD_PLATE.getStackForm(), 0).
 							fluidInput(moltenName, 144).
@@ -459,7 +459,7 @@ public class GregTechCompatModule implements IModule {
 				String dustOredict = miscHelper.getOredictName("dust", name);
 				if(oredict.contains(plateOredict) && oredict.contains(dustOredict)) {
 					api.registerShapedRecipe(
-							miscHelper.getRecipeKey("gregtech.plate_to_dust_mortar", material.getName()),
+							miscHelper.getRecipeKey("gregtech.plate_to_dust_mortar", name),
 							dustOredict, 1, new Object[] {
 									"X", "m",
 									'X', plateOredict,
@@ -472,7 +472,7 @@ public class GregTechCompatModule implements IModule {
 				String densePlateOredict = miscHelper.getOredictName("plateDense", name);
 				if(oredict.contains(plateOredict) && oredict.contains(densePlateOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.plate_to_dense_plate", material.getName()),
+							miscHelper.getRecipeKey("gregtech.plate_to_dense_plate", name),
 							helper.recipeSettings(RecipeMaps.BENDER_RECIPES).
 							input(plateOredict, 9).
 							additional(b->b.circuitMeta(2)).
@@ -485,7 +485,7 @@ public class GregTechCompatModule implements IModule {
 				String stickOredict = miscHelper.getOredictName("stick", name);
 				if(oredict.contains(stickOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_stick_lathe", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_stick_lathe", name),
 							helper.recipeSettings(RecipeMaps.LATHE_RECIPES).
 							input(materialOredict, 1).
 							output(stickOredict, 2).
@@ -497,7 +497,7 @@ public class GregTechCompatModule implements IModule {
 				String dustOredict = miscHelper.getOredictName("dust", name);
 				if(oredict.contains(dustOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_dust_macerator", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_dust_macerator", name),
 							helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
 							input(materialOredict, 1).
 							output(dustOredict, 1).
@@ -509,7 +509,7 @@ public class GregTechCompatModule implements IModule {
 				String dustOredict = miscHelper.getOredictName("dust", name);
 				if(oredict.contains(blockOredict) && oredict.contains(dustOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.block_to_dust", material.getName()),
+							miscHelper.getRecipeKey("gregtech.block_to_dust", name),
 							helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
 							input(blockOredict, 1).
 							output(dustOredict, (material.isSmallStorageBlock() ? 4 : 9)).
@@ -521,7 +521,7 @@ public class GregTechCompatModule implements IModule {
 				String tinyDustOredict = miscHelper.getOredictName("dustTiny", name);
 				if(oredict.contains(nuggetOredict) && oredict.contains(tinyDustOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.nugget_to_tiny_dust", material.getName()),
+							miscHelper.getRecipeKey("gregtech.nugget_to_tiny_dust", name),
 							helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
 							input(nuggetOredict, 1).
 							output(tinyDustOredict, 1).
@@ -533,7 +533,7 @@ public class GregTechCompatModule implements IModule {
 				String dustOredict = miscHelper.getOredictName("dust", name);
 				if(oredict.contains(plateOredict) && oredict.contains(dustOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.plate_to_dust_macerator", material.getName()),
+							miscHelper.getRecipeKey("gregtech.plate_to_dust_macerator", name),
 							helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
 							input(plateOredict, 1).
 							output(dustOredict, 1).
@@ -545,7 +545,7 @@ public class GregTechCompatModule implements IModule {
 				String dustOredict = miscHelper.getOredictName("dust", name);
 				if(oredict.contains(densePlateOredict) && oredict.contains(dustOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.dense_plate_to_dust", material.getName()),
+							miscHelper.getRecipeKey("gregtech.dense_plate_to_dust", name),
 							helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
 							input(densePlateOredict, 1).
 							output(dustOredict, 9).
@@ -557,7 +557,7 @@ public class GregTechCompatModule implements IModule {
 				String dustOredict = miscHelper.getOredictName("dust", name);
 				if(oredict.contains(gearOredict) && oredict.contains(dustOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.gear_to_dust", material.getName()),
+							miscHelper.getRecipeKey("gregtech.gear_to_dust", name),
 							helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
 							input(gearOredict, 1).
 							output(dustOredict, 4).
@@ -569,7 +569,7 @@ public class GregTechCompatModule implements IModule {
 				String smallDustOredict = miscHelper.getOredictName("dustSmall", name);
 				if(oredict.contains(stickOredict) && oredict.contains(smallDustOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.stick_to_small_dust", material.getName()),
+							miscHelper.getRecipeKey("gregtech.stick_to_small_dust", name),
 							helper.recipeSettings(RecipeMaps.MACERATOR_RECIPES).
 							input(stickOredict, 1).
 							output(smallDustOredict, 2).
@@ -581,7 +581,7 @@ public class GregTechCompatModule implements IModule {
 				String moltenName = miscHelper.getFluidName("", name);
 				if(FluidRegistry.isFluidRegistered(moltenName)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.material_to_molten", material.getName()),
+							miscHelper.getRecipeKey("gregtech.material_to_molten", name),
 							helper.recipeSettings(RecipeMaps.FLUID_EXTRACTION_RECIPES).
 							input(materialOredict, 1).
 							fluidOutput(moltenName, 144).
@@ -593,7 +593,7 @@ public class GregTechCompatModule implements IModule {
 				String moltenName = miscHelper.getFluidName("", name);
 				if(oredict.contains(blockOredict) && FluidRegistry.isFluidRegistered(moltenName)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.block_to_molten", material.getName()),
+							miscHelper.getRecipeKey("gregtech.block_to_molten", name),
 							helper.recipeSettings(RecipeMaps.FLUID_EXTRACTION_RECIPES).
 							input(blockOredict, 1).
 							fluidOutput(moltenName, 144*(material.isSmallStorageBlock() ? 4 : 9)).
@@ -605,7 +605,7 @@ public class GregTechCompatModule implements IModule {
 				String moltenName = miscHelper.getFluidName("", name);
 				if(oredict.contains(nuggetOredict) && FluidRegistry.isFluidRegistered(moltenName)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.nugget_to_molten", material.getName()),
+							miscHelper.getRecipeKey("gregtech.nugget_to_molten", name),
 							helper.recipeSettings(RecipeMaps.FLUID_EXTRACTION_RECIPES).
 							input(nuggetOredict, 1).
 							fluidOutput(moltenName, 16).
@@ -617,7 +617,7 @@ public class GregTechCompatModule implements IModule {
 				String moltenName = miscHelper.getFluidName("", name);
 				if(oredict.contains(plateOredict) && FluidRegistry.isFluidRegistered(moltenName)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.plate_to_molten", material.getName()),
+							miscHelper.getRecipeKey("gregtech.plate_to_molten", name),
 							helper.recipeSettings(RecipeMaps.FLUID_EXTRACTION_RECIPES).
 							input(plateOredict, 1).
 							fluidOutput(moltenName, 144).
@@ -629,7 +629,7 @@ public class GregTechCompatModule implements IModule {
 				String moltenName = miscHelper.getFluidName("", name);
 				if(oredict.contains(densePlateOredict) && FluidRegistry.isFluidRegistered(moltenName)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.dense_plate_to_molten", material.getName()),
+							miscHelper.getRecipeKey("gregtech.dense_plate_to_molten", name),
 							helper.recipeSettings(RecipeMaps.FLUID_EXTRACTION_RECIPES).
 							input(densePlateOredict, 1).
 							fluidOutput(moltenName, 1296).
@@ -641,7 +641,7 @@ public class GregTechCompatModule implements IModule {
 				String moltenName = miscHelper.getFluidName("", name);
 				if(oredict.contains(gearOredict) && FluidRegistry.isFluidRegistered(moltenName)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.gear_to_molten", material.getName()),
+							miscHelper.getRecipeKey("gregtech.gear_to_molten", name),
 							helper.recipeSettings(RecipeMaps.FLUID_EXTRACTION_RECIPES).
 							input(gearOredict, 1).
 							fluidOutput(moltenName, 576).
@@ -653,7 +653,7 @@ public class GregTechCompatModule implements IModule {
 				String moltenName = miscHelper.getFluidName("", name);
 				if(oredict.contains(stickOredict) && FluidRegistry.isFluidRegistered(moltenName)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.stick_to_molten", material.getName()),
+							miscHelper.getRecipeKey("gregtech.stick_to_molten", name),
 							helper.recipeSettings(RecipeMaps.FLUID_EXTRACTION_RECIPES).
 							input(stickOredict, 1).
 							fluidOutput(moltenName, 72).
@@ -665,7 +665,7 @@ public class GregTechCompatModule implements IModule {
 				String materialOredict = miscHelper.getOredictName(type.getFormName(), name);
 				if(oredict.contains(plateOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.plate_to_material", material.getName()),
+							miscHelper.getRecipeKey("gregtech.plate_to_material", name),
 							helper.recipeSettings(RecipeMaps.ARC_FURNACE_RECIPES).
 							input(plateOredict, 1).
 							output(materialOredict, 1).
@@ -677,7 +677,7 @@ public class GregTechCompatModule implements IModule {
 				String materialOredict = miscHelper.getOredictName(type.getFormName(), name);
 				if(oredict.contains(densePlateOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.dense_plate_to_material", material.getName()),
+							miscHelper.getRecipeKey("gregtech.dense_plate_to_material", name),
 							helper.recipeSettings(RecipeMaps.ARC_FURNACE_RECIPES).
 							input(densePlateOredict, 1).
 							output(materialOredict, 9).
@@ -689,7 +689,7 @@ public class GregTechCompatModule implements IModule {
 				String materialOredict = miscHelper.getOredictName(type.getFormName(), name);
 				if(oredict.contains(gearOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.gear_to_material", material.getName()),
+							miscHelper.getRecipeKey("gregtech.gear_to_material", name),
 							helper.recipeSettings(RecipeMaps.ARC_FURNACE_RECIPES).
 							input(gearOredict, 1).
 							output(materialOredict, 4).
@@ -701,7 +701,7 @@ public class GregTechCompatModule implements IModule {
 				String nuggetOredict = miscHelper.getOredictName("nugget", name);
 				if(oredict.contains(stickOredict) && oredict.contains(nuggetOredict)) {
 					helper.registerGregTechRecipe(
-							miscHelper.getRecipeKey("gregtech.stick_to_nugget", material.getName()),
+							miscHelper.getRecipeKey("gregtech.stick_to_nugget", name),
 							helper.recipeSettings(RecipeMaps.ARC_FURNACE_RECIPES).
 							input(stickOredict, 1).
 							output(nuggetOredict, 4).
