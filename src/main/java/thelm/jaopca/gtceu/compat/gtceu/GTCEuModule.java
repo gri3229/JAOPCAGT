@@ -16,7 +16,11 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import thelm.jaopca.api.JAOPCAApi;
 import thelm.jaopca.api.forms.IForm;
@@ -394,6 +398,34 @@ public class GTCEuModule implements IModule {
 						itemOutput(materialLocation, 2).
 						duration(10).EUt(16));
 			}
+			// cauldron
+			CauldronInteraction toPurifiedOre = (state, level, pos, player, hand, stack)->{
+				if(!level.isClientSide) {
+					if(!state.hasProperty(LayeredCauldronBlock.LEVEL) || state.getValue(LayeredCauldronBlock.LEVEL) == 0) {
+						return InteractionResult.PASS;
+					}
+					player.setItemInHand(hand, MiscHelper.INSTANCE.getItemStack(purifiedOreInfo, stack.getCount()));
+					player.awardStat(Stats.USE_CAULDRON);
+					player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+					LayeredCauldronBlock.lowerFillLevel(state, level, pos);
+				}
+				return InteractionResult.sidedSuccess(level.isClientSide);
+			};
+			CauldronInteraction toDust = (state, level, pos, player, hand, stack)->{
+				if(!level.isClientSide) {
+					if(!state.hasProperty(LayeredCauldronBlock.LEVEL) || state.getValue(LayeredCauldronBlock.LEVEL) == 0) {
+						return InteractionResult.PASS;
+					}
+					player.setItemInHand(hand, MiscHelper.INSTANCE.getItemStack(dustLocation, stack.getCount()));
+					player.awardStat(Stats.USE_CAULDRON);
+					player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+					LayeredCauldronBlock.lowerFillLevel(state, level, pos);
+				}
+				return InteractionResult.sidedSuccess(level.isClientSide);
+			};
+			CauldronInteraction.WATER.put(crushedOreInfo.asItem(), toPurifiedOre);
+			CauldronInteraction.WATER.put(impureDustInfo.asItem(), toDust);
+			CauldronInteraction.WATER.put(pureDustInfo.asItem(), toDust);
 		}
 	}
 }
