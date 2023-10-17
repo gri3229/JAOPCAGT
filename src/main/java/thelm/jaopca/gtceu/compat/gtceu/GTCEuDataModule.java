@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterial;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.OreProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -91,7 +90,7 @@ public class GTCEuDataModule implements IDataModule {
 		//Let JAOPCA know what item tags will be injected by GTCEu
 		for(Map.Entry<UnificationEntry, ArrayList<ItemLike>> entry : ChemicalHelper.UNIFICATION_ENTRY_ITEM.entrySet()) {
 			if(!entry.getValue().isEmpty()) {
-				for(TagKey<Item> materialTag : entry.getKey().tagPrefix.getItemTags(entry.getKey().material)) {
+				for(TagKey<Item> materialTag : entry.getKey().tagPrefix.getAllItemTags(entry.getKey().material)) {
 					ApiImpl.INSTANCE.registerDefinedItemTag(materialTag.location());
 				}
 			}
@@ -100,54 +99,53 @@ public class GTCEuDataModule implements IDataModule {
 			ApiImpl.INSTANCE.registerDefinedItemTag(toolType.itemTag.location());
 		}
 		for(MarkerMaterial color : MarkerMaterials.Color.VALUES) {
-			for(TagKey<Item> materialTag : TagPrefix.lens.getItemTags(color)) {
+			for(TagKey<Item> materialTag : TagPrefix.lens.getAllItemTags(color)) {
 				ApiImpl.INSTANCE.registerDefinedItemTag(materialTag.location());
 			}
 		}
 		for(Material material : GTRegistries.MATERIALS) {
 			if((material.hasProperty(PropertyKey.INGOT) || material.hasProperty(PropertyKey.GEM) || material.hasFlag(MaterialFlags.FORCE_GENERATE_BLOCK)) && !TagPrefix.block.isIgnored(material)) {
-				for(TagKey<Item> materialTag : TagPrefix.block.getItemTags(material)) {
+				for(TagKey<Item> materialTag : TagPrefix.block.getAllItemTags(material)) {
 					ApiImpl.INSTANCE.registerDefinedItemTag(materialTag.location());
 				}
 			}
 			if(material.hasProperty(PropertyKey.DUST) && material.hasFlag(MaterialFlags.GENERATE_FRAME)) {
-				for(TagKey<Item> materialTag : TagPrefix.frameGt.getItemTags(material)) {
+				for(TagKey<Item> materialTag : TagPrefix.frameGt.getAllItemTags(material)) {
 					ApiImpl.INSTANCE.registerDefinedItemTag(materialTag.location());
 				}
 			}
 			if(material.hasProperty(PropertyKey.ORE)) {
 				if(!TagPrefix.rawOreBlock.isIgnored(material) && TagPrefix.rawOreBlock.generationCondition().test(material)) {
-					for(TagKey<Item> materialTag : TagPrefix.rawOreBlock.getItemTags(material)) {
+					for(TagKey<Item> materialTag : TagPrefix.rawOreBlock.getAllItemTags(material)) {
 						ApiImpl.INSTANCE.registerDefinedItemTag(materialTag.location());
 					}
 				}
-				OreProperty oreProperty = material.getProperty(PropertyKey.ORE);
 				for(Map.Entry<TagPrefix, TagPrefix.OreType> ore : TagPrefix.ORES.entrySet()) {
 					if(ore.getKey().isIgnored(material)) {
 						continue;
 					}
-					for(TagKey<Item> materialTag : ore.getKey().getItemTags(material)) {
+					for(TagKey<Item> materialTag : ore.getKey().getAllItemTags(material)) {
 						ApiImpl.INSTANCE.registerDefinedItemTag(materialTag.location());
 					}
 				}
 			}
 			for(Insulation insulation : Insulation.values()) {
 				if(material.hasProperty(PropertyKey.WIRE) && !insulation.tagPrefix.isIgnored(material)) {
-					for(TagKey<Item> materialTag : insulation.tagPrefix.getItemTags(material)) {
+					for(TagKey<Item> materialTag : insulation.tagPrefix.getAllItemTags(material)) {
 						ApiImpl.INSTANCE.registerDefinedItemTag(materialTag.location());
 					}
 				}
 			}
 			for(FluidPipeType fluidPipeType : FluidPipeType.values()) {
 				if(material.hasProperty(PropertyKey.FLUID_PIPE) && !fluidPipeType.tagPrefix.isIgnored(material)) {
-					for(TagKey<Item> materialTag : fluidPipeType.tagPrefix.getItemTags(material)) {
+					for(TagKey<Item> materialTag : fluidPipeType.tagPrefix.getAllItemTags(material)) {
 						ApiImpl.INSTANCE.registerDefinedItemTag(materialTag.location());
 					}
 				}
 			}
 			for(TagPrefix tagPrefix : TagPrefix.values()) {
 				if(tagPrefix.doGenerateItem(material)) {
-					for(TagKey<Item> materialTag : tagPrefix.getItemTags(material)) {
+					for(TagKey<Item> materialTag : tagPrefix.getAllItemTags(material)) {
 						ApiImpl.INSTANCE.registerDefinedItemTag(materialTag.location());
 					}
 				}

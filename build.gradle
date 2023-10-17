@@ -1,5 +1,5 @@
 plugins {
-	id "net.neoforged.gradle" version "[6.0.13,)"
+	id "net.neoforged.gradle" version "[6.0.13,7)"
 	id "org.parchmentmc.librarian.forgegradle" version "[1,)"
 	id "org.spongepowered.mixin" version "0.7-SNAPSHOT"
 	id "eclipse"
@@ -86,7 +86,7 @@ def specVersion = "2"
 def vendor = "thelm"
 
 group = "thelm.jaopca.gtceu"
-version = "2.0.0.0"
+version = "2.0.0.1"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
@@ -122,34 +122,34 @@ minecraft {
 }
 
 dependencies {
-	minecraft "net.minecraftforge:forge:1.19.2-43.2.21"
+	minecraft "net.minecraftforge:forge:1.19.2-43.3.0"
 	annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 
 	implementation fg.deobf("mezz.jei:jei-1.19.2-forge:11.6.0.1018")
-	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.19.2:10.1.49")
+	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.19.2:10.1.50")
 	implementation fg.deobf("software.bernie.geckolib:geckolib-forge-1.19:3.1.40")
 	implementation fg.deobf("vazkii.patchouli:Patchouli:1.19.2-77")
 	implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.19.2:1.0.19.d") {
 		transitive = false
 	}
-	implementation fg.deobf("com.teamcofh:cofh_core:1.19.2-10.2.1.40")
-	implementation fg.deobf("com.teamcofh:thermal_core:1.19.2-10.2.0.5")
+	implementation fg.deobf("com.teamcofh:cofh_core:1.19.2-10.3.0.46")
+	implementation fg.deobf("com.teamcofh:thermal_core:1.19.2-10.3.0.9")
 	implementation fg.deobf("dev.latvian.mods:rhino-forge:1902.2.2-build.272")
 	implementation fg.deobf("dev.architectury:architectury-forge:6.5.85")
 	implementation fg.deobf("dev.latvian.mods:kubejs-forge:1902.6.1-build.370") {
 		transitive = false
 	}
-	implementation fg.deobf("com.gregtechceu.gtceu:gtceu-forge-1.19.2:1.0.12.c") {
+	implementation fg.deobf("com.gregtechceu.gtceu:gtceu-forge-1.19.2:1.0.13.b") {
 		transitive = false
 	}
-	implementation fg.deobf("com.simibubi.create:create-1.19.2:0.5.1.c-36:all") {
+	implementation fg.deobf("com.simibubi.create:create-1.19.2:0.5.1.e-44:all") {
 		transitive = false
 	}
 	implementation fg.deobf("mekanism:Mekanism:1.19.2-10.3.9.13")
 	implementation fg.deobf("mekanism:Mekanism:1.19.2-10.3.9.13:generators")
-	implementation fg.deobf("com.teamcofh:thermal_foundation:1.19.2-10.2.0.47")
-	implementation fg.deobf("com.teamcofh:thermal_expansion:1.19.2-10.2.0.21")
-	implementation fg.deobf("com.teamcofh:thermal_integration:1.19.2-10.2.0.17")
+	implementation fg.deobf("com.teamcofh:thermal_foundation:1.19.2-10.3.0.55")
+	implementation fg.deobf("com.teamcofh:thermal_expansion:1.19.2-10.3.0.23")
+	implementation fg.deobf("com.teamcofh:thermal_integration:1.19.2-10.3.0.19")
 
 	//CurseMaven
 	implementation fg.deobf("curse.maven:jaopca-266936:4756161")

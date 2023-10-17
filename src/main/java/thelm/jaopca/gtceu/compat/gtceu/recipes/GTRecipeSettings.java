@@ -24,6 +24,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.crafting.StrictNBTIngredient;
 
 public class GTRecipeSettings {
 
@@ -77,7 +78,7 @@ public class GTRecipeSettings {
 	}
 
 	public GTRecipeSettings circuitMeta(int configuration) {
-		return notConsumable(IntCircuitBehaviour.stack(configuration));
+		return notConsumable(StrictNBTIngredient.of(IntCircuitBehaviour.stack(configuration)));
 	}
 
 	public GTRecipeSettings itemOutput(Object output) {
