@@ -125,38 +125,38 @@ dependencies {
 	annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 
 	implementation fg.deobf("mezz.jei:jei-1.20.1-forge:15.2.0.27")
-	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.20.1:14.0.13") {
+	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.20.1:14.0.26") {
 		transitive = false
 	}
-	implementation fg.deobf("software.bernie.geckolib:geckolib-forge-1.20.1:4.2.2")
-	implementation fg.deobf("vazkii.patchouli:Patchouli:1.20.1-81-FORGE")
-	implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.20.1:1.0.19.d") {
+	implementation fg.deobf("software.bernie.geckolib:geckolib-neoforge-1.20.1:4.2.4")
+	implementation fg.deobf("vazkii.patchouli:Patchouli:1.20.1-82-FORGE")
+	implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.20.1:1.0.21.d") {
 		transitive = false
 	}
 	//implementation fg.deobf("com.teamcofh:cofh_core:1.20.1-")
 	//implementation fg.deobf("com.teamcofh:thermal_core:1.20.1-")
-	implementation fg.deobf("dev.latvian.mods:rhino-forge:2001.2.2-build.6")
+	implementation fg.deobf("dev.latvian.mods:rhino-forge:2001.2.2-build.13")
 	implementation fg.deobf("dev.architectury:architectury-forge:9.1.12")
-	implementation fg.deobf("dev.latvian.mods:kubejs-forge:2001.6.3-build.68") {
+	implementation fg.deobf("dev.latvian.mods:kubejs-forge:2001.6.4-build.95") {
 		transitive = false
 	}
-	implementation fg.deobf("com.gregtechceu.gtceu:gtceu-forge-1.20.1:1.0.13.b") {
+	implementation fg.deobf("com.gregtechceu.gtceu:gtceu-forge-1.20.1:1.0.16") {
 		transitive = false
 	}
-	implementation fg.deobf("com.simibubi.create:create-1.20.1:0.5.1.d-9:all") {
+	implementation fg.deobf("com.simibubi.create:create-1.20.1:0.5.1.f-26:all") {
 		transitive = false
 	}
-	implementation fg.deobf("mekanism:Mekanism:1.20.1-10.4.2.16")
-	implementation fg.deobf("mekanism:Mekanism:1.20.1-10.4.2.16:generators")
+	implementation fg.deobf("mekanism:Mekanism:1.20.1-10.4.5.19")
+	implementation fg.deobf("mekanism:Mekanism:1.20.1-10.4.5.19:generators")
 	//implementation fg.deobf("com.teamcofh:thermal_foundation:1.20.1-")
 	//implementation fg.deobf("com.teamcofh:thermal_expansion:1.20.1-")
 	//implementation fg.deobf("com.teamcofh:thermal_integration:1.20.1-")
 
 	//CurseMaven
 	implementation fg.deobf("curse.maven:yeetusexperimentus-635427:4680832")
-	implementation fg.deobf("curse.maven:jaopca-266936:4756171")
+	implementation fg.deobf("curse.maven:jaopca-266936:4807888")
 	implementation fg.deobf("curse.maven:configuration-444699:4710266")
-	implementation fg.deobf("curse.maven:ato-405593:4751952")
+	implementation fg.deobf("curse.maven:ato-405593:4844097")
 	implementation fg.deobf("curse.maven:allthemodium-364466:4760433")
 }
 
