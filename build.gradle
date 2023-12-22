@@ -121,26 +121,26 @@ minecraft {
 }
 
 dependencies {
-	minecraft "net.neoforged:forge:1.20.1-47.1.79"
+	minecraft "net.neoforged:forge:1.20.1-47.1.84"
 	annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 
 	implementation fg.deobf("mezz.jei:jei-1.20.1-forge:15.2.0.27")
-	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.20.1:14.0.26") {
+	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.20.1:14.0.27") {
 		transitive = false
 	}
-	implementation fg.deobf("software.bernie.geckolib:geckolib-neoforge-1.20.1:4.2.4")
-	implementation fg.deobf("vazkii.patchouli:Patchouli:1.20.1-82-FORGE")
-	implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.20.1:1.0.21.d") {
+	implementation fg.deobf("software.bernie.geckolib:geckolib-neoforge-1.20.1:4.3.1")
+	implementation fg.deobf("vazkii.patchouli:Patchouli:1.20.1-84-FORGE")
+	implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.20.1:1.0.22") {
 		transitive = false
 	}
 	implementation fg.deobf("com.teamcofh:cofh_core:1.20.1-11.0.0.51")
 	implementation fg.deobf("com.teamcofh:thermal_core:1.20.1-11.0.1.17")
-	implementation fg.deobf("dev.latvian.mods:rhino-forge:2001.2.2-build.13")
+	implementation fg.deobf("dev.latvian.mods:rhino-forge:2001.2.2-build.18")
 	implementation fg.deobf("dev.architectury:architectury-forge:9.1.12")
-	implementation fg.deobf("dev.latvian.mods:kubejs-forge:2001.6.4-build.95") {
+	implementation fg.deobf("dev.latvian.mods:kubejs-forge:2001.6.4-build.114") {
 		transitive = false
 	}
-	implementation fg.deobf("com.gregtechceu.gtceu:gtceu-forge-1.20.1:1.0.16") {
+	implementation fg.deobf("com.gregtechceu.gtceu:gtceu-forge-1.20.1:1.0.18.a") {
 		transitive = false
 	}
 	implementation fg.deobf("com.simibubi.create:create-1.20.1:0.5.1.f-26:all") {
