@@ -136,13 +136,13 @@ dependencies {
 	implementation fg.deobf("mezz.jei:jei_1.12.2:4.16.1.302")
 	implementation fg.deobf("codechicken:CodeChickenLib:1.12.2-3.2.3.358:universal")
 	implementation "net.shadowfacts:Forgelin:1.8.4"
-	implementation fg.deobf("CraftTweaker2:ZenScript:4.1.20.690")
-	implementation fg.deobf("CraftTweaker2:CraftTweaker2-API:4.1.20.693")
-	implementation fg.deobf("CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.693")
+	implementation fg.deobf("CraftTweaker2:ZenScript:4.1.20.695")
+	implementation fg.deobf("CraftTweaker2:CraftTweaker2-API:4.1.20.695")
+	implementation fg.deobf("CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.695")
 
 	implementation fg.deobf("curse.maven:wrapup-275153:2486198")
-	implementation fg.deobf("curse.maven:jaopca-266936:4442902")
-	implementation fg.deobf("curse.maven:gregtech-ce-unofficial-557242:4701483")
+	implementation fg.deobf("curse.maven:jaopca-266936:4459423")
+	implementation fg.deobf("curse.maven:gregtech-ce-unofficial-557242:4799055")
 
 	implementation fg.deobf("curse.maven:redstone-flux-270789:2920436")
 	implementation fg.deobf("curse.maven:cofh-core-69162:2920433")
