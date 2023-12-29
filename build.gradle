@@ -109,15 +109,18 @@ minecraft {
 			property "forge.logging.console.level", "debug"
 			property "mixin.env.remapRefMap", "true"
 			property "mixin.env.refMapRemappingFile", "${buildDir}/createSrgToMcp/output.srg"
-			property "production", "true"
 			mods {
 				"${modId}" {
 					source sourceSets.main
 				}
 			}
 		}
-		client
-		server
+		client {
+			jvmArg "-Xmx7G"
+		}
+		server {
+			jvmArg "-Xmx3G"
+		}
 	}
 }
 
@@ -152,11 +155,16 @@ dependencies {
 	implementation fg.deobf("com.teamcofh:thermal_integration:1.19.2-10.3.0.19")
 
 	//CurseMaven
-	implementation fg.deobf("curse.maven:yeetusexperimentus-635427:3909789")
 	implementation fg.deobf("curse.maven:jaopca-266936:4756161")
 	implementation fg.deobf("curse.maven:configuration-444699:4519560")
 	implementation fg.deobf("curse.maven:ato-405593:4046926")
 	implementation fg.deobf("curse.maven:allthemodium-364466:4667332")
+
+	//Performance
+	implementation fg.deobf("curse.maven:yeetusexperimentus-635427:3909789")
+	implementation fg.deobf("curse.maven:modernfix-790626:4980941")
+	implementation fg.deobf("curse.maven:ferritecore-429235:4117906")
+	implementation fg.deobf("curse.maven:lazy-dfu-forge-460819:4327266")
 }
 
 def manifestAttributes = [
