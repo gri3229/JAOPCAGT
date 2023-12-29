@@ -6,6 +6,8 @@ plugins {
 	id "maven-publish"
 }
 
+apply from: "mixinTweakFix.gradle"
+
 repositories {
 	jcenter()
 	flatDir {
@@ -94,16 +96,6 @@ minecraft {
 			property "mixin.env.remapRefMap", "true"
 			property "mixin.env.refMapRemappingFile", "${buildDir}/createSrgToMcp/output.srg"
 			environment "MC_VERSION", mcVersion
-			jvmArgs \
-				"-Xmn768m", "-XX:+DisableExplicitGC", "-XX:+UseConcMarkSweepGC", \
-				"-XX:+UseParNewGC", "-XX:+UseNUMA", "-XX:+CMSParallelRemarkEnabled", \
-				"-XX:MaxTenuringThreshold=15", "-XX:MaxGCPauseMillis=30", "-XX:GCPauseIntervalMillis=150", \
-				"-XX:+UseAdaptiveGCBoundary", "-XX:-UseGCOverheadLimit", "-XX:+UseBiasedLocking", \
-				"-XX:SurvivorRatio=8", "-XX:TargetSurvivorRatio=90", "-XX:MaxTenuringThreshold=15", \
-				"-XX:+UseFastAccessorMethods", "-XX:+UseCompressedOops", "-XX:+OptimizeStringConcat", \
-				"-XX:+AggressiveOpts", "-XX:ReservedCodeCacheSize=2048m", "-XX:+UseCodeCacheFlushing", \
-				"-XX:SoftRefLRUPolicyMSPerMB=10000", "-XX:ParallelGCThreads=10", "-Dmixin.hotSwap=true", \
-				"-Dmixin.checks.interfaces=true"
 			mods {
 				"${modId}" {
 					source sourceSets.main
@@ -154,10 +146,13 @@ dependencies {
 	implementation fg.deobf("curse.maven:mekanism-268560:2835175")
 	implementation fg.deobf("curse.maven:applied-energistics-2-223794:2747063")
 
-	implementation fg.deobf("zone.rong:mixinbooter:7.1")
+	//Performance
 	implementation fg.deobf("curse.maven:reid-629017:4949840")
-	implementation fg.deobf("curse.maven:spark-361579:3245793")
-	implementation fg.deobf("curse.maven:lolasm-460609:4623985")
+	implementation("zone.rong:mixinbooter:7.1") {
+		transitive = false
+	}
+	implementation fg.deobf("curse.maven:vintagefix-871198:4800687")
+	implementation fg.deobf("curse.maven:lolasm-460609:4800875")
 }
 
 configurations.all {
