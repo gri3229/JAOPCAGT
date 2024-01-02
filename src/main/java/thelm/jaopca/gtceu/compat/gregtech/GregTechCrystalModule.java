@@ -50,7 +50,7 @@ public class GregTechCrystalModule implements IModule {
 
 	@Override
 	public Multimap<Integer, String> getModuleDependencies() {
-		ImmutableSetMultimap.Builder builder = ImmutableSetMultimap.builder();
+		ImmutableSetMultimap.Builder<Integer, String> builder = ImmutableSetMultimap.builder();
 		builder.put(0, "gregtech");
 		builder.put(0, "dust");
 		builder.put(0, "small_dust");
@@ -95,7 +95,7 @@ public class GregTechCrystalModule implements IModule {
 			String smallDustOredict = miscHelper.getOredictName("dustSmall", name);
 
 			{
-				GregTechRecipeSettings settings = helper.recipeSettings(RecipeMaps.SIFTER_RECIPES).
+				GregTechRecipeSettings<?> settings = helper.recipeSettings(RecipeMaps.SIFTER_RECIPES).
 						input(purifiedCrushedOredict, 1).
 						output(exquisiteGemInfo, 1, 500, 150).
 						output(flawlessGemInfo, 1, 1500, 200).
