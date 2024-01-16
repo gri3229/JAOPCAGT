@@ -24,7 +24,7 @@ import thelm.jaopca.api.data.IDataModule;
 import thelm.jaopca.api.data.JAOPCADataModule;
 import thelm.jaopca.utils.ApiImpl;
 
-@JAOPCADataModule(modDependencies = "gtceu")
+@JAOPCADataModule(modDependencies = "gtceu@[1.0.20,)")
 public class GTCEuDataModule implements IDataModule {
 
 	private static final Object LOCK = new Object();
@@ -95,8 +95,10 @@ public class GTCEuDataModule implements IDataModule {
 				}
 			}
 		}
-		for(GTToolType toolType : GTToolType.values()) {
-			ApiImpl.INSTANCE.registerDefinedItemTag(toolType.itemTag.location());
+		for(GTToolType toolType : GTToolType.getTypes().values()) {
+			for(TagKey<Item> itemTag : toolType.itemTags) {
+				ApiImpl.INSTANCE.registerDefinedItemTag(itemTag.location());
+			}
 		}
 		for(MarkerMaterial color : MarkerMaterials.Color.VALUES) {
 			for(TagKey<Item> materialTag : TagPrefix.lens.getAllItemTags(color)) {
