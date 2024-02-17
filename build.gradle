@@ -54,7 +54,7 @@ def modId = "jaopcagt5"
 def specVersion = "1"
 def vendor = "thelm"
 
-group = "thelm.jaopca.gt4"
+group = "thelm.jaopca.gt5"
 version = "1.0.0.1"
 
 archivesBaseName = "${modName}-${mcVersion}"
