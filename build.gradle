@@ -152,6 +152,23 @@ dependencies {
 	modImplementation "curse.maven:ferritecore-429235:4810975"
 }
 
+def replacements = [
+	"0@VERSION@": version
+]
+
+blossom {
+	replaceToken(replacements)
+}
+
+processResources {
+	inputs.properties(replacements)
+	filesMatching(["mcmod.info", "META-INF/mods.toml"]) {
+		filter {
+			it.replace(replacements)
+		}
+	}
+}
+
 def manifestAttributes = [
 	"Specification-Title": modName,
 	"Specification-Vendor": vendor,
