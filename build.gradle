@@ -1,10 +1,10 @@
 plugins {
-	id "net.neoforged.gradle" version "[6.0.13,7)"
-	id "org.parchmentmc.librarian.forgegradle" version "[1,)"
-	id "org.spongepowered.mixin" version "0.7-SNAPSHOT"
+	id "com.crystaelix.loom" version "jitpack-afd363f1"
 	id "eclipse"
 	id "idea"
 	id "maven-publish"
+	id "net.kyori.blossom" version "[1,2)"
+	id "me.modmuss50.mod-publish-plugin" version "0.5.0"
 }
 
 repositories {
@@ -12,66 +12,67 @@ repositories {
 	flatDir {
 		dirs "libs"
 	}
-	maven {
-		url = "https://maven.minecraftforge.net/"
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.parchmentmc.net/"
+			}
+		}
+		filter {
+			includeGroup "org.parchmentmc.data"
+		}
 	}
-	maven {
-		url = "https://repo.spongepowered.org/maven"
-	}
-	maven {
-		url = "https://maven.blamejared.com/"
-		content {
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.blamejared.com/"
+			}
+		}
+		filter {
 			includeGroup "mezz.jei"
-			includeGroup "com.blamejared.crafttweaker"
-			includeGroup "vazkii.patchouli"
 		}
 	}
-	maven {
-		url = "https://maven.architectury.dev/"
-		content {
-			includeGroup "dev.architectury"
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.tterrag.com/"
+			}
 		}
-	}
-	maven {
-		url = "https://maven.saps.dev/releases/"
-		content {
-			includeGroup "dev.latvian.mods"
-		}
-	}
-	maven {
-		url = "https://maven.tterrag.com/"
-		content {
+		filter {
 			includeGroup "com.tterrag.registrate"
-			includeGroup "com.simibubi.create"
 		}
 	}
-	maven {
-		url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
-		content {
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+			}
+		}
+		filter {
+			includeGroup "com.eliotlash.mclib"
 			includeGroup "software.bernie.geckolib"
 		}
 	}
-	maven {
-		url = "https://maven.covers1624.net/"
-		content {
-			includeGroup "com.teamcofh"
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.firstdarkdev.xyz/snapshots/"
+			}
 		}
-	}
-	maven {
-		url = "https://maven.firstdarkdev.xyz/snapshots/"
-		content {
+		filter {
 			includeGroup "com.lowdragmc.ldlib"
 			includeGroup "com.gregtechceu.gtceu"
 		}
 	}
-	maven {
-		url = "https://cursemaven.com/"
-		content {
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://cursemaven.com/"
+			}
+		}
+		filter {
 			includeGroup "curse.maven"
 		}
-	}
-	maven {
-		url = "https://modmaven.dev/"
 	}
 }
 
@@ -99,73 +100,56 @@ tasks.withType(JavaCompile).configureEach {
 	options.encoding = "UTF-8"
 }
 
-minecraft {
-	mappings channel: "parchment", version: "2023.07.30-1.20.1"
-	generateRunFolders = true
+loom {
+	silentMojangMappingsLicense()
+	forge {
+		useForgeLoggerConfig = true
+	}
+	interfaceInjection.enableDependencyInterfaceInjection = false
 	runs {
 		configureEach {
-			workingDirectory project.file("run")
-			property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
 			property "forge.logging.console.level", "debug"
-			property "mixin.env.remapRefMap", "true"
-			property "mixin.env.refMapRemappingFile", "${buildDir}/createSrgToMcp/output.srg"
-			mods {
-				"${modId}" {
-					source sourceSets.main
-				}
-			}
 		}
 		client {
-			jvmArg "-Xmx7G"
+			vmArg "-Xmx7G"
 		}
 		server {
-			jvmArg "-Xmx3G"
+			vmArg "-Xmx3G"
 		}
 	}
 }
 
 dependencies {
-	minecraft "net.neoforged:forge:1.20.1-47.1.84"
-	annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+	// Log4j
+	implementation "org.apache.logging.log4j:log4j-core:2.22.1"
 
-	implementation fg.deobf("mezz.jei:jei-1.20.1-forge:15.2.0.27")
-	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.20.1:14.0.27") {
-		transitive = false
+	// Minecraft
+	minecraft "com.mojang:minecraft:1.20.1"
+	mappings loom.layered() {
+		officialMojangMappings()
+		parchment "org.parchmentmc.data:parchment-1.20.1:2023.09.03@zip"
 	}
-	implementation fg.deobf("software.bernie.geckolib:geckolib-neoforge-1.20.1:4.3.1")
-	implementation fg.deobf("vazkii.patchouli:Patchouli:1.20.1-84-FORGE")
-	implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.20.1:1.0.22.b") {
-		transitive = false
-	}
-	implementation fg.deobf("com.teamcofh:cofh_core:1.20.1-11.0.0.51")
-	implementation fg.deobf("com.teamcofh:thermal_core:1.20.1-11.0.1.17")
-	implementation fg.deobf("dev.latvian.mods:rhino-forge:2001.2.2-build.18")
-	implementation fg.deobf("dev.architectury:architectury-forge:9.1.12")
-	implementation fg.deobf("dev.latvian.mods:kubejs-forge:2001.6.4-build.114") {
-		transitive = false
-	}
-	implementation fg.deobf("com.gregtechceu.gtceu:gtceu-forge-1.20.1:1.0.20.b") {
-		transitive = false
-	}
-	implementation fg.deobf("com.simibubi.create:create-1.20.1:0.5.1.f-26:all") {
-		transitive = false
-	}
-	implementation fg.deobf("mekanism:Mekanism:1.20.1-10.4.5.19")
-	implementation fg.deobf("mekanism:Mekanism:1.20.1-10.4.5.19:generators")
-	implementation fg.deobf("com.teamcofh:thermal_foundation:1.20.1-11.0.1.63:all")
-	implementation fg.deobf("com.teamcofh:thermal_expansion:1.20.1-11.0.0.27")
-	implementation fg.deobf("com.teamcofh:thermal_integration:1.20.1-11.0.0.23")
+	forge "net.minecraftforge:forge:1.20.1-47.2.20"
 
-	//CurseMaven
-	implementation fg.deobf("curse.maven:jaopca-266936:4807888")
-	implementation fg.deobf("curse.maven:configuration-444699:4710266")
-	implementation fg.deobf("curse.maven:ato-405593:4844097")
-	implementation fg.deobf("curse.maven:allthemodium-364466:4760433")
+	// Dependencies
+	modImplementation "curse.maven:jaopca-266936:5110920"
+	modImplementation "com.tterrag.registrate:Registrate:MC1.20-1.3.11"
+	modImplementation("com.lowdragmc.ldlib:ldlib-forge-1.20.1:1.0.24.a") {transitive = false}
+	modImplementation "curse.maven:configuration-444699:4710266"
+	implementation "io.github.llamalad7:mixinextras-forge:0.3.5"
+	modImplementation("com.gregtechceu.gtceu:gtceu-1.20.1:1.1.3.b") {transitive = false}
+	modImplementation("mezz.jei:jei-1.20.1-forge:15.3.0.1") {transitive = false}
 
-	//Performance
-	implementation fg.deobf("curse.maven:yeetusexperimentus-635427:4680832")
-	implementation fg.deobf("curse.maven:modernfix-790626:4980929")
-	implementation fg.deobf("curse.maven:ferritecore-429235:4810975")
+	// Testing
+	forgeRuntimeLibrary "com.eliotlash.mclib:mclib:20"
+	modImplementation("software.bernie.geckolib:geckolib-forge-1.20.1:4.4.2") {transitive = false}
+	modImplementation "curse.maven:ato-405593:4844097"
+	modImplementation "curse.maven:allthemodium-364466:4892369"
+
+	// Performance
+	modImplementation "curse.maven:yeetusexperimentus-635427:4680832"
+	modImplementation "curse.maven:modernfix-790626:5077298"
+	modImplementation "curse.maven:ferritecore-429235:4810975"
 }
 
 def manifestAttributes = [
@@ -175,18 +159,36 @@ def manifestAttributes = [
 	"Implementation-Title": archivesBaseName,
 	"Implementation-Version": version,
 	"Implementation-Vendor": vendor,
-	"MixinConnector": "thelm.jaopca.gtceu.mixins.JAOPCAGTCEuMixinConnector"
 ]
 
 jar {
 	manifest.attributes(manifestAttributes)
-	finalizedBy("reobfJar")
 }
 
 sourcesJar {
 	manifest.attributes(manifestAttributes)
 }
 
-mixin {
-	add sourceSets.main, "jaopca.gtceu.refmap.json"
+publishMods {
+	file = remapJar.archiveFile
+	version = displayName = "GTCEu-${mcVersion}-${project.version}"
+	changelog = file("changelog.md").text
+	type = ALPHA
+	modLoaders.addAll("forge", "neoforge")
+	additionalFiles.from(remapSourcesJar.archiveFile)
+
+	curseforge {
+		accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+		projectId = "836168"
+		minecraftVersions.add(mcVersion)
+		requires "jaopca", "gregtechceu-modern"
+	}
+
+	modrinth {
+		accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+		projectId = "DFWm1IQL"
+		minecraftVersions.add(mcVersion)
+		requires "jaopca", "gregtechceu-modern"
+	}
 }
+

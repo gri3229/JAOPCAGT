@@ -1,31 +1,29 @@
-modLoader="javafml"
-loaderVersion="[46,)"
-license="MIT"
-issueTrackerURL="https://github.com/TheLMiffy1111/JAOPCAGT/issues"
-displayURL="https://minecraft.curseforge.com/projects/jaopcagt"
-credits="Inspired by AOBD, a mod made by ganymedes01 for Minecraft 1.7"
-authors="TheLMiffy1111"
+modLoader = "javafml"
+loaderVersion = "[46,)"
+license = "MIT"
+issueTrackerURL = "https://github.com/TheLMiffy1111/JAOPCAGT/issues"
+
 [[mods]]
-modId="jaopcagtceu"
-version="${file.jarVersion}"
-displayName="JAOPCAGTCEu"
-description="An addon to JAOPCA that adds GregTechCEu Modern support."
+	modId = "jaopcagtceu"
+	version = "0@VERSION@"
+	displayName = "JAOPCAGTCEu"
+	description = "An addon to JAOPCA that adds GregTechCEu Modern support."
+	logoFile = "jaopcagt.logo.png"
+	credits = "Inspired by AOBD, a mod by ganymedes01"
+	authors = "TheLMiffy1111"
+	displayURL = "https://www.curseforge.com/minecraft/mc-mods/jaopcagt"
 
 [[dependencies.jaopcagtceu]]
-    modId="forge"
-    mandatory=false
-    versionRange="[46,)"
-    ordering="NONE"
-    side="BOTH"
+	modId = "forge"
+	versionRange = "[46,)"
+	mandatory = true
+
 [[dependencies.jaopcagtceu]]
-    modId="jaopca"
-    mandatory=true
-    versionRange="[4.4,)"
-    ordering="NONE"
-    side="BOTH"
+	modId = "jaopca"
+	versionRange = "[4.4,)"
+	mandatory = true
+
 [[dependencies.jaopcagtceu]]
-    modId="gtceu"
-    mandatory=true
-    versionRange="[1,)"
-    ordering="NONE"
-    side="BOTH"
+	modId = "gtceu"
+	versionRange = "[1.1,)"
+	mandatory = true

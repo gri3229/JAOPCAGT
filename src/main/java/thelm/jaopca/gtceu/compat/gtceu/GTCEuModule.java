@@ -10,9 +10,9 @@ import java.util.function.Function;
 
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Multimap;
+import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix.OreType;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -40,7 +40,7 @@ import thelm.jaopca.items.ItemFormType;
 import thelm.jaopca.utils.ApiImpl;
 import thelm.jaopca.utils.MiscHelper;
 
-@JAOPCAModule(modDependencies = "gtceu")
+@JAOPCAModule(modDependencies = "gtceu@[1.1,)")
 public class GTCEuModule implements IModule {
 
 	static final List<String> ALTS = Arrays.asList("aluminum", "quartz");
@@ -99,6 +99,7 @@ public class GTCEuModule implements IModule {
 
 	@Override
 	public void onCommonSetup(IModuleData moduleData, FMLCommonSetupEvent event) {
+		GTCEuDataModule.generateCache();
 		JAOPCAApi api = ApiImpl.INSTANCE;
 		GTCEuHelper helper = GTCEuHelper.INSTANCE;
 		IMiscHelper miscHelper = MiscHelper.INSTANCE;
@@ -107,9 +108,6 @@ public class GTCEuModule implements IModule {
 		ResourceLocation stoneDustLocation = new ResourceLocation("forge:dusts/stone");
 		ResourceLocation endstoneDustLocation = new ResourceLocation("forge:dusts/endstone");
 		Function<TagPrefix, String> toGround = prefix->{
-			if(prefix.name.equals("endstone")) {
-				return "end_stone";
-			}
 			return FormattingUtil.toLowerCaseUnderscore(prefix.name);
 		};
 		CompoundIngredientObject allOreLocationsObj = CompoundIngredientObject.union(
@@ -118,7 +116,7 @@ public class GTCEuModule implements IModule {
 				toArray());
 		CompoundIngredientObject doubleOreLocationsObj = CompoundIngredientObject.union(
 				TagPrefix.ORES.entrySet().stream().
-				filter(entry->entry.getValue().isNether()).
+				filter(entry->entry.getValue().isDoubleDrops()).
 				map(entry->new ResourceLocation("forge:ores_in_ground/"+toGround.apply(entry.getKey()))).
 				toArray());
 		for(IMaterial material : formRequest.getMaterials()) {
@@ -185,7 +183,7 @@ public class GTCEuModule implements IModule {
 						duration(400).EUt(2));
 				for(Map.Entry<TagPrefix, OreType> entry : TagPrefix.ORES.entrySet()){
 					String ground = toGround.apply(entry.getKey());
-					int multiplier = entry.getValue().isNether() ? 2 : 1;
+					int multiplier = entry.getValue().isDoubleDrops() ? 2 : 1;
 					GTRecipeSettings settings = helper.recipeSettings().
 							itemInput(CompoundIngredientObject.intersection(new Object[] {
 									oreLocation,
@@ -194,10 +192,10 @@ public class GTCEuModule implements IModule {
 							itemOutput(crushedOreInfo, 2*multiplier).
 							itemOutput(extra1Location, 1400, 850).
 							duration(400).EUt(2);
-					if(GTRegistries.MATERIALS.containKey(ground)) {
+					if(GTCEuAPI.materialManager.getMaterial(ground) != null) {
 						settings.itemOutput(new ResourceLocation("forge:dusts/"+ground));
 					}
-					else if(ground.equals("end_stone")) {
+					else if(ground.equals("endstone")) {
 						settings.itemOutput(endstoneDustLocation);
 					}
 					helper.registerGTRecipe(
