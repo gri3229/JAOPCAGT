@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
@@ -29,6 +30,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import thelm.jaopca.api.recipes.IRecipeSerializer;
+import thelm.jaopca.gtceu.compat.gtceu.GTCEuHelper;
 import thelm.jaopca.ingredients.EmptyIngredient;
 import thelm.jaopca.utils.MiscHelper;
 
@@ -89,12 +91,12 @@ public class GTRecipeSerializer implements IRecipeSerializer {
 					builder.slotName, builder.uiName));
 		}
 		for(Pair<Object, Triple<Integer, Integer, Integer>> in : fluidInput) {
-			var ing = MiscHelper.INSTANCE.getFluidStack(in.getLeft(), in.getRight().getLeft());
-			if(ing.isEmpty()) {
+			FluidIngredient ing = GTCEuHelper.INSTANCE.getFluidIngredient(in.getLeft(), in.getRight().getLeft());
+			if(ing == null) {
 				throw new IllegalArgumentException("Empty ingredient in recipe "+key+": "+in);
 			}
 			fluidInputs.add(new Content(
-					FluidStack.create(ing.getFluid(), ing.getAmount(), ing.getTag()),
+					ing,
 					in.getRight().getMiddle()/10000F, in.getRight().getRight()/10000F,
 					builder.slotName, builder.uiName));
 		}

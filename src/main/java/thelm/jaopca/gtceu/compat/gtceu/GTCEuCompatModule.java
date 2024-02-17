@@ -25,7 +25,7 @@ import thelm.jaopca.gtceu.compat.gtceu.recipes.GTRecipeSettings;
 import thelm.jaopca.utils.ApiImpl;
 import thelm.jaopca.utils.MiscHelper;
 
-@JAOPCAModule(modDependencies = "gtceu")
+@JAOPCAModule(modDependencies = "gtceu@[1.1,)")
 public class GTCEuCompatModule implements IModule {
 
 	static final Set<String> BLACKLIST = new TreeSet<>(GTCEuModule.ALTS);
