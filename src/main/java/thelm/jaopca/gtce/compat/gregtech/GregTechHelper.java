@@ -21,7 +21,7 @@ public class GregTechHelper {
 		return new GregTechRecipeSettings<>(RecipeMap.getByName(recipeMapName));
 	}
 
-	public <R extends RecipeBuilder<R>> boolean registerGregTechRecipe(ResourceLocation key, GregTechRecipeSettings settings) {
-		return ApiImpl.INSTANCE.registerRecipe(key, new GregTechRecipeAction(key, settings));
+	public <R extends RecipeBuilder<R>> boolean registerGregTechRecipe(ResourceLocation key, GregTechRecipeSettings<R> settings) {
+		return ApiImpl.INSTANCE.registerRecipe(key, new GregTechRecipeAction<>(key, settings));
 	}
 }
