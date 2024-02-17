@@ -1,0 +1,12 @@
+[
+	{
+		"modid": "jaopcagt4",
+		"version": "0@VERSION@",
+		"name": "JAOPCAGT4",
+		"description": "An addon to JAOPCA that adds GregTech 4 support.",
+		"logoFile": "jaopcagt.logo.png",
+		"credits": "Inspired by AOBD, a mod by ganymedes01",
+		"authorList": ["TheLMiffy1111"],
+		"url": "https://www.curseforge.com/minecraft/mc-mods/jaopcagt"
+	}
+]

@@ -56,7 +56,7 @@ public class GregTechAddonHelper {
 		return new GregTechAddonRecipeSettings<>(CTRecipeMaps.getRecipeMap(recipeMapName));
 	}
 
-	public <R extends RecipeFactory<R>> boolean registerGregTechAddonRecipe(String key, GregTechAddonRecipeSettings settings) {
-		return ApiImpl.INSTANCE.registerLateRecipe(key, new GregTechAddonRecipeAction(key, settings));
+	public <R extends RecipeFactory<R>> boolean registerGregTechAddonRecipe(String key, GregTechAddonRecipeSettings<R> settings) {
+		return ApiImpl.INSTANCE.registerLateRecipe(key, new GregTechAddonRecipeAction<>(key, settings));
 	}
 }
