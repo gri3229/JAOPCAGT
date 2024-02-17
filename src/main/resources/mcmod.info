@@ -1,0 +1,12 @@
+[
+	{
+		"modid": "jaopcagtceu",
+		"version": "0@VERSION@",
+		"name": "JAOPCAGTCEu",
+		"description": "An addon to JAOPCA that adds GregTechCEu support.",
+		"logoFile": "jaopcagt.logo.png",
+		"credits": "Inspired by AOBD, a mod by ganymedes01",
+		"authorList": ["TheLMiffy1111"],
+		"url": "https://www.curseforge.com/minecraft/mc-mods/jaopcagt"
+	}
+]
