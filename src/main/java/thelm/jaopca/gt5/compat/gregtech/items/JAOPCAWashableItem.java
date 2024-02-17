@@ -45,6 +45,7 @@ public class JAOPCAWashableItem extends JAOPCAItem {
 		return false;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List tooltip, boolean isAdvanced) {

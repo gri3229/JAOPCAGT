@@ -710,7 +710,7 @@ public class GregTechCompatModule implements IModule {
 							input(gearOredict, 1).
 							fluidInput(Materials.Argon.mPlasma, 1).
 							output(materialOredict, 4).
-							fluidOutput(Materials.Argon.mFluid, 1).
+							fluidOutput(Materials.Argon.mGas, 1).
 							time(25).energy(32));
 					helper.registerGregTechRecipe(
 							miscHelper.getRecipeKey("gregtech.gear_to_material_arc_nitrogen", material.getName()),
@@ -718,7 +718,7 @@ public class GregTechCompatModule implements IModule {
 							input(gearOredict, 1).
 							fluidInput(Materials.Nitrogen.mPlasma, 1).
 							output(materialOredict, 4).
-							fluidOutput(Materials.Nitrogen.mFluid, 1).
+							fluidOutput(Materials.Nitrogen.mGas, 1).
 							time(25).energy(32));
 				}
 			}
