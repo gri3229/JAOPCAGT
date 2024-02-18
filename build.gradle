@@ -112,7 +112,7 @@ dependencies {
 
 	// Dependencies
 	implementation "curse.maven:wrapup-275153:2486198"
-	modImplementation "curse.maven:jaopca-266936:5110849"
+	modImplementation "curse.maven:jaopca-266936:5118587"
 	modImplementation "codechicken:CodeChickenLib:1.12.2-3.2.3.358:universal"
 	modImplementation "curse.maven:gregtech-ce-unofficial-557242:5050979"
 	modImplementation "mezz.jei:jei_1.12.2:4.16.1.1012"
