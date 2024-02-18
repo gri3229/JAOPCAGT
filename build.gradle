@@ -128,7 +128,7 @@ dependencies {
 	forge "net.minecraftforge:forge:1.19.2-43.3.8"
 
 	// Dependencies
-	modImplementation "curse.maven:jaopca-266936:5110914"
+	modImplementation "curse.maven:jaopca-266936:5118599"
 	modImplementation "com.tterrag.registrate:Registrate:MC1.19-1.1.5"
 	modImplementation("com.lowdragmc.ldlib:ldlib-forge-1.19.2:1.0.24.a") {transitive = false}
 	modImplementation "curse.maven:configuration-444699:5030099"
