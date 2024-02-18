@@ -6,9 +6,4 @@ import net.minecraftforge.fml.common.Mod;
 public class JAOPCAGTCEu {
 
 	public static final String MOD_ID = "jaopcagtceu";
-	public static JAOPCAGTCEu core;
-
-	public JAOPCAGTCEu() {
-		core = this;
-	}
 }
