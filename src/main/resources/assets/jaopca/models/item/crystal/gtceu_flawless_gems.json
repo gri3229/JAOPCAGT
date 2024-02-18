@@ -1,7 +1,7 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "jaopca:item/crystal/gtceu_flawless_gems",
-        "layer1": "jaopca:item/crystal/gtceu_flawless_gems_overlay"
-    }
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "jaopca:item/crystal/gtceu_flawless_gems",
+		"layer1": "jaopca:item/crystal/gtceu_flawless_gems_overlay"
+	}
 }
