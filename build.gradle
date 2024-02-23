@@ -208,4 +208,3 @@ publishMods {
 		requires "jaopca", "gregtechceu-modern"
 	}
 }
-
