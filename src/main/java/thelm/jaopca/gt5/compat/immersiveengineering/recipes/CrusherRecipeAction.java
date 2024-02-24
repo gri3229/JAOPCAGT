@@ -55,7 +55,7 @@ public class CrusherRecipeAction implements IRecipeAction {
 			}
 			ItemStack is = MiscHelper.INSTANCE.getItemStack(out, count, false);
 			if(is == null) {
-				LOGGER.warn("Empty output in recipe {}: {}", key, out);
+				LOGGER.warn("Empty output in recipe {}: {}", new Object[] {key, out});
 				continue;
 			}
 			if(result == null) {

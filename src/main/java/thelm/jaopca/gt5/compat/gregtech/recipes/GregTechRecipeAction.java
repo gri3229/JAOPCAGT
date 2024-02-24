@@ -67,7 +67,7 @@ public class GregTechRecipeAction implements IRecipeAction {
 		for(Pair<Object, Pair<Integer, Integer>> out : output) {
 			ItemStack stack = MiscHelper.INSTANCE.getItemStack(out.getLeft(), out.getRight().getLeft(), false);
 			if(stack == null) {
-				LOGGER.warn("Empty output in recipe {}: {}", key, out);
+				LOGGER.warn("Empty output in recipe {}: {}", new Object[] {key, out});
 				continue;
 			}
 			outputs.add(stack);
@@ -76,7 +76,7 @@ public class GregTechRecipeAction implements IRecipeAction {
 		for(Pair<Object, Integer> out : fluidOutput) {
 			FluidStack stack = MiscHelper.INSTANCE.getFluidStack(out.getLeft(), out.getRight());
 			if(stack == null) {
-				LOGGER.warn("Empty output in recipe {}: {}", key, out);
+				LOGGER.warn("Empty output in recipe {}: {}", new Object[] {key, out});
 				continue;
 			}
 			fluidOutputs.add(stack);
