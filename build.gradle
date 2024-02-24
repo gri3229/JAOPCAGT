@@ -97,7 +97,7 @@ dependencies {
 
 	// Dependencies
 	implementation("com.github.LegacyModdingMC.UniMixins:unimixins-all-1.7.10:0.1.16") {transitive = false}
-	modImplementation "curse.maven:jaopca-266936:5132899"
+	modImplementation "curse.maven:jaopca-266936:5133636"
 	modImplementation "curse.maven:industrial-craft-242638:2353971"
 	modImplementation "curse.maven:gregtech-4-483827:4685300"
 	modImplementation "curse.maven:cofh-core-69162:2388750"
