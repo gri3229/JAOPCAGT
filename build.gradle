@@ -148,7 +148,7 @@ dependencies {
 
 	// Performance
 	modImplementation "curse.maven:yeetusexperimentus-635427:4680832"
-	modImplementation "curse.maven:modernfix-790626:5077298"
+	modImplementation "curse.maven:modernfix-790626:5157670"
 	modImplementation "curse.maven:ferritecore-429235:4810975"
 }
 
