@@ -1,5 +1,5 @@
 plugins {
-	id "com.crystaelix.loom" version "jitpack-e3412050"
+	id "com.crystaelix.loom" version "jitpack-6453f0f4"
 	id "eclipse"
 	id "idea"
 	id "maven-publish"
@@ -125,16 +125,16 @@ dependencies {
 		officialMojangMappings()
 		parchment "org.parchmentmc.data:parchment-1.19.2:2022.11.27@zip"
 	}
-	forge "net.minecraftforge:forge:1.19.2-43.3.8"
+	forge "net.minecraftforge:forge:1.19.2-43.4.0"
 
 	// Dependencies
 	modImplementation "curse.maven:jaopca-266936:5118599"
 	modImplementation "com.tterrag.registrate:Registrate:MC1.19-1.1.5"
-	modImplementation("com.lowdragmc.ldlib:ldlib-forge-1.19.2:1.0.24.a") {transitive = false}
+	modImplementation("com.lowdragmc.ldlib:ldlib-forge-1.19.2:1.0.25.g") {transitive = false}
 	modImplementation "curse.maven:configuration-444699:5030099"
-	implementation "io.github.llamalad7:mixinextras-forge:0.3.5"
-	modImplementation("com.gregtechceu.gtceu:gtceu-1.19.2:1.1.3.b") {transitive = false}
-	modImplementation("mezz.jei:jei-1.19.2-forge:11.6.0.1018") {transitive = false}
+	implementation "io.github.llamalad7:mixinextras-forge:0.3.6"
+	modImplementation("com.gregtechceu.gtceu:gtceu-1.19.2:1.2.1") {transitive = false}
+	modImplementation("mezz.jei:jei-1.19.2-forge:11.6.0.1020") {transitive = false}
 
 	// Testing
 	modImplementation "software.bernie.geckolib:geckolib-forge-1.19:3.1.40"
@@ -143,7 +143,7 @@ dependencies {
 
 	// Performance
 	modImplementation "curse.maven:yeetusexperimentus-635427:3909789"
-	modImplementation "curse.maven:modernfix-790626:5157931"
+	modImplementation "curse.maven:modernfix-790626:5399366"
 	modImplementation "curse.maven:ferritecore-429235:4117906"
 	modImplementation "curse.maven:lazy-dfu-forge-460819:4327266"
 }
