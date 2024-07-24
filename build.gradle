@@ -98,7 +98,7 @@ dependencies {
 	
 	// Dependencies
 	implementation("com.github.LegacyModdingMC.UniMixins:unimixins-all-1.7.10:0.1.17") {transitive = false}
-	modImplementation "curse.maven:jaopca-266936:5467179"
+	modImplementation "curse.maven:jaopca-266936:5560137"
 	modImplementation "curse.maven:industrial-craft-242638:2353971"
 	modImplementation "curse.maven:gregtech-5-unofficial-251053:2479882"
 	modImplementation "curse.maven:immersive-engineering-231951:2299019"
@@ -127,7 +127,7 @@ blossom {
 
 processResources {
 	inputs.properties(replacements)
-	filesMatching(["mcmod.info", "META-INF/mods.toml"]) {
+	filesMatching(["mcmod.info", "META-INF/mods.toml", "META-INF/neoforge.mods.toml"]) {
 		filter {
 			it.replace(replacements)
 		}
