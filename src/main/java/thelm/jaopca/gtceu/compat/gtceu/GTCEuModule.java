@@ -171,7 +171,7 @@ public class GTCEuModule implements IModule {
 			{
 				ResourceLocation extra1Location = material.getExtra(1).getType().isCrystalline() ? extra1MaterialLocation : extra1DustLocation;
 				helper.registerGTRecipe(
-						new ResourceLocation("jaopca", "gtceu.default_ore_to_crushed_ore_forge_hammer."+name),
+						new ResourceLocation("jaopca", "gtceu.default_ore_to_crushed_ore_macerator."+name),
 						GTRecipeTypes.MACERATOR_RECIPES,
 						helper.recipeSettings().
 						itemInput(CompoundIngredientObject.difference(new Object[] {
@@ -199,7 +199,7 @@ public class GTCEuModule implements IModule {
 						settings.itemOutput(endstoneDustLocation);
 					}
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu."+ground+"_ore_to_crushed_ore_forge_hammer."+name),
+							new ResourceLocation("jaopca", "gtceu."+ground+"_ore_to_crushed_ore_macerator."+name),
 							GTRecipeTypes.MACERATOR_RECIPES, settings);
 				}
 			}
