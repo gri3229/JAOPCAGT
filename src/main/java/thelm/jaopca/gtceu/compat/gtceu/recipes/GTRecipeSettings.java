@@ -10,8 +10,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
-import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
-import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
+import com.gregtechceu.gtceu.api.recipe.condition.RecipeCondition;
+import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
 import com.gregtechceu.gtceu.common.recipe.BiomeCondition;
 import com.gregtechceu.gtceu.common.recipe.CleanroomCondition;
 import com.gregtechceu.gtceu.common.recipe.DimensionCondition;
@@ -24,7 +24,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.crafting.StrictNBTIngredient;
 
 public class GTRecipeSettings {
 
@@ -78,7 +77,7 @@ public class GTRecipeSettings {
 	}
 
 	public GTRecipeSettings circuitMeta(int configuration) {
-		return notConsumable(StrictNBTIngredient.of(IntCircuitBehaviour.stack(configuration)));
+		return notConsumable(IntCircuitIngredient.circuitInput(configuration).toVanilla());
 	}
 
 	public GTRecipeSettings itemOutput(Object output) {
@@ -165,7 +164,7 @@ public class GTRecipeSettings {
 	}
 
 	public GTRecipeSettings explosivesType(ItemStack explosivesType) {
-		return addData("explosives_type", explosivesType.save(new CompoundTag()));
+		return addData("explosives_type", explosivesType.save(null));
 	}
 
 	public GTRecipeSettings solderMultiplier(int multiplier) {

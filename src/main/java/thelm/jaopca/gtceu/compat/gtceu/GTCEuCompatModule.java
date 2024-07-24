@@ -5,14 +5,14 @@ import java.util.EnumSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.config.ConfigHolder;
+import com.gregtechceu.gtceu.data.material.GTMaterials;
+import com.gregtechceu.gtceu.data.recipe.GTRecipeTypes;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import thelm.jaopca.api.JAOPCAApi;
 import thelm.jaopca.api.config.IDynamicSpecConfig;
 import thelm.jaopca.api.helpers.IMiscHelper;
@@ -117,18 +117,18 @@ public class GTCEuCompatModule implements IModule {
 		GTCEuHelper helper = GTCEuHelper.INSTANCE;
 		IMiscHelper miscHelper = MiscHelper.INSTANCE;
 		Set<ResourceLocation> itemTags = api.getItemTags();
-		ResourceLocation darkAshSmallDustLocation = new ResourceLocation("forge:small_dusts/dark_ash");
-		ResourceLocation fileLocation = new ResourceLocation("forge:tools/files");
-		ResourceLocation hardHammerLocation = new ResourceLocation("forge:tools/hammers");
-		ResourceLocation wrenchLocation = new ResourceLocation("forge:tools/wrenches");
-		Item rodExtruderMold = ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:rod_extruder_mold"));
-		Item plateExtruderMold = ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:plate_extruder_mold"));
-		Item blockExtruderMold = ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:block_extruder_mold"));
-		Item gearExtruderMold = ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:gear_extruder_mold"));
-		Item nuggetCastingMold = ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:nugget_casting_mold"));
-		Item ingotCastingMold = ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:ingot_casting_mold"));
-		Item blockCastingMold = ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:block_casting_mold"));
-		Item gearCastingMold = ForgeRegistries.ITEMS.getValue(new ResourceLocation("gtceu:gear_casting_mold"));
+		ResourceLocation darkAshSmallDustLocation = ResourceLocation.parse("c:small_dusts/dark_ash");
+		ResourceLocation fileLocation = ResourceLocation.parse("c:tools/files");
+		ResourceLocation hardHammerLocation = ResourceLocation.parse("c:tools/hammers");
+		ResourceLocation wrenchLocation = ResourceLocation.parse("c:tools/wrenches");
+		Item rodExtruderMold = BuiltInRegistries.ITEM.get(ResourceLocation.parse("gtceu:rod_extruder_mold"));
+		Item plateExtruderMold = BuiltInRegistries.ITEM.get(ResourceLocation.parse("gtceu:plate_extruder_mold"));
+		Item blockExtruderMold = BuiltInRegistries.ITEM.get(ResourceLocation.parse("gtceu:block_extruder_mold"));
+		Item gearExtruderMold = BuiltInRegistries.ITEM.get(ResourceLocation.parse("gtceu:gear_extruder_mold"));
+		Item nuggetCastingMold = BuiltInRegistries.ITEM.get(ResourceLocation.parse("gtceu:nugget_casting_mold"));
+		Item ingotCastingMold = BuiltInRegistries.ITEM.get(ResourceLocation.parse("gtceu:ingot_casting_mold"));
+		Item blockCastingMold = BuiltInRegistries.ITEM.get(ResourceLocation.parse("gtceu:block_casting_mold"));
+		Item gearCastingMold = BuiltInRegistries.ITEM.get(ResourceLocation.parse("gtceu:gear_casting_mold"));
 		for(IMaterial material : moduleData.getMaterials()) {
 			MaterialType type = material.getType();
 			String name = material.getName();
@@ -137,7 +137,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation materialLocation = miscHelper.getTagLocation(type.getFormName(), name);
 				if(itemTags.contains(dustLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.dust_to_material_autoclave_water."+name),
+							miscHelper.getRecipeKey("gtceu.dust_to_material_autoclave_water", name),
 							GTRecipeTypes.AUTOCLAVE_RECIPES,
 							helper.recipeSettings().
 							itemInput(dustLocation, 1).
@@ -145,7 +145,7 @@ public class GTCEuCompatModule implements IModule {
 							itemOutput(materialLocation, 1, 7000, 1000).
 							duration(1200).EUt(24));
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.dust_to_material_autoclave_distilled_water."+name),
+							miscHelper.getRecipeKey("gtceu.dust_to_material_autoclave_distilled_water", name),
 							GTRecipeTypes.AUTOCLAVE_RECIPES,
 							helper.recipeSettings().
 							itemInput(dustLocation, 1).
@@ -159,7 +159,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation materialLocation = miscHelper.getTagLocation(type.getFormName(), name);
 				if(itemTags.contains(dustLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.dust_to_material_implosion_tnt."+name),
+							miscHelper.getRecipeKey("gtceu.dust_to_material_implosion_tnt", name),
 							GTRecipeTypes.IMPLOSION_RECIPES,
 							helper.recipeSettings().
 							itemInput(dustLocation, 4).
@@ -173,7 +173,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation plateLocation = miscHelper.getTagLocation("plates", name);
 				if(itemTags.contains(plateLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_plate_compressor."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_plate_compressor", name),
 							GTRecipeTypes.COMPRESSOR_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, 1).
@@ -185,14 +185,14 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation dustLocation = miscHelper.getTagLocation("dusts", name);
 				if(itemTags.contains(smallDustLocation) && itemTags.contains(dustLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.small_dust_to_dust."+name),
+							miscHelper.getRecipeKey("gtceu.small_dust_to_dust", name),
 							GTRecipeTypes.PACKER_RECIPES,
 							helper.recipeSettings().
 							itemInput(smallDustLocation, 4).
 							circuitMeta(1).
 							itemOutput(dustLocation, 1));
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.dust_to_small_dust."+name),
+							miscHelper.getRecipeKey("gtceu.dust_to_small_dust", name),
 							GTRecipeTypes.PACKER_RECIPES,
 							helper.recipeSettings().
 							itemInput(dustLocation, 1).
@@ -205,14 +205,14 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation dustLocation = miscHelper.getTagLocation("dusts", name);
 				if(itemTags.contains(tinyDustLocation) && itemTags.contains(dustLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.tiny_dust_to_dust."+name),
+							miscHelper.getRecipeKey("gtceu.tiny_dust_to_dust", name),
 							GTRecipeTypes.PACKER_RECIPES,
 							helper.recipeSettings().
 							itemInput(tinyDustLocation, 9).
 							circuitMeta(1).
 							itemOutput(dustLocation, 1));
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.dust_to_tiny_dust."+name),
+							miscHelper.getRecipeKey("gtceu.dust_to_tiny_dust", name),
 							GTRecipeTypes.PACKER_RECIPES,
 							helper.recipeSettings().
 							itemInput(dustLocation, 1).
@@ -225,14 +225,14 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation stickLocation = miscHelper.getTagLocation("rods", name);
 				if(itemTags.contains(stickLocation)) {
 					api.registerShapedRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_rod_file."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_rod_file", name),
 							stickLocation, 1, new Object[] {
 									"f ", " X",
 									'X', materialLocation,
 									'f', fileLocation,
 							});
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_rod_extruder."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_rod_extruder", name),
 							GTRecipeTypes.EXTRUDER_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, 1).
@@ -246,7 +246,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation nuggetLocation = miscHelper.getTagLocation("nuggets", name);
 				if(itemTags.contains(nuggetLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_nugget."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_nugget", name),
 							GTRecipeTypes.ALLOY_SMELTER_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, 1).
@@ -260,7 +260,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation materialLocation = miscHelper.getTagLocation(type.getFormName(), name);
 				if(itemTags.contains(storageBlockLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.storage_block_to_material_alloy_smelter."+name),
+							miscHelper.getRecipeKey("gtceu.storage_block_to_material_alloy_smelter", name),
 							GTRecipeTypes.ALLOY_SMELTER_RECIPES,
 							helper.recipeSettings().
 							itemInput(storageBlockLocation, 1).
@@ -274,7 +274,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation storageBlockLocation = miscHelper.getTagLocation("storage_blocks", name);
 				if(itemTags.contains(storageBlockLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_storage_block_compressor."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_storage_block_compressor", name),
 							GTRecipeTypes.COMPRESSOR_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, (material.isSmallStorageBlock() ? 4 : 9)).
@@ -287,7 +287,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation plateLocation = miscHelper.getTagLocation("plates", name);
 				if(itemTags.contains(plateLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_plate_bender."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_plate_bender", name),
 							GTRecipeTypes.BENDER_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, 1).
@@ -295,21 +295,21 @@ public class GTCEuCompatModule implements IModule {
 							itemOutput(plateLocation, 1).
 							duration(100).EUt(24));
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_plate_forge_hammer."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_plate_forge_hammer", name),
 							GTRecipeTypes.FORGE_HAMMER_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, 3).
 							itemOutput(plateLocation, 2).
 							duration(100).EUt(16));
 					api.registerShapedRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_plate_hard_hammer."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_plate_hard_hammer", name),
 							plateLocation, 1, new Object[] {
 									"h", "I", "I",
 									'I', materialLocation,
 									'h', hardHammerLocation,
 							});
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_plate_extruder."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_plate_extruder", name),
 							GTRecipeTypes.EXTRUDER_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, 1).
@@ -323,14 +323,14 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation materialLocation = miscHelper.getTagLocation(type.getFormName(), name);
 				if(itemTags.contains(nuggetLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.nugget_to_material_compressor."+name),
+							miscHelper.getRecipeKey("gtceu.nugget_to_material_compressor", name),
 							GTRecipeTypes.COMPRESSOR_RECIPES,
 							helper.recipeSettings().
 							itemInput(nuggetLocation, 9).
 							itemOutput(materialLocation, 1).
 							duration(300).EUt(2));
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.nugget_to_material_alloy_smelter."+name),
+							miscHelper.getRecipeKey("gtceu.nugget_to_material_alloy_smelter", name),
 							GTRecipeTypes.ALLOY_SMELTER_RECIPES,
 							helper.recipeSettings().
 							itemInput(nuggetLocation, 9).
@@ -344,7 +344,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation plateLocation = miscHelper.getTagLocation("plates", name);
 				if(itemTags.contains(storageBlockLocation) && itemTags.contains(plateLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.storage_block_to_plate."+name),
+							miscHelper.getRecipeKey("gtceu.storage_block_to_plate", name),
 							GTRecipeTypes.CUTTER_RECIPES,
 							helper.recipeSettings().
 							itemInput(storageBlockLocation, 1).
@@ -357,7 +357,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation storageBlockLocation = miscHelper.getTagLocation("storage_blocks", name);
 				if(itemTags.contains(storageBlockLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_storage_block_extruder."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_storage_block_extruder", name),
 							GTRecipeTypes.EXTRUDER_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, (material.isSmallStorageBlock() ? 4 : 9)).
@@ -365,7 +365,7 @@ public class GTCEuCompatModule implements IModule {
 							itemOutput(storageBlockLocation, 1).
 							duration(10).EUt(56));
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_storage_block_alloy_smelter."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_storage_block_alloy_smelter", name),
 							GTRecipeTypes.ALLOY_SMELTER_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, (material.isSmallStorageBlock() ? 4 : 9)).
@@ -379,7 +379,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation storageBlockLocation = miscHelper.getTagLocation("storage_blocks", name);
 				if(itemTags.contains(storageBlockLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_block_compressor."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_block_compressor", name),
 							GTRecipeTypes.COMPRESSOR_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, (material.isSmallStorageBlock() ? 4 : 9)).
@@ -392,7 +392,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation materialLocation = miscHelper.getTagLocation(type.getFormName(), name);
 				if(itemTags.contains(storageBlockLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.block_to_material_forge_hammer."+name),
+							miscHelper.getRecipeKey("gtceu.block_to_material_forge_hammer", name),
 							GTRecipeTypes.FORGE_HAMMER_RECIPES,
 							helper.recipeSettings().
 							itemInput(storageBlockLocation, 1).
@@ -405,7 +405,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation gearLocation = miscHelper.getTagLocation("gears", name);
 				if(itemTags.contains(gearLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_gear_extruder."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_gear_extruder", name),
 							GTRecipeTypes.EXTRUDER_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, 4).
@@ -413,7 +413,7 @@ public class GTCEuCompatModule implements IModule {
 							itemOutput(gearLocation, 1).
 							duration(500).EUt(56));
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_gear_alloy_smelter."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_gear_alloy_smelter", name),
 							GTRecipeTypes.ALLOY_SMELTER_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, 8).
@@ -428,7 +428,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation gearLocation = miscHelper.getTagLocation("gears", name);
 				if(itemTags.contains(plateLocation) && itemTags.contains(rodLocation) && itemTags.contains(gearLocation)) {
 					api.registerShapedRecipe(
-							new ResourceLocation("jaopca", "gtceu.plate_stick_to_gear."+name),
+							miscHelper.getRecipeKey("gtceu.plate_stick_to_gear", name),
 							gearLocation, 1, new Object[] {
 									"RPR", "PwP", "RPR",
 									'P', plateLocation,
@@ -442,7 +442,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation densePlateLocation = miscHelper.getTagLocation("dense_plates", name);
 				if(itemTags.contains(plateLocation) && itemTags.contains(densePlateLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.plate_to_dense_plate."+name),
+							miscHelper.getRecipeKey("gtceu.plate_to_dense_plate", name),
 							GTRecipeTypes.BENDER_RECIPES,
 							helper.recipeSettings().
 							itemInput(plateLocation, 9).
@@ -456,7 +456,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation densePlateLocation = miscHelper.getTagLocation("dense_plates", name);
 				if(itemTags.contains(densePlateLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.plate_to_dense_plate."+name),
+							miscHelper.getRecipeKey("gtceu.plate_to_dense_plate", name),
 							GTRecipeTypes.BENDER_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, 9).
@@ -483,7 +483,7 @@ public class GTCEuCompatModule implements IModule {
 						settings.itemOutput(rodLocation, 2);
 					}
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_stick_lathe."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_stick_lathe", name),
 							GTRecipeTypes.LATHE_RECIPES, settings);
 				}
 			}
@@ -492,7 +492,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation dustLocation = miscHelper.getTagLocation("dusts", name);
 				if(itemTags.contains(dustLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.material_to_dust_macerator."+name),
+							miscHelper.getRecipeKey("gtceu.material_to_dust_macerator", name),
 							GTRecipeTypes.MACERATOR_RECIPES,
 							helper.recipeSettings().
 							itemInput(materialLocation, 1).
@@ -505,7 +505,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation dustLocation = miscHelper.getTagLocation("dusts", name);
 				if(itemTags.contains(storageBlockLocation) && itemTags.contains(dustLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.block_to_dust."+name),
+							miscHelper.getRecipeKey("gtceu.block_to_dust", name),
 							GTRecipeTypes.MACERATOR_RECIPES,
 							helper.recipeSettings().
 							itemInput(storageBlockLocation, 1).
@@ -518,7 +518,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation tinyDustLocation = miscHelper.getTagLocation("tiny_dusts", name);
 				if(itemTags.contains(nuggetLocation) && itemTags.contains(tinyDustLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.nugget_to_tiny_dust."+name),
+							miscHelper.getRecipeKey("gtceu.nugget_to_tiny_dust", name),
 							GTRecipeTypes.MACERATOR_RECIPES,
 							helper.recipeSettings().
 							itemInput(nuggetLocation, 1).
@@ -531,7 +531,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation dustLocation = miscHelper.getTagLocation("dusts", name);
 				if(itemTags.contains(plateLocation) && itemTags.contains(dustLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.plate_to_dust."+name),
+							miscHelper.getRecipeKey("gtceu.plate_to_dust", name),
 							GTRecipeTypes.MACERATOR_RECIPES,
 							helper.recipeSettings().
 							itemInput(plateLocation, 1).
@@ -544,7 +544,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation dustLocation = miscHelper.getTagLocation("dusts", name);
 				if(itemTags.contains(densePlateLocation) && itemTags.contains(dustLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.dense_plate_to_dust."+name),
+							miscHelper.getRecipeKey("gtceu.dense_plate_to_dust", name),
 							GTRecipeTypes.MACERATOR_RECIPES,
 							helper.recipeSettings().
 							itemInput(densePlateLocation, 1).
@@ -557,7 +557,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation dustLocation = miscHelper.getTagLocation("dusts", name);
 				if(itemTags.contains(gearLocation) && itemTags.contains(dustLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.gear_to_dust."+name),
+							miscHelper.getRecipeKey("gtceu.gear_to_dust", name),
 							GTRecipeTypes.MACERATOR_RECIPES,
 							helper.recipeSettings().
 							itemInput(gearLocation, 1).
@@ -570,7 +570,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation smallDustLocation = miscHelper.getTagLocation("small_dusts", name);
 				if(itemTags.contains(rodLocation) && itemTags.contains(smallDustLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.stick_to_small_dust."+name),
+							miscHelper.getRecipeKey("gtceu.stick_to_small_dust", name),
 							GTRecipeTypes.MACERATOR_RECIPES,
 							helper.recipeSettings().
 							itemInput(rodLocation, 1).
@@ -583,7 +583,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation materialLocation = miscHelper.getTagLocation(type.getFormName(), name);
 				if(itemTags.contains(plateLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.plate_to_material."+name),
+							miscHelper.getRecipeKey("gtceu.plate_to_material", name),
 							GTRecipeTypes.ARC_FURNACE_RECIPES,
 							helper.recipeSettings().
 							itemInput(plateLocation, 1).
@@ -596,7 +596,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation materialLocation = miscHelper.getTagLocation(type.getFormName(), name);
 				if(itemTags.contains(densePlateLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.dense_plate_to_material."+name),
+							miscHelper.getRecipeKey("gtceu.dense_plate_to_material", name),
 							GTRecipeTypes.ARC_FURNACE_RECIPES,
 							helper.recipeSettings().
 							itemInput(densePlateLocation, 1).
@@ -609,7 +609,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation materialLocation = miscHelper.getTagLocation(type.getFormName(), name);
 				if(itemTags.contains(gearLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.gear_to_material."+name),
+							miscHelper.getRecipeKey("gtceu.gear_to_material", name),
 							GTRecipeTypes.ARC_FURNACE_RECIPES,
 							helper.recipeSettings().
 							itemInput(gearLocation, 1).
@@ -622,7 +622,7 @@ public class GTCEuCompatModule implements IModule {
 				ResourceLocation nuggetLocation = miscHelper.getTagLocation("nugget", name);
 				if(itemTags.contains(rodLocation) && itemTags.contains(nuggetLocation)) {
 					helper.registerGTRecipe(
-							new ResourceLocation("jaopca", "gtceu.rod_to_nugget."+name),
+							miscHelper.getRecipeKey("gtceu.rod_to_nugget", name),
 							GTRecipeTypes.ARC_FURNACE_RECIPES,
 							helper.recipeSettings().
 							itemInput(rodLocation, 1).

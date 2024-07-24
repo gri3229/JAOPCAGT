@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.OptionalDouble;
 import java.util.OptionalLong;
+import java.util.Set;
 
-import org.apache.commons.lang3.mutable.MutableObject;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.apache.logging.log4j.LogManager;
@@ -15,23 +15,26 @@ import org.apache.logging.log4j.Logger;
 import com.google.gson.JsonElement;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
+import com.gregtechceu.gtceu.api.recipe.condition.RecipeCondition;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
+import com.gregtechceu.gtceu.data.recipe.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
-import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
+import net.neoforged.neoforge.common.crafting.IntersectionIngredient;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import thelm.jaopca.api.recipes.IRecipeSerializer;
-import thelm.jaopca.gtceu.compat.gtceu.GTCEuHelper;
-import thelm.jaopca.ingredients.EmptyIngredient;
 import thelm.jaopca.utils.MiscHelper;
 
 public class GTRecipeSerializer implements IRecipeSerializer {
@@ -81,44 +84,53 @@ public class GTRecipeSerializer implements IRecipeSerializer {
 		List<Content> itemOutputs = new ArrayList<>();
 		List<Content> fluidOutputs = new ArrayList<>();
 		for(Pair<Object, Triple<Integer, Integer, Integer>> in : itemInput) {
-			Ingredient ing = MiscHelper.INSTANCE.getIngredient(in.getLeft());
-			if(ing == EmptyIngredient.INSTANCE) {
+			// Because GT currently breaks on difference ingredients, we need to use the resolved item set if it's not guaranteed to work with GT
+			Pair<Ingredient, Set<Item>> pair = MiscHelper.INSTANCE.getIngredientResolved(in.getLeft());
+			Ingredient ing = pair.getLeft();
+			if(ing == null) {
 				throw new IllegalArgumentException("Empty ingredient in recipe "+key+": "+in);
 			}
+			switch(ing.getCustomIngredient()) {
+			case DataComponentIngredient c -> {}
+			case IntCircuitIngredient c -> {}
+			case IntersectionIngredient c -> {}
+			case null -> {}
+			default -> ing = Ingredient.of(pair.getRight().stream().map(ItemStack::new));
+			}
 			itemInputs.add(new Content(
-					SizedIngredient.create(ing, in.getRight().getLeft()),
+					new SizedIngredient(ing, in.getRight().getLeft()),
 					in.getRight().getMiddle()/10000F, in.getRight().getRight()/10000F,
 					builder.slotName, builder.uiName));
 		}
 		for(Pair<Object, Triple<Integer, Integer, Integer>> in : fluidInput) {
-			FluidIngredient ing = GTCEuHelper.INSTANCE.getFluidIngredient(in.getLeft(), in.getRight().getLeft());
+			FluidIngredient ing = MiscHelper.INSTANCE.getFluidIngredient(in.getLeft());
 			if(ing == null) {
 				throw new IllegalArgumentException("Empty ingredient in recipe "+key+": "+in);
 			}
 			fluidInputs.add(new Content(
-					ing,
+					new SizedFluidIngredient(ing, in.getRight().getLeft()),
 					in.getRight().getMiddle()/10000F, in.getRight().getRight()/10000F,
 					builder.slotName, builder.uiName));
 		}
 		for(Pair<Object, Triple<Integer, Integer, Integer>> out : itemOutput) {
-			ItemStack stack = MiscHelper.INSTANCE.getItemStack(out.getLeft(), out.getRight().getLeft());
+			ItemStack stack = MiscHelper.INSTANCE.getItemStack(out.getLeft(), 1);
 			if(stack.isEmpty()) {
 				LOGGER.warn("Empty output in recipe {}: {}", key, out);
 				continue;
 			}
 			itemOutputs.add(new Content(
-					SizedIngredient.create(stack),
+					SizedIngredient.of(stack.getItem(), out.getRight().getLeft()),
 					out.getRight().getMiddle()/10000F, out.getRight().getRight()/10000F,
 					builder.slotName, builder.uiName));
 		}
 		for(Pair<Object, Triple<Integer, Integer, Integer>> out : fluidOutput) {
-			var stack = MiscHelper.INSTANCE.getFluidStack(out.getLeft(), out.getRight().getLeft());
+			FluidStack stack = MiscHelper.INSTANCE.getFluidStack(out.getLeft(), out.getRight().getLeft());
 			if(stack.isEmpty()) {
 				LOGGER.warn("Empty output in recipe {}: {}", key, out);
 				continue;
 			}
 			fluidOutputs.add(new Content(
-					FluidStack.create(stack.getFluid(), stack.getAmount(), stack.getTag()),
+					SizedFluidIngredient.of(stack),
 					out.getRight().getMiddle()/10000F, out.getRight().getRight()/10000F,
 					builder.slotName, builder.uiName));
 		}
@@ -144,9 +156,7 @@ public class GTRecipeSerializer implements IRecipeSerializer {
 		}
 		builder.data.merge(data);
 		builder.conditions.addAll(conditions);
-
-		MutableObject<FinishedRecipe> ref = new MutableObject<>();
-		builder.save(ref::setValue);
-		return ref.getValue().serializeRecipe();
+		GTRecipe recipe = builder.build();
+		return MiscHelper.INSTANCE.serializeRecipe(recipe);
 	}
 }

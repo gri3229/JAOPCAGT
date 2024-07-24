@@ -7,11 +7,11 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Multimap;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.config.ConfigHolder;
+import com.gregtechceu.gtceu.data.recipe.GTRecipeTypes;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import thelm.jaopca.api.JAOPCAApi;
 import thelm.jaopca.api.forms.IForm;
 import thelm.jaopca.api.forms.IFormRequest;
@@ -84,8 +84,8 @@ public class GTCEuCrystalModule implements IModule {
 		GTCEuHelper helper = GTCEuHelper.INSTANCE;
 		IMiscHelper miscHelper = MiscHelper.INSTANCE;
 		IItemFormType itemFormType = ItemFormType.INSTANCE;
-		ResourceLocation whiteLensLocation = new ResourceLocation("forge:lenses/white");
-		ResourceLocation hardHammerLocation = new ResourceLocation("forge:tools/hammers");
+		ResourceLocation whiteLensLocation = ResourceLocation.parse("c:lenses/white");
+		ResourceLocation hardHammerLocation = ResourceLocation.parse("c:tools/hammers");
 		for(IMaterial material : formRequest.getMaterials()) {
 			String name = material.getName();
 
@@ -116,12 +116,12 @@ public class GTCEuCrystalModule implements IModule {
 					itemOutput(chippedGemInfo, 1, 3000, 350);
 				}
 				helper.registerGTRecipe(
-						new ResourceLocation("jaopca", "gtceu.purified_ore_to_gems."+name),
+						miscHelper.getRecipeKey("gtceu.purified_ore_to_gems", name),
 						GTRecipeTypes.SIFTER_RECIPES, settings);
 			}
 
 			helper.registerGTRecipe(
-					new ResourceLocation("jaopca", "gtceu.flawless_gem_to_exquisite_gem."+name),
+					miscHelper.getRecipeKey("gtceu.flawless_gem_to_exquisite_gem", name),
 					GTRecipeTypes.LASER_ENGRAVER_RECIPES,
 					helper.recipeSettings().
 					itemInput(flawlessGemLocation, 2).
@@ -130,19 +130,19 @@ public class GTCEuCrystalModule implements IModule {
 					duration(300).EUt(240));
 
 			api.registerShapelessRecipe(
-					new ResourceLocation("jaopca", "gtceu.exquisite_gem_to_flawless_gem_hard_hammer."+name),
+					miscHelper.getRecipeKey("gtceu.exquisite_gem_to_flawless_gem_hard_hammer", name),
 					flawlessGemInfo, 2, new Object[] {
 							hardHammerLocation, exquisiteGemLocation,
 					});
 			helper.registerGTRecipe(
-					new ResourceLocation("jaopca", "gtceu.exquisite_gem_to_flawless_gem_cutter."+name),
+					miscHelper.getRecipeKey("gtceu.exquisite_gem_to_flawless_gem_cutter", name),
 					GTRecipeTypes.CUTTER_RECIPES,
 					helper.recipeSettings().
 					itemInput(exquisiteGemLocation, 1).
 					itemOutput(flawlessGemInfo, 2).
 					duration(20).EUt(16));
 			helper.registerGTRecipe(
-					new ResourceLocation("jaopca", "gtceu.material_to_flawless_gem."+name),
+					miscHelper.getRecipeKey("gtceu.material_to_flawless_gem", name),
 					GTRecipeTypes.LASER_ENGRAVER_RECIPES,
 					helper.recipeSettings().
 					itemInput(materialLocation, 2).
@@ -151,19 +151,19 @@ public class GTCEuCrystalModule implements IModule {
 					duration(300).EUt(240));
 
 			api.registerShapelessRecipe(
-					new ResourceLocation("jaopca", "gtceu.flawless_gem_to_material_hard_hammer."+name),
+					miscHelper.getRecipeKey("gtceu.flawless_gem_to_material_hard_hammer", name),
 					materialLocation, 2, new Object[] {
 							hardHammerLocation, flawlessGemLocation,
 					});
 			helper.registerGTRecipe(
-					new ResourceLocation("jaopca", "gtceu.flawless_gem_to_material_cutter."+name),
+					miscHelper.getRecipeKey("gtceu.flawless_gem_to_material_cutter", name),
 					GTRecipeTypes.CUTTER_RECIPES,
 					helper.recipeSettings().
 					itemInput(flawlessGemLocation, 1).
 					itemOutput(materialLocation, 2).
 					duration(20).EUt(16));
 			helper.registerGTRecipe(
-					new ResourceLocation("jaopca", "gtceu.flawed_gem_to_material."+name),
+					miscHelper.getRecipeKey("gtceu.flawed_gem_to_material", name),
 					GTRecipeTypes.LASER_ENGRAVER_RECIPES,
 					helper.recipeSettings().
 					itemInput(flawedGemLocation, 2).
@@ -172,19 +172,19 @@ public class GTCEuCrystalModule implements IModule {
 					duration(300).EUt(240));
 
 			api.registerShapelessRecipe(
-					new ResourceLocation("jaopca", "gtceu.material_to_flawed_gem_hard_hammer."+name),
+					miscHelper.getRecipeKey("gtceu.material_to_flawed_gem_hard_hammer", name),
 					flawedGemLocation, 2, new Object[] {
 							hardHammerLocation, materialLocation,
 					});
 			helper.registerGTRecipe(
-					new ResourceLocation("jaopca", "gtceu.material_to_flawed_gem_cutter."+name),
+					miscHelper.getRecipeKey("gtceu.material_to_flawed_gem_cutter", name),
 					GTRecipeTypes.CUTTER_RECIPES,
 					helper.recipeSettings().
 					itemInput(materialLocation, 1).
 					itemOutput(flawedGemLocation, 2).
 					duration(20).EUt(16));
 			helper.registerGTRecipe(
-					new ResourceLocation("jaopca", "gtceu.chipped_gem_to_flawed_gem."+name),
+					miscHelper.getRecipeKey("gtceu.chipped_gem_to_flawed_gem", name),
 					GTRecipeTypes.LASER_ENGRAVER_RECIPES,
 					helper.recipeSettings().
 					itemInput(chippedGemLocation, 2).
@@ -193,12 +193,12 @@ public class GTCEuCrystalModule implements IModule {
 					duration(300).EUt(240));
 
 			api.registerShapelessRecipe(
-					new ResourceLocation("jaopca", "gtceu.flawed_gem_to_chipped_gem_hard_hammer."+name),
+					miscHelper.getRecipeKey("gtceu.flawed_gem_to_chipped_gem_hard_hammer", name),
 					chippedGemLocation, 2, new Object[] {
 							hardHammerLocation, flawedGemLocation,
 					});
 			helper.registerGTRecipe(
-					new ResourceLocation("jaopca", "gtceu.flawed_gem_to_chipped_gem_cutter."+name),
+					miscHelper.getRecipeKey("gtceu.flawed_gem_to_chipped_gem_cutter", name),
 					GTRecipeTypes.CUTTER_RECIPES,
 					helper.recipeSettings().
 					itemInput(flawedGemLocation, 1).
@@ -206,28 +206,28 @@ public class GTCEuCrystalModule implements IModule {
 					duration(20).EUt(16));
 
 			helper.registerGTRecipe(
-					new ResourceLocation("jaopca", "gtceu.exquisite_gem_to_dust."+name),
+					miscHelper.getRecipeKey("gtceu.exquisite_gem_to_dust", name),
 					GTRecipeTypes.MACERATOR_RECIPES,
 					helper.recipeSettings().
 					itemInput(exquisiteGemLocation, 1).
 					itemOutput(dustLocation, 4).
 					duration(400).EUt(2));
 			helper.registerGTRecipe(
-					new ResourceLocation("jaopca", "gtceu.flawless_gem_to_dust."+name),
+					miscHelper.getRecipeKey("gtceu.flawless_gem_to_dust", name),
 					GTRecipeTypes.MACERATOR_RECIPES,
 					helper.recipeSettings().
 					itemInput(flawlessGemLocation, 1).
 					itemOutput(dustLocation, 2).
 					duration(200).EUt(2));
 			helper.registerGTRecipe(
-					new ResourceLocation("jaopca", "gtceu.flawed_gem_to_small_dust."+name),
+					miscHelper.getRecipeKey("gtceu.flawed_gem_to_small_dust", name),
 					GTRecipeTypes.MACERATOR_RECIPES,
 					helper.recipeSettings().
 					itemInput(flawedGemLocation, 1).
 					itemOutput(smallDustLocation, 2).
 					duration(50).EUt(2));
 			helper.registerGTRecipe(
-					new ResourceLocation("jaopca", "gtceu.chipped_gem_to_small_dust."+name),
+					miscHelper.getRecipeKey("gtceu.chipped_gem_to_small_dust", name),
 					GTRecipeTypes.MACERATOR_RECIPES,
 					helper.recipeSettings().
 					itemInput(chippedGemLocation, 1).

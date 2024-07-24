@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[46,)"
+loaderVersion = "[2,)"
 license = "MIT"
 issueTrackerURL = "https://github.com/TheLMiffy1111/JAOPCAGT/issues"
 
@@ -14,16 +14,16 @@ issueTrackerURL = "https://github.com/TheLMiffy1111/JAOPCAGT/issues"
 	displayURL = "https://www.curseforge.com/minecraft/mc-mods/jaopcagt"
 
 [[dependencies.jaopcagtceu]]
-	modId = "forge"
-	versionRange = "[46,)"
-	mandatory = true
+	modId = "neoforge"
+	versionRange = "[21.0,)"
+	type = "required"
 
 [[dependencies.jaopcagtceu]]
 	modId = "jaopca"
-	versionRange = "[4.4,)"
-	mandatory = true
+	versionRange = "[5.0,)"
+	type = "required"
 
 [[dependencies.jaopcagtceu]]
 	modId = "gtceu"
 	versionRange = "[1.1,)"
-	mandatory = true
+	type = "required"

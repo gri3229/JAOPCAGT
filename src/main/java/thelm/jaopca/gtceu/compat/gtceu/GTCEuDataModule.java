@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,15 +16,14 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonWriter;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
+import com.gregtechceu.gtceu.api.material.ChemicalHelper;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.FMLPaths;
 import thelm.jaopca.api.data.IDataModule;
 import thelm.jaopca.api.data.JAOPCADataModule;
 import thelm.jaopca.utils.ApiImpl;
@@ -53,7 +51,7 @@ public class GTCEuDataModule implements IDataModule {
 			is.close();
 			List<String> tags = Codec.STRING.listOf().parse(JsonOps.INSTANCE, json).result().orElse(List.of());
 			for(String tag : tags) {
-				ApiImpl.INSTANCE.registerDefinedItemTag(new ResourceLocation(tag));
+				ApiImpl.INSTANCE.registerDefinedItemTag(ResourceLocation.parse(tag));
 			}
 		}
 		catch(Exception e) {
