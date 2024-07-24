@@ -133,7 +133,7 @@ dependencies {
 	modImplementation("com.lowdragmc.ldlib:ldlib-forge-1.19.2:1.0.25.o") {transitive = false}
 	modImplementation "curse.maven:configuration-444699:5030099"
 	implementation "io.github.llamalad7:mixinextras-forge:0.3.6"
-	modImplementation("com.gregtechceu.gtceu:gtceu-1.19.2:1.2.1") {transitive = false}
+	modImplementation("com.gregtechceu.gtceu:gtceu-1.19.2:1.2.3.a:slim") {transitive = false}
 	modImplementation("mezz.jei:jei-1.19.2-forge:11.6.0.1024") {transitive = false}
 
 	// Testing
