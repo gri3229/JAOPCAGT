@@ -155,7 +155,7 @@ dependencies {
 		officialMojangMappings()
 		parchment "org.parchmentmc.data:parchment-1.21:2024.07.07@zip"
 	}
-	neoForge "net.neoforged:neoforge:21.0.116-beta"
+	neoForge "net.neoforged:neoforge:21.0.133-beta"
 
 	// Dependencies
 	implementation "curse.maven:jaopca-266936:5561137"
