@@ -1,1 +1,1 @@
-Fixed ore macerator recipes  
+Added Chinese and Japanese language files  
