@@ -1,0 +1,11 @@
+{
+	"item.jaopca.gtceu_crushed_ores": "粉碎%s礦",
+	"item.jaopca.gtceu_purified_ores": "純淨%s礦",
+	"item.jaopca.gtceu_refined_ores": "精煉%s礦",
+	"item.jaopca.gtceu_impure_dusts": "含雜%s粉",
+	"item.jaopca.gtceu_pure_dusts": "潔淨%s粉",
+	"item.jaopca.gtceu_exquisite_gems": "精緻的%s",
+	"item.jaopca.gtceu_flawless_gems": "無瑕的%s",
+	"item.jaopca.gtceu_flawed_gems": "有瑕的%s",
+	"item.jaopca.gtceu_chipped_gems": "破碎的%s"
+}

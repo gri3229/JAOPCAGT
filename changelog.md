@@ -1,1 +1,1 @@
-Initial port to 1.21  
+Added Chinese and Japanese language files  
