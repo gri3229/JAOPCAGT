@@ -1,0 +1,11 @@
+{
+	"item.jaopca.gtceu_crushed_ores": "砕いた%s鉱石",
+	"item.jaopca.gtceu_purified_ores": "洗浄した%s鉱石",
+	"item.jaopca.gtceu_refined_ores": "精製%s鉱石",
+	"item.jaopca.gtceu_impure_dusts": "汚れた%sの粉",
+	"item.jaopca.gtceu_pure_dusts": "ほぼ綺麗な%sの粉",
+	"item.jaopca.gtceu_exquisite_gems": "精巧な%s",
+	"item.jaopca.gtceu_flawless_gems": "傷のない%s",
+	"item.jaopca.gtceu_flawed_gems": "傷のある%s",
+	"item.jaopca.gtceu_chipped_gems": "欠けた%s"
+}
