@@ -1,1 +1,1 @@
-Force varargs when logging  
+Added Chinese and Japanese language files  
