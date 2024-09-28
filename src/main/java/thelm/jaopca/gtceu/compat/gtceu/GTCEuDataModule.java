@@ -28,7 +28,7 @@ import thelm.jaopca.api.data.IDataModule;
 import thelm.jaopca.api.data.JAOPCADataModule;
 import thelm.jaopca.utils.ApiImpl;
 
-@JAOPCADataModule(modDependencies = "gtceu@[1.1,)")
+@JAOPCADataModule(modDependencies = "gtceu@[1.4,)")
 public class GTCEuDataModule implements IDataModule {
 
 	private static final Logger LOGGER = LogManager.getLogger();

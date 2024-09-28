@@ -99,7 +99,7 @@ public class GTRecipeSerializer implements IRecipeSerializer {
 			}
 			itemInputs.add(new Content(
 					new SizedIngredient(ing, in.getRight().getLeft()),
-					in.getRight().getMiddle()/10000F, in.getRight().getRight()/10000F,
+					in.getRight().getMiddle(), builder.maxChance, in.getRight().getRight(),
 					builder.slotName, builder.uiName));
 		}
 		for(Pair<Object, Triple<Integer, Integer, Integer>> in : fluidInput) {
@@ -109,7 +109,7 @@ public class GTRecipeSerializer implements IRecipeSerializer {
 			}
 			fluidInputs.add(new Content(
 					new SizedFluidIngredient(ing, in.getRight().getLeft()),
-					in.getRight().getMiddle()/10000F, in.getRight().getRight()/10000F,
+					in.getRight().getMiddle(), builder.maxChance, in.getRight().getRight(),
 					builder.slotName, builder.uiName));
 		}
 		for(Pair<Object, Triple<Integer, Integer, Integer>> out : itemOutput) {
@@ -120,7 +120,7 @@ public class GTRecipeSerializer implements IRecipeSerializer {
 			}
 			itemOutputs.add(new Content(
 					SizedIngredient.of(stack.getItem(), out.getRight().getLeft()),
-					out.getRight().getMiddle()/10000F, out.getRight().getRight()/10000F,
+					out.getRight().getMiddle(), builder.maxChance, out.getRight().getRight(),
 					builder.slotName, builder.uiName));
 		}
 		for(Pair<Object, Triple<Integer, Integer, Integer>> out : fluidOutput) {
@@ -131,7 +131,7 @@ public class GTRecipeSerializer implements IRecipeSerializer {
 			}
 			fluidOutputs.add(new Content(
 					SizedFluidIngredient.of(stack),
-					out.getRight().getMiddle()/10000F, out.getRight().getRight()/10000F,
+					out.getRight().getMiddle(), builder.maxChance, out.getRight().getRight(),
 					builder.slotName, builder.uiName));
 		}
 
