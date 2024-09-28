@@ -23,6 +23,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
+import com.mojang.serialization.Codec;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.nbt.CompoundTag;
@@ -87,7 +88,7 @@ public class GTRecipeSerializer implements IRecipeSerializer {
 			}
 			itemInputs.add(new Content(
 					SizedIngredient.create(ing, in.getRight().getLeft()),
-					in.getRight().getMiddle()/10000F, in.getRight().getRight()/10000F,
+					in.getRight().getMiddle(), builder.maxChance, in.getRight().getRight(),
 					builder.slotName, builder.uiName));
 		}
 		for(Pair<Object, Triple<Integer, Integer, Integer>> in : fluidInput) {
@@ -97,7 +98,7 @@ public class GTRecipeSerializer implements IRecipeSerializer {
 			}
 			fluidInputs.add(new Content(
 					ing,
-					in.getRight().getMiddle()/10000F, in.getRight().getRight()/10000F,
+					in.getRight().getMiddle(), builder.maxChance, in.getRight().getRight(),
 					builder.slotName, builder.uiName));
 		}
 		for(Pair<Object, Triple<Integer, Integer, Integer>> out : itemOutput) {
@@ -108,7 +109,7 @@ public class GTRecipeSerializer implements IRecipeSerializer {
 			}
 			itemOutputs.add(new Content(
 					SizedIngredient.create(stack),
-					out.getRight().getMiddle()/10000F, out.getRight().getRight()/10000F,
+					out.getRight().getMiddle(), builder.maxChance, out.getRight().getRight(),
 					builder.slotName, builder.uiName));
 		}
 		for(Pair<Object, Triple<Integer, Integer, Integer>> out : fluidOutput) {
@@ -119,7 +120,7 @@ public class GTRecipeSerializer implements IRecipeSerializer {
 			}
 			fluidOutputs.add(new Content(
 					FluidStack.create(stack.getFluid(), stack.getAmount(), stack.getTag()),
-					out.getRight().getMiddle()/10000F, out.getRight().getRight()/10000F,
+					out.getRight().getMiddle(), builder.maxChance, out.getRight().getRight(),
 					builder.slotName, builder.uiName));
 		}
 

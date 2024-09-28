@@ -61,6 +61,15 @@ repositories {
 		}
 		filter {
 			includeGroup "com.lowdragmc.ldlib"
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.gtceu.com/"
+			}
+		}
+		filter {
 			includeGroup "com.gregtechceu.gtceu"
 		}
 	}
@@ -87,7 +96,7 @@ def specVersion = "2"
 def vendor = "thelm"
 
 group = "thelm.jaopca.gtceu"
-version = "2.1.1.6"
+version = "2.1.1.7"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
@@ -134,8 +143,8 @@ dependencies {
 	modImplementation("com.lowdragmc.ldlib:ldlib-forge-1.20.1:1.0.27.b") {transitive = false}
 	modImplementation "curse.maven:configuration-444699:4710266"
 	implementation "io.github.llamalad7:mixinextras-forge:0.3.6"
-	modImplementation("com.gregtechceu.gtceu:gtceu-1.20.1:1.4.0:slim") {transitive = false}
-	modImplementation("mezz.jei:jei-1.20.1-forge:15.17.0.76") {transitive = false}
+	modImplementation("com.gregtechceu.gtceu:gtceu-1.20.1:1.4.4:slim") {transitive = false}
+	modImplementation("mezz.jei:jei-1.20.1-forge:15.19.5.99") {transitive = false}
 
 	// Testing
 	forgeRuntimeLibrary "com.eliotlash.mclib:mclib:20"
