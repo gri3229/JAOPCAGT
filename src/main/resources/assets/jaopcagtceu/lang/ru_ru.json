@@ -1,0 +1,11 @@
+{
+	"item.jaopca.gtceu_crushed_ores": "Дроблёная %s руда",
+	"item.jaopca.gtceu_purified_ores": "Очищенная %s руда",
+	"item.jaopca.gtceu_refined_ores": "Обработанная %s руда",
+	"item.jaopca.gtceu_impure_dusts": "Грязная кучка %s пыли",
+	"item.jaopca.gtceu_pure_dusts": "Очищенная кучка %s пыли",
+	"item.jaopca.gtceu_exquisite_gems": "Изысканный %s",
+	"item.jaopca.gtceu_flawless_gems": "Безупречный %s",
+	"item.jaopca.gtceu_flawed_gems": "Несовершенный %s",
+	"item.jaopca.gtceu_chipped_gems": "Расколотый %s"
+}
